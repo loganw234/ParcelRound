@@ -106,6 +106,15 @@ those two and nothing else, so they are what someone decides on.
 independence, and a stream of "the parcel says this is fine" is exactly
 what erodes it.
 
+**The lead watches the whole directory**, not just this one — only the
+lead can see a pattern across parcels. And escalating to the lead
+through `urgent/` is what this channel is *for* as much as the other
+direction: if your brief is wrong, if you are in the wrong place, if
+something you were told is load bearing turns out not to be, put it
+here rather than in your final report. An escalation that turns out to
+be your own misreading costs nothing; one that waits two hours for a
+report costs whatever the sibling did in the meantime.
+
 ## Entry format
 
     ## <date time> — <one-line headline>

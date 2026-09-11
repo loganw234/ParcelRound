@@ -42,6 +42,9 @@ reasoning behind every line.
       expected.
 - [ ] **Every path named in it exists.** (A forbidden-files list carried
       from another project is noise at best.)
+- [ ] The worktree is a checkout of the **right repository** — if your
+      tooling branches from the session's repo, a parcel aimed at a
+      different one cannot use it.
 
 **The ledger**
 
@@ -59,6 +62,10 @@ reasoning behind every line.
 - [ ] Verifier briefs watch the lead's channel only.
 - [ ] Seeded with whatever the lead already knows that a parcel would
       want.
+- [ ] **The lead's own watcher is armed**, over the whole directory
+      rather than just `urgent/` — the lead is the only one who can
+      see a pattern across parcels, and the only one who can act on
+      an escalation.
 
 ---
 

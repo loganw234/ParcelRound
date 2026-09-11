@@ -177,6 +177,15 @@ thing.
 
 Check that every path in a brief exists before you send it.
 
+**Check the worktree is of the right repository.** If your tooling
+creates an agent's worktree from *the session's* repository, a parcel
+aimed at a different repository cannot use that mechanism at all — it
+will get a checkout of the wrong project, with a brief full of paths
+that do not exist in it. That happened, and the brief compounded it by
+telling the agent to stay out of a repository its worktree was inside
+of. One `git log --oneline -1` and one `git remote -v` at the top of the
+brief catches it; better, check before dispatching.
+
 ### Expect boundary violations, and judge them on disclosure
 
 A seam drawn by function is a hypothesis like any other, and one round
@@ -313,6 +322,54 @@ independence, and a stream of "the parcel says this is fine" is exactly
 the input that erodes it. Environment facts and lead corrections should
 reach it; parcel self-reports should not, until it has formed its own
 view.
+
+### The lead watches too, and watches more
+
+The channel above was designed as lead-to-agents: a way to correct a
+brief after dispatch. Its first live use was the other direction — a
+parcel escalating that it had been dispatched into a worktree of the
+wrong repository — and the lead had no watcher at all, because the
+design had the lead as sender.
+
+**Arm one.** The lead is the *worse* poller of the two: agents have
+three read moments built into their workflow and the lead has none, just
+an interleave of merges, suite runs and conversation with no beat where
+checking naturally lands. And the lead is the only node that can act on
+an escalation. A channel whose one actor is not listening is half a
+channel.
+
+Two things are different about the lead's watch.
+
+**Watch the whole directory, not just `urgent/`.** Agents are shielded
+from sibling chatter deliberately — it is noise to them and it is what
+throttles a watch. The lead wants all of it, because **only the lead
+can see a pattern across parcels**: three agents hitting the same setup
+problem is invisible to each of them and obvious to the one reading all
+three files. Emit the headline and `For:` line only, as agents do, and
+the volume stays manageable.
+
+**The posture is observer, not actor.** An entry is information, not a
+task, and most need nothing. The failure mode is a lead who treats every
+notification as an interrupt and thrashes the merge queue. A short
+decision procedure on each:
+
+- does it invalidate a brief that is in flight? → write to `urgent/`;
+- does it change the merge order, or what the next parcel should be? →
+  adjust, and say so in the ledger;
+- does it need the lead to verify something? → verify it;
+- otherwise → note it and carry on.
+
+**Verify an escalation like any other report.** The parcel that
+escalated the wrong-worktree dispatch measured it four independent ways
+and was right; the lead still checked it, in one command, before acting.
+An escalation is a report, and *never act on the strength of a report*
+does not stop applying because the report is urgent.
+
+**And make escalating safe.** An agent that escalates something which
+turns out to be its own misreading must not be penalised for it, or
+agents learn to sit on problems until the final report — which is
+exactly the latency the channel exists to remove. Same rule as the
+verifier's "found nothing".
 
 At the end of the round, fold anything durable into the repository's own
 records and throw the ledger away. It is scaffolding, not history.

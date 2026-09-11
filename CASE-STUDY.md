@@ -95,6 +95,56 @@ list it was given, and each found things that were not on it:
 **Two previously unrecorded defects**, one of them upstream in a
 third-party dependency, reproduced minimally rather than inferred.
 
+## The channel's first live use, which ran backwards
+
+The ledger was added at the end of the round and its push channel a
+little after that, both designed around the lead correcting a brief
+after dispatch. The first message through it went the other way.
+
+A parcel was dispatched to audit a **second repository**, and its
+worktree was created from the session's repository instead — because
+that is what the tooling does, and the lead had not thought about it.
+The agent got a checkout of the wrong project and a brief full of paths
+that did not exist in it. Worse, the brief told it to stay out of a
+repository its own worktree was inside of, where a sibling was working.
+
+What it did is the shape to want:
+
+- **measured the mismatch four independent ways** before claiming it —
+  the `.git` pointer, the remote URL, the commit at the tip against the
+  one the brief named, and the presence-or-absence of every path the
+  brief listed, in both candidate repositories;
+- **escalated to `urgent/` rather than to its final report**, which
+  would have arrived two hours later;
+- **worked out which half of the brief was wrong** — the assignment was
+  clearly the second repository, the checkout was broken — and picked
+  the reading that keeps the work useful;
+- **made no edits anywhere**, in particular declining to write into the
+  target repository's live main checkout, which was not its to touch;
+- **converted everything it was licensed to fix into reported
+  corrections**, so the audit still happens and comes back as a patch
+  list;
+- and **flagged that a re-dispatch should not assume the commit** the
+  brief named without checking.
+
+The lead verified all of it in one command before acting, which is the
+same habit as not merging on the strength of a report: an escalation is
+a report too.
+
+Two things went into the method from this. The lead needs its own
+watcher, over the whole directory rather than just `urgent/` — and
+needs it *more* than the agents do, because agents have three read
+moments built into their workflow and the lead has none. And a
+dispatch checklist needs a line about the worktree being a checkout of
+the right repository, which is not a typo class of error but a
+structural one: if the tooling branches from the session's repo, a
+parcel aimed elsewhere cannot use that mechanism at all.
+
+Without the push channel this would have surfaced in a final report,
+after the audit had either wasted its time or quietly audited the wrong
+project. The pull-only ledger would not have surfaced it either, because
+the person who needed to read it was the one with no reason to look.
+
 ## What the lead got wrong
 
 Worth recording, because three of the doc's rules came from these.
@@ -112,6 +162,9 @@ Worth recording, because three of the doc's rules came from these.
 3. **Carried a forbidden-files list across from a sibling repository**
    without checking. Four of the six files named "never edit" did not
    exist in the repository being worked on.
+4. **Dispatched a parcel into a worktree of the wrong repository**, and
+   wrote it a brief that told it to stay out of the tree it was
+   standing in. See above.
 
 ## What it cost
 
