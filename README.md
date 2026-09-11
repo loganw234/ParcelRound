@@ -57,6 +57,21 @@ parcels is comfortable. Eight is a queue.
    parcel and the merge.** Its job is to disconfirm, it must not fix
    anything, and "found nothing" has to be an acceptable answer.
 
+## The clearest single argument for it
+
+A bit-identity defect that **five parcels, two verifiers, a follow-up
+parcel and 211 assertions all passed over** — because it lived in a
+combination two parcels' gates each excluded by construction. One
+parcel's file pinned the setting; the other's registered no force;
+neither brief mentioned the other. A hundred-line seam test, written by
+the lead because it belonged to no parcel, found it in seconds:
+21 of 21 values differing at ~1e-4, a trajectory divergence rather than
+a last bit. The fix was three lines.
+
+Splitting work creates a gap exactly where the split is, and the gap is
+invisible to everyone working inside it. [CASE-STUDY.md](CASE-STUDY.md)
+traces that one end to end.
+
 ## The one line that pays for the whole thing
 
 > *"Report anything you found that this brief got wrong."*

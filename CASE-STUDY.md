@@ -107,6 +107,74 @@ list it was given, and each found things that were not on it:
 **Two previously unrecorded defects**, one of them upstream in a
 third-party dependency, reproduced minimally rather than inferred.
 
+## The worked example: a defect that lived in the gap between two parcels
+
+The clearest thing this round produced is one defect traced end to end,
+because it exercises every claim the method makes.
+
+**Two parcels, both correct.** One added user-supplied forces, called at
+every substage of the integrator. Another implemented two additional
+step-size criteria. Each shipped gated, each passed the full suite, and
+a verifier went over the first one and confirmed it.
+
+**The warning existed and arrived too late.** The forces parcel ended
+its report with a paragraph headed *"for P3"*: the upstream step
+controller reads a velocity array that, when a velocity-dependent force
+is registered, holds *predicted* values rather than the step's starting
+ones. That is exactly what the criteria parcel needed to know. It
+arrived hours after that parcel had started — and is the specific
+incident the ledger was invented for.
+
+**The gates could not see it.** The forces file pinned the criterion to
+the default. The criteria file registered no force. Neither brief
+mentioned the other. **The combination was untested by construction**,
+and no amount of care inside either parcel would have changed that.
+
+**An audit found the mechanism and honestly under-called it.** A
+documentation auditor traced the divergence precisely — the port kept
+the predicted velocities in one buffer and the controller read another
+— then did the work to bound the severity: the value feeds only a skip
+predicate, `|v²·dt²/x²| < 1e-16`, never the error estimate. It scanned
+**260 configurations tuned to sit on that threshold** and found no flip,
+and reported the divergence as *latent rather than demonstrated*. That
+was the honest call on the evidence it had.
+
+**The seam test found the instance.** Written by the lead, because it
+belonged to no parcel, crossing all four criteria with a
+velocity-dependent force on three problems. Two-body: identical at every
+criterion. Five-body: identical. **Three-body close encounter under the
+GLOBAL criterion: 21 of 21 values differing at ~1e-4 relative** — not a
+last-bit difference but a trajectory divergence, meaning one flipped
+boolean on one step sent the two runs down different step sequences and
+they never rejoined. The audit's tuned two-body scan could not reach
+that state; a close encounter reaches it immediately.
+
+**The fix was three lines**, because the port already had the right
+numbers in a buffer and was reading the wrong one.
+
+### What each part of the method contributed
+
+| | |
+|---|---|
+| Parcel briefs with owned files | kept two parallel changes from colliding — and, by drawing the boundary, created the gap |
+| *"Tell me what the brief got wrong"* | produced the warning at all |
+| The ledger | would have delivered it in minutes instead of hours; it did not exist yet |
+| A verifier | confirmed the forces parcel and did not look at the crossing, because it was not in that parcel either |
+| An independent audit | found the mechanism, and was right to call it latent |
+| **The seam test** | found the instance |
+| Named negative controls | proved the seam test was exercising the combination rather than comparing two runs that did not differ |
+
+**The generalisable claim.** Splitting work creates a gap exactly where
+the split is, and the gap is invisible to everyone working inside it.
+Every participant here did careful work; the defect was in the one place
+none of them owned. That is not a failure of the parcels — it is the
+structural cost of parcelling, and the only defence is for someone to
+own the intersections deliberately and test them on purpose.
+
+A seam test is cheap. This one is a hundred lines and runs in seconds.
+It found a real bit-identity failure that five parcels, two verifiers, a
+follow-up parcel and 211 assertions had all passed over.
+
 ## The channel's first live use, which ran backwards
 
 The ledger was added at the end of the round and its push channel a

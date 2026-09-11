@@ -530,6 +530,12 @@ idea, cheaper.
   they get skipped. Each merge should get a test exercising *two*
   parcels together. The test that would have caught the canonical
   failure is nine lines and runs in under a second.
+
+The payoff is concrete rather than theoretical: the worked example in
+[CASE-STUDY.md](CASE-STUDY.md) is a bit-identity defect that five
+parcels, two verifiers and 211 assertions all passed over, because it
+lived in a combination that two parcels' gates each excluded by
+construction. A hundred-line seam test found it in seconds.
 - **Files that are the lead's alone** — the README, published docs, CI
   config. Not because agents cannot write prose, but because those files
   state the project's claims and the claims must be one voice.
