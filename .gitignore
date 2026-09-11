@@ -1,0 +1,8 @@
+# Nothing here is generated, but editors leave things behind.
+.DS_Store
+Thumbs.db
+*.swp
+
+# If you run a round from inside this repo, the ledger is scaffolding,
+# never history.
+.ledger/
