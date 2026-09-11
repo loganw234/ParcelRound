@@ -35,6 +35,15 @@ before you start, again before you design anything touching a file this
 brief calls shared or forbidden, and again before you write your report.
 Append to `<your-name>.md` only. Its README says what clears the bar.
 
+**Before you start anything else, arm a persistent watcher on
+`<path>/urgent/`** — the README has the loop. That directory is for
+messages that mean "stop and read this", mostly from me, and it is how a
+brief gets corrected after it has been sent. The three read moments
+above are the floor; the watch is what stops you spending an hour on a
+path I already know is wrong. If you notice your watch has died, re-arm
+it **and do a full read** — a dead watcher and a quiet directory look
+identical.
+
 ## Your job
 
 <One paragraph. If it needs three, this is two parcels.>

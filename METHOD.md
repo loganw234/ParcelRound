@@ -229,6 +229,7 @@ own, and corrects an earlier entry by appending beneath it.
 **Read at three moments**, stated as moments because "periodically"
 means never: before starting; before designing anything that touches a
 file the brief called shared or forbidden; before writing the report.
+These are the floor, not the mechanism — see the push channel below.
 
 **Write when it clears the bar** — *would this have changed another
 parcel's work, or the lead's?* Three things do: environment and setup
@@ -242,6 +243,76 @@ unverified claim propagates faster than a verified one.
 
 **The lead writes to it too**, and this is half the value: it is the
 only channel for correcting a brief after dispatch.
+
+### Reading it is a polling schedule; add a push channel
+
+Three read moments are a schedule, and a schedule's latency is its
+interval. An agent that reads at the start, designs for an hour, then
+reads again before touching a shared file will sit on a correction
+posted ten minutes in for the other fifty. That is the difference
+between a note that saves an hour and a note that arrives after the hour
+is spent.
+
+So **watch the ledger as well as reading it**, with a file watcher that
+turns a new entry into a notification. Where the agent runtime offers a
+monitor primitive — a background command whose every stdout line becomes
+a notification — one poll loop over a directory is all it takes.
+
+Three things make this work rather than backfire.
+
+**1. Push PLUS pull, never instead.** A watcher that has died — timed
+out, been killed, been auto-stopped for volume — looks exactly like a
+ledger with nothing new in it. Silence is not success. The three read
+moments stay as the floor and the watcher is latency reduction on top;
+if an agent notices its watch is gone, it re-arms *and* does a full
+read.
+
+**2. Split the channel by urgency, not by author.** Most entries matter
+to one parcel in four. Watching everything means every agent pays a
+notification for every entry, most of them irrelevant — and a runtime
+that throttles or stops a noisy watch will turn the push channel off
+without saying so. So:
+
+- `ledger/urgent/` — **watched.** One file per message, and the bar is
+  "stop what you are doing and read this". Mostly the lead: a brief that
+  turned out wrong, a merge that invalidated an assumption, a parcel
+  told to delete something that turned out to be load bearing.
+- `ledger/<author>.md` — **polled** at the three moments. Everything
+  else.
+
+This is what turns the ledger from a noticeboard into a channel the lead
+can actually *send* on, which is the half a brief has never had.
+
+**3. Emit the routing line, not the entry.** The watcher should print
+the headline and the `For:` line, nothing more, so an agent decides in
+one glance whether to go and read. A notification that dumps a paragraph
+costs the same attention as the interruption it was meant to save.
+
+**One file per urgent message, written atomically** — compose it
+elsewhere and rename it into place. A new file is an unambiguous event,
+and rename-into-place means a watcher can never catch a half-written
+one. Appending to a shared `urgent.md` reintroduces both problems.
+
+A shape that works, polling every twenty seconds and emitting one line
+per new message:
+
+```bash
+U=<ledger>/urgent; mkdir -p "$U"
+seen=$(ls "$U" 2>/dev/null | sort)
+while true; do
+  cur=$(ls "$U" 2>/dev/null | sort)
+  comm -13 <(echo "$seen") <(echo "$cur") | while read -r f; do
+    head -1 "$U/$f"; grep -m1 '^For:' "$U/$f" 2>/dev/null || true
+  done
+  seen=$cur; sleep 20
+done
+```
+
+**Verifiers watch the lead's channel only.** A verifier is paid for
+independence, and a stream of "the parcel says this is fine" is exactly
+the input that erodes it. Environment facts and lead corrections should
+reach it; parcel self-reports should not, until it has formed its own
+view.
 
 At the end of the round, fold anything durable into the repository's own
 records and throw the ledger away. It is scaffolding, not history.

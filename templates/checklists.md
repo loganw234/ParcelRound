@@ -48,7 +48,15 @@ reasoning behind every line.
 - [ ] Exists, outside every worktree, at a path every brief states.
 - [ ] Ignored by version control.
 - [ ] One file per author; the README says so.
-- [ ] Read moments are stated **as moments**, not "periodically".
+- [ ] Read moments are stated **as moments**, not "periodically" — and
+      the brief says they are the floor, not the mechanism.
+- [ ] `urgent/` exists, and every brief says to arm a watcher on it,
+      persistently, and to re-arm plus do a full read if it dies.
+- [ ] The watcher emits the headline and `For:` line only — not the
+      entry.
+- [ ] Urgent messages are one file each, renamed into place, never
+      appends to a shared file.
+- [ ] Verifier briefs watch the lead's channel only.
 - [ ] Seeded with whatever the lead already knows that a parcel would
       want.
 
