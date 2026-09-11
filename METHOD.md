@@ -297,6 +297,17 @@ the headline and the `For:` line, nothing more, so an agent decides in
 one glance whether to go and read. A notification that dumps a paragraph
 costs the same attention as the interruption it was meant to save.
 
+**Arm the watcher from an inline command, not a script file.** Agents
+in a round usually share one scratch directory, and the watcher is the
+single script *every* participant writes — so it is the single
+filename every participant collides on. Both agents in one round
+reached for the same obvious name; the second write won, and the first
+agent's process survived only because the shell had already read the
+file. It noticed, re-armed under a distinct name, and put it in the
+ledger. An inline command has no file to clobber and nothing to be
+edited out from under a running process. If you must use a file, put
+your own name in it.
+
 **One file per urgent message, written atomically** — compose it
 elsewhere and rename it into place. A new file is an unambiguous event,
 and rename-into-place means a watcher can never catch a half-written

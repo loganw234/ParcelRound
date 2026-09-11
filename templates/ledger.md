@@ -80,6 +80,12 @@ while true; do
 done
 ```
 
+**Arm it inline rather than from a script file.** Everyone in the round
+shares a scratch directory and the watcher is the one script everyone
+writes, so it is the one filename everyone collides on — that happened
+on this mechanism's first use. If you must use a file, put your own
+name in it.
+
 **The watch is not the mechanism, it is latency reduction.** A watcher
 that has died — timed out, killed, stopped for volume — looks exactly
 like a directory with nothing new in it. If you notice yours is gone,
