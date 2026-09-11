@@ -435,6 +435,16 @@ meant to hold down:
   difference *exactly zero* — so the obvious test would have passed with
   nothing implemented at all.
 
+- **No expectation at all.** A case that *prints* what the code answers
+  rather than asserting what it should answer will go on printing
+  whatever it answers, forever, and look fine. A worked example did
+  exactly this: it listed what it assumed was refused, printed
+  `-> NOT REFUSED, which is a bug` for anything accepted, and after a
+  capability landed it shipped that line about **correct** behaviour —
+  accusing the library of a defect in the project's own published
+  output, with the build exiting 0. Every case states the answer it
+  expects, or it is documentation rather than a gate.
+
 And one more, found by a verifier rather than a parcel: a **bit
 comparison** that could be swapped for a **value comparison** and still
 pass the entire suite, while silently breaking signed zero.

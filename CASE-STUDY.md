@@ -52,8 +52,8 @@ caller on every step, so refusing it had been refusing something
 *correct*; and a piece of state the lead had catalogued as dead turning
 out to be read before it was written.
 
-**Four gates that could not fail** — each found by the parcel that wrote
-the code the gate was meant to hold down, unprompted:
+**Seven gates that could not fail** — the first four found by the parcel
+that wrote the code each gate was meant to hold down, unprompted:
 
 1. A control that disabled a newly written branch left **every case
    passing**. The parcel swept for a configuration that discriminates,
@@ -74,6 +74,18 @@ the code the gate was meant to hold down, unprompted:
 **A fifth, found by a verifier:** a `memcmp` that decides whether a
 value keeps its wide precision can be swapped for `!=` and **pass the
 entire suite** while silently breaking signed zero.
+
+**A sixth, in shared scaffolding:** the helper every refusal case in the
+project used asserted "the integration stopped and the clock did not
+move" — and a defect could satisfy that while leaving the particles at
+intermediate values, because the code under test had just set the clock
+itself.
+
+**And a seventh, in a worked example:** it printed what the library
+answered instead of asserting what it should answer, so after a
+capability landed it shipped the line `-> NOT REFUSED, which is a bug`
+about behaviour that was correct. The project's own published output
+accused its library of a defect, and the build exited 0.
 
 **Two verifiers, both productive.** Each confirmed every item on the
 list it was given, and each found things that were not on it:
