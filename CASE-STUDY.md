@@ -147,7 +147,7 @@ the person who needed to read it was the one with no reason to look.
 
 ## What the lead got wrong
 
-Worth recording, because three of the doc's rules came from these.
+Worth recording, because four of the doc's rules came from these.
 
 1. **Committed a merge with an unresolved conflict in it**, plus eight
    agent worktrees as embedded repositories — by resolving the two files
