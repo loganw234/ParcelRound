@@ -4,6 +4,13 @@ Every rule here is here because something broke without it. Where a
 rule cites an incident, that is evidence rather than colour; the
 incidents are written up in [CASE-STUDY.md](CASE-STUDY.md).
 
+**This file is the canonical copy.** It was extracted from a working
+copy that still lives in the project it was developed on, as that
+round's own documentation. Two copies of one document is precisely
+what section 1 tells you not to have; the honest position is that the
+duplication is known, this one wins, and the other is scheduled to
+become a pointer once this repository has somewhere to point at.
+
 Vocabulary: the **lead** is you, the session that plans, briefs, merges
 and verifies. A **parcel** is one agent with one brief. A **verifier**
 is an agent whose only job is to disconfirm a parcel's work. A **round**
