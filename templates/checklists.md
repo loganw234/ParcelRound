@@ -82,6 +82,8 @@ reasoning behind every line.
 - [ ] No conflict marker survived into the commit, and nothing was
       staged that should not be — check what you staged, not what you
       expected to stage.
+- [ ] Any subagent the parcel spawned is finished, and its result is
+      in hand — an outstanding child is an open item, not a footnote.
 - [ ] A seam test exercises this parcel against an already-merged one.
 - [ ] The full suite was run by the lead, on a tree **nothing was merged
       into while it ran**, and the **log was read** — not the exit code.

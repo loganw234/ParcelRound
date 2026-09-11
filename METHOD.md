@@ -186,6 +186,34 @@ telling the agent to stay out of a repository its worktree was inside
 of. One `git log --oneline -1` and one `git remote -v` at the top of the
 brief catches it; better, check before dispatching.
 
+### A parcel's own subagents are invisible to you
+
+A parcel may spawn agents of its own, and nothing tells the lead. They
+are in no brief, they appear in no report until one mentions them, and
+**a parcel that finishes without waiting silently drops their work**.
+
+Observed: an audit parcel dispatched a sweep, finished fifteen minutes
+before the sweep did, and wrote in its final report that it would "fold
+its result in if the session continues" — a promise it could no longer
+keep, because it had already stopped. The sweep returned eleven
+findings, eight of them wrong assertions in shipped comments, including
+one stale encoding window repeated in four languages across six files.
+Those survived only because this harness notified the *top-level
+session* rather than the parent that spawned it. A harness that routed
+the result to the parent would have dropped it.
+
+Two lines in the brief close it:
+
+- **if you spawn a subagent, say so in the ledger when you dispatch
+  it** — that is the only way the lead learns it exists;
+- **do not finish while one is running.** If you must, say in your
+  report that its result is outstanding and that you cannot collect it,
+  rather than promising to fold it in.
+
+And one for the lead: when a report mentions an outstanding child,
+**that is an open item, not a footnote**. Track it the way you track a
+parcel.
+
 ### Expect boundary violations, and judge them on disclosure
 
 A seam drawn by function is a hypothesis like any other, and one round
