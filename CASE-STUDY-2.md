@@ -25,7 +25,7 @@ broadcast. Lead: one Claude session (the author of this record).
 Parcels: Opus agents in git worktrees of the same repository. The
 build box and the card belong to the lead; the parcels see neither.
 
-## Timeline (2026-09-15, local time)
+## Timeline (2026-09-15, local time; commit times and file mtimes where they exist, `~` where only an agent's own stamp does)
 
 | when | what |
 |---|---|
@@ -37,14 +37,14 @@ build box and the card belong to the lead; the parcels see neither.
 | 05:40 | Ledger created outside every worktree; lead.md seeded with environment facts and two rules from the day before; the lead's watcher armed over the whole directory. |
 | 06:0x | The plan's paths re-checked before dispatch: `bind_role` named in the wrong file in two briefs. Corrected on main and noted in the ledger. |
 | 06:3x | Logan: "we may want to utilize the quick tests" - dispatch on the Verilator suite, census and lint; Icarus confirms in the background. |
-| 06:40 | **P1** (indexed inputs, the long pole) and **P4** (beat-wide accumulator, disjoint files) dispatched. |
-| 06:45 | The Icarus tail lands, all green; nothing changes. |
-| 07:0x | **P1 escalates through `urgent/`**: the plan's ownership list forbids the one CSR edit its brief requires; the dispatch message had granted it; the dispatch said the document wins. P1 stops and asks instead of guessing. |
-| 07:05 | Lead answers on `urgent/` (~10 minutes after the escalation), decides once for P1 and P3, corrects the plan on main. |
-| 07:20 | P4's first two ledger entries: the brief's rate claim is an asymptote (100% adder utilisation), the target is the memory's rate; and a disclosed crossing into the module's bench wrapper. |
-| 07:30 | Lead acknowledges both in lead.md. |
-| 08:05 | **P4 finds a gate defect with its own negative control**: a single bench target exits 0 when its tests fail (only the full suite runs the results checker). Also its measurement: fp32 sum 11.3 -> 1.4 cycles a beat, every declined shape cycle-identical. |
-| 08:15 | Lead puts the gate defect on `urgent/` for every parcel and verifier, corrects every brief's build section on main. |
+| 06:30 | **P1** (indexed inputs, the long pole) and **P4** (beat-wide accumulator, disjoint files) dispatched. |
+| 06:31 | The Icarus tail lands, all green; nothing changes. |
+| 06:32 | **P1 escalates through `urgent/`** (two minutes after dispatch): the plan's ownership list forbids the one CSR edit its brief requires; the dispatch message had granted it; the dispatch said the document wins. P1 stops and asks instead of guessing. |
+| 06:33 | Lead answers on `urgent/` (one minute after the escalation), decides once for P1 and P3, corrects the plan on main. |
+| ~07:20 | P4's first two ledger entries: the brief's rate claim is an asymptote (100% adder utilisation), the target is the memory's rate; and a disclosed crossing into the module's bench wrapper. |
+| ~07:25 | Lead acknowledges both in lead.md. |
+| ~07:30 | **P4 finds a gate defect with its own negative control**: a single bench target exits 0 when its tests fail (only the full suite runs the results checker). Also its measurement: fp32 sum 11.3 -> 1.4 cycles a beat, every declined shape cycle-identical. |
+| 07:33 | Lead puts the gate defect on `urgent/` for every parcel and verifier; the briefs' build sections corrected on main at 07:34. |
 
 ## Observations against the method, so far
 
@@ -129,6 +129,17 @@ The escalation and the gate defect each cost the lead about fifteen
 minutes to answer and propagate. Parcel wall time: P1 and P4 both
 still running at 08:30.
 
+**§4, nobody in the round knew what time it was.** The lead's ledger
+headings from mid-morning on ran up to ninety minutes ahead of the
+clock, and P4's ran thirty-five minutes ahead; both were guessed, not
+read. The first draft of this timeline copied the guesses. Commit
+times and file mtimes told the truth when checked: P1's escalation was
+two minutes after dispatch and the answer one minute after that, not
+twenty-five and ten. The method's entry format should carry a
+machine-written stamp - `date` in the entry, or the watcher stamping
+what it sees - because a timeline is the measurement the case study
+rests on, and this one had to be reconstructed.
+
 ## What is not yet known
 
 The merges, the verifiers, the seam tests, wave 2 (P2, P3), the image
@@ -142,6 +153,9 @@ and the card day. This section is replaced as they happen.
   the seam's code makes; **derive the list from the seam's own
   comments**, or at least diff the two before dispatch.
 - Add to §4: the lead's watcher should **skip the lead's own file**.
+- Add to §4: **stamp entries mechanically** (`date` in the entry, or the
+  watcher stamping arrivals); every human-typed time in this round was
+  wrong by up to ninety minutes.
 - Add to §5: **a single test target's exit code is not a verdict** in
   any suite where the harness cannot set one; say in the brief which
   command *is* the verdict.
@@ -152,21 +166,21 @@ and the card day. This section is replaced as they happen.
 
 **§3, a working rule stated as a prohibition was broken under pressure, and disclosed within minutes.** lead.md's environment entry said "never kill a process by image name; your own PIDs only". P4, with a hung lint container, ran `docker kill $(docker ps -q --filter ancestor=cft-sim)` twice (08:09, 08:11) and killed five containers, two of them P1's benches. It noticed within four minutes, wrote one file into `urgent/` naming the container IDs, the commands, what P1 would have seen ("a hang, a truncated log, a missing results.xml - that was me, not your RTL") and what it had changed. Two lessons for the method: (a) a rule that protects a sibling must be written as **the command to use**, not only the command to avoid - "`docker ps --no-trunc`, then kill one ID whose command line is yours" survives pressure where "never kill by name" did not; (b) the disclosure standard held - prompt, precise, actionable by the victim - and the lead judged it on that, as §3 says. Cost: P1 re-runs whatever was in flight in those two minutes; the lead spent ten minutes.
 
-| 08:15 | **P4 discloses on `urgent/`** that a blanket `docker kill` of every sim container at 08:09/08:11 took two of P1's benches with it; names the IDs, the commands, and what P1 will have seen. |
-| 08:25 | Lead acknowledges, restates the rule as the command to use. |
+| 08:14 | **P4 discloses on `urgent/`** that a blanket `docker kill` of every sim container at 08:09/08:11 took two of P1's benches with it; names the IDs, the commands, and what P1 will have seen. |
+| ~08:16 | Lead acknowledges, restates the rule as the command to use. |
 
 **§2, the seam put a refusal where the parcel would remove it.** P0 refused every new field in one function, and told P1 to turn that function's refusals into bounds checks. P1 noticed that doing so would have let the REMOTE backend - which has no field for a table - run the dense stream and return wrong elements with clean flags, and added a refusal in the remote route itself. The method's §2 says the seam should make shared facts shared; here the seam made one refusal stand for three backends, and the parcel removing it for one backend silently removed it for the others. **A refusal at a seam belongs in every backend that cannot yet do the thing, not in the one place the first parcel will edit.**
 
 **§3, the brief's cost model named a divisor that did not exist.** The P1 brief said a gathered element costs a round trip "divided by the reads in flight"; the sequencer issues one burst at a time, so there is no divisor. And the plan's three-instruction fold sketch accumulated into a register that is an input stream. Both corrected by the parcel from the code within its first two hours, both fixed in the plan the same hour; neither would have been caught by "every path exists".
 
-| 08:5x | P1 posts seven entries: the CSR diff as granted; a bench expectation now derived from both CAPS2 bits; a remote-route hole the seam left and P1 closed; the software backend publishing INDEXED; doc counts are the lead's; the read side is one burst in flight (a gathered element is a whole round trip); the plan's fold sketch used an input stream as the accumulator. |
-| 08:55 | Lead corrects the plan for the last two, decides the caps consistency on `urgent/`, acknowledges the rest. |
+| 08:2x-08:32 | P1 posts seven entries: the CSR diff as granted; a bench expectation now derived from both CAPS2 bits; a remote-route hole the seam left and P1 closed; the software backend publishing INDEXED; doc counts are the lead's; the read side is one burst in flight (a gathered element is a whole round trip); the plan's fold sketch used an input stream as the accumulator. |
+| 08:32-08:33 | Lead decides the caps consistency on `urgent/`, corrects the plan for the last two, acknowledges the rest. |
 
-| 09:05 | **P1 reports**: 2 h 24 min wall, 279 tool uses, ~530k tokens; eight commits; every gate quoted by the checker; three controls shown failing; five brief corrections; six disclosed crossings, all previously approved through the ledger. |
-| 09:2x | **V1 dispatched** against P1's tip with a twelve-item attack list; the box runs the full suite at the same tip in parallel. Nothing merged on the report. |
-| 10:05 | **The lead's seam test** (§7): a gathered program between segmented reductions on one tile, written in the lead's own worktree at P1's tip while V1 runs; 2/2 with the checker. It belongs to no parcel, which is exactly why the method says the lead writes it. |
-| 10:15 | **P4 reports**: 2 h 37 min wall, 209 tool uses, ~490k tokens; three commits; 8.0x marginal on the fp32 sum with every bit unchanged; every gate by the checker; six brief corrections, among them that the brief described the tree as sharing the accumulator's issue port when it uses the other lanes of the same beat-op - the brief's own lane arithmetic contradicted its own prose. |
-| 10:20 | **V4 dispatched** against P4's tip. The plan had no verifier for P4; the method's own criterion (a numerical invariant on a hot path) says there should be one, and the lead followed the method over the plan. |
+| 08:54 | **P1 reports**: 2 h 24 min wall, 279 tool uses, ~530k tokens; eight commits; every gate quoted by the checker; three controls shown failing; five brief corrections; six disclosed crossings, all previously approved through the ledger. |
+| 08:57 | **V1 dispatched** against P1's tip with a twelve-item attack list; the box runs the full suite at the same tip in parallel. Nothing merged on the report. |
+| 09:04 | **The lead's seam test** (§7): a gathered program between segmented reductions on one tile, written in the lead's own worktree at P1's tip while V1 runs; 2/2 with the checker. It belongs to no parcel, which is exactly why the method says the lead writes it. |
+| 09:06 | **P4 reports**: 2 h 37 min wall, 209 tool uses, ~490k tokens; three commits; 8.0x marginal on the fp32 sum with every bit unchanged; every gate by the checker; six brief corrections, among them that the brief described the tree as sharing the accumulator's issue port when it uses the other lanes of the same beat-op - the brief's own lane arithmetic contradicted its own prose. |
+| 09:08 | **V4 dispatched** against P4's tip. The plan had no verifier for P4; the method's own criterion (a numerical invariant on a hot path) says there should be one, and the lead followed the method over the plan. |
 
 **§6, the plan under-provisioned verifiers and the method corrected it.** The plan named verifiers for P1 and P3 only. P4 changes the pairing path of every reduction - a numerical invariant on a hot path, which §6 lists as exactly when a verifier is worth the agent. The lead dispatched V4 anyway. Worth stating in the method: a verifier is chosen by what the parcel touches, decided at dispatch of the verifier, not fixed in the plan.
-| 10:45 | The lead fixes the gate defect on main (every bench target runs the checker), proven both ways on one bench, before wave 2's briefs are written. Two hours from P4's finding to the durable fix. |
+| 09:14 | The lead fixes the gate defect on main (every bench target runs the checker), proven both ways on one bench, before wave 2's briefs are written. About a hundred minutes from P4's finding to the durable fix. |
