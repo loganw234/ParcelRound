@@ -164,3 +164,4 @@ and the card day. This section is replaced as they happen.
 
 | 09:05 | **P1 reports**: 2 h 24 min wall, 279 tool uses, ~530k tokens; eight commits; every gate quoted by the checker; three controls shown failing; five brief corrections; six disclosed crossings, all previously approved through the ledger. |
 | 09:2x | **V1 dispatched** against P1's tip with a twelve-item attack list; the box runs the full suite at the same tip in parallel. Nothing merged on the report. |
+| 10:05 | **The lead's seam test** (§7): a gathered program between segmented reductions on one tile, written in the lead's own worktree at P1's tip while V1 runs; 2/2 with the checker. It belongs to no parcel, which is exactly why the method says the lead writes it. |
