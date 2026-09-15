@@ -169,3 +169,4 @@ and the card day. This section is replaced as they happen.
 | 10:20 | **V4 dispatched** against P4's tip. The plan had no verifier for P4; the method's own criterion (a numerical invariant on a hot path) says there should be one, and the lead followed the method over the plan. |
 
 **§6, the plan under-provisioned verifiers and the method corrected it.** The plan named verifiers for P1 and P3 only. P4 changes the pairing path of every reduction - a numerical invariant on a hot path, which §6 lists as exactly when a verifier is worth the agent. The lead dispatched V4 anyway. Worth stating in the method: a verifier is chosen by what the parcel touches, decided at dispatch of the verifier, not fixed in the plan.
+| 10:45 | The lead fixes the gate defect on main (every bench target runs the checker), proven both ways on one bench, before wave 2's briefs are written. Two hours from P4's finding to the durable fix. |
