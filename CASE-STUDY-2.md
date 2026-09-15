@@ -161,3 +161,6 @@ and the card day. This section is replaced as they happen.
 
 | 08:5x | P1 posts seven entries: the CSR diff as granted; a bench expectation now derived from both CAPS2 bits; a remote-route hole the seam left and P1 closed; the software backend publishing INDEXED; doc counts are the lead's; the read side is one burst in flight (a gathered element is a whole round trip); the plan's fold sketch used an input stream as the accumulator. |
 | 08:55 | Lead corrects the plan for the last two, decides the caps consistency on `urgent/`, acknowledges the rest. |
+
+| 09:05 | **P1 reports**: 2 h 24 min wall, 279 tool uses, ~530k tokens; eight commits; every gate quoted by the checker; three controls shown failing; five brief corrections; six disclosed crossings, all previously approved through the ledger. |
+| 09:2x | **V1 dispatched** against P1's tip with a twelve-item attack list; the box runs the full suite at the same tip in parallel. Nothing merged on the report. |
