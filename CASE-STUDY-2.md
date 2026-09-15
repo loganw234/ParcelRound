@@ -154,3 +154,10 @@ and the card day. This section is replaced as they happen.
 
 | 08:15 | **P4 discloses on `urgent/`** that a blanket `docker kill` of every sim container at 08:09/08:11 took two of P1's benches with it; names the IDs, the commands, and what P1 will have seen. |
 | 08:25 | Lead acknowledges, restates the rule as the command to use. |
+
+**§2, the seam put a refusal where the parcel would remove it.** P0 refused every new field in one function, and told P1 to turn that function's refusals into bounds checks. P1 noticed that doing so would have let the REMOTE backend - which has no field for a table - run the dense stream and return wrong elements with clean flags, and added a refusal in the remote route itself. The method's §2 says the seam should make shared facts shared; here the seam made one refusal stand for three backends, and the parcel removing it for one backend silently removed it for the others. **A refusal at a seam belongs in every backend that cannot yet do the thing, not in the one place the first parcel will edit.**
+
+**§3, the brief's cost model named a divisor that did not exist.** The P1 brief said a gathered element costs a round trip "divided by the reads in flight"; the sequencer issues one burst at a time, so there is no divisor. And the plan's three-instruction fold sketch accumulated into a register that is an input stream. Both corrected by the parcel from the code within its first two hours, both fixed in the plan the same hour; neither would have been caught by "every path exists".
+
+| 08:5x | P1 posts seven entries: the CSR diff as granted; a bench expectation now derived from both CAPS2 bits; a remote-route hole the seam left and P1 closed; the software backend publishing INDEXED; doc counts are the lead's; the read side is one burst in flight (a gathered element is a whole round trip); the plan's fold sketch used an input stream as the accumulator. |
+| 08:55 | Lead corrects the plan for the last two, decides the caps consistency on `urgent/`, acknowledges the rest. |
