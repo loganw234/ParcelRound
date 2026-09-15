@@ -255,3 +255,20 @@ and the card day. This section is replaced as they happen.
 | 16:04 | **P3's fix** (2 h 51 min for the parcel in all, 939 tool uses, ~814k tokens - the largest of the round): the gate hole closed with the case V3 predicted, failing its control by the exact bits; the block slice rewritten from a per-position equality chain into eight part-selects - 690 cells over the maskless tile where the first version cost 4,019 under a full pass and 18,803 under the lint flow - with the old numbers reproduced before the change, "which is what says the two of us are measuring the same thing"; a rule for the record beside P4's (a per-position equality around a per-bit assignment is a priority chain, not a select; read the mux count). Two general lessons volunteered: when a mechanism is enforced in two places, a gate that reads only the cheapest observable cannot see a defect in the other. |
 
 **§6 and §7, a send-back can be a cost, not a defect.** The round's fourth send-back was for a number no gate holds: the mask's logic, measured by a verifier with a tool the parcel had not thought to run on itself. The parcel's answer was not a patch but a different shape for the same function, and the numbers it produced (a factor of nearly six under the flow the project's own lint runs) are the kind that decide whether a feature is in an image. A brief for RTL should say which numbers will be measured at verification - cycles, cells, the mux count - so the parcel measures them first; and a verifier for RTL should have yosys on its list by default, as this round now does by example.
+
+## Cost of the round (from the desktop app's agent cards, read by Logan at 11 hours)
+
+| agent | wall (card) | tokens | tool uses |
+|---|---|---|---|
+| P1 indexed inputs | 5 h 15 min | 676.0k | 425 |
+| P4 beat-wide accumulator | 4 h 54 min | 547.6k | 252 |
+| V4 on P4 | 2 h 54 min | 503.8k | 266 |
+| V1 on P1 (card shows the last resume) | 23 min | 603.3k | 31 |
+| V3 on P3 | 1 h 44 min | 365.9k | 167 |
+| V2 on P2 (card shows the last resume) | 12 min | 386.8k | 64 |
+| P2 composed run_ex | 2 h 11 min | 614.7k | 410 |
+| P5 bindings entry point | 52 min | 411.4k | 353 |
+| P3 lane mask | 4 h 22 min | 814.1k | 939 |
+| **nine agents** | **22.8 h of agent wall inside an 11 h round** | **4.92M** | **2,907** |
+
+The lead used about 1.6M tokens over the same 11 hours (Logan's figure), so the round to this point is about 6.5M tokens, of which the four verifiers are 1.86M (38 percent of the agents' total) and they produced four send-backs, each for something the parcel could not have seen. The largest parcel (P3) cost 814k and 939 tool uses for a feature the round measured to be worth bytes and flags rather than compute; the smallest (P5) 411k for the entry point the plan had assumed existed. Agent wall time exceeds the round's wall by 2.1x, which is the parallelism the method bought; the lead's own idle time went to the docs sweep.
