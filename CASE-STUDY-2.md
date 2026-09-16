@@ -139,6 +139,9 @@ the standards had produced.
 | 21:56 | **Buffer capacities are whole pages** (d40ad23): device-test -n 336 / 1000 / 4097 at 2,248 checks 0 failed each, the resident legs 729/0, 112 and 128 bodies three reps each. |
 | 21:58 | **128 bodies on silicon**, the requester's shape: one run 15.6 / 15.1 / 16.5 ms at fp64 / fp32 / fp128 against 127 calls at 26.7 / 24.7 / 24.9 ms - x1.71 / x1.64 / x1.51 with 127 host gathers removed as well; 320 / 310 / 338 ns a gathered element; the mask 1.3% on top. |
 | 02:55 | **The quad misses timing at 135 MHz** after 359 minutes: kernel-side WNS -0.363 ns on the elementwise engine's FIFO-to-FMA bypass paths (17-18 logic levels through the DSP cascade) - the path every earlier image carried, which nine previous quads closed with 0.009-0.143 ns to spare. Not the round's logic. Relaunched at 03:01, quad only, same commit and clock, with the placement and routing directives the build script names as the axis that moves timing by this much; the single stays as validated. |
+| 07:50 | **Logan's word on the clock**: if the quad fails to close, 130 MHz is acceptable - 135 was tight every time, a minor drop is fine, and the tile already beat expectations when used to its potential. Banked as a standing rule; a wrapper on the box was armed to launch the 130 MHz build the moment the 135 MHz attempt failed to stage. |
+| 10:47 | **The quad closes at 135 MHz** on the directive rebuild: kernel WNS +0.040 ns, routed +0.031, zero failing endpoints, 468 minutes; staged beside the single with a README saying which half used which directives. The wrapper read the staged file and stood down. The router's intermediate slack had sat at -0.317 ns for hours; the post-route optimisation recovered the rest. |
+| 10:49 | **Four tiles on the card, 74 seconds after staging**: device-test at 8, 64, 336 and 4,097 lanes 2,248 checks 0 failed each, the resident legs 729/0; the 128-body gather at 316 ns an element (a program run is one tile's) against 127 dense calls that cost twice what they cost on one tile; a thousand segmented sums in one call at 1.45 ms against 2.35 on the single; 168 sets, 1,224,915 cases, all matching. |
 
 ## Observations against the method, so far
 
@@ -331,11 +334,14 @@ they exist.
   format; 128 bodies at x1.5-1.7 against the dense calls with the
   host gathers removed as well; the mask at 1.3% of a run; the
   segmented reduction at 2.4 ms against 91 ms in a thousand calls.
-- **Still open**: the quad image - its first implementation missed
-  135 MHz by 0.363 ns on the elementwise engine's oldest critical path
-  (not the round's logic) and a second, with timing directives, runs
-  from 03:01 - and its card run; the ledger's fold into VALIDATION and
-  memory; the method proposals above, which are Logan's to settle.
+- **The quad**: its first implementation missed 135 MHz by 0.363 ns on
+  the elementwise engine's oldest critical path (not the round's
+  logic); the second, with the placement and routing directives,
+  closed at +0.040 ns on 2026-09-16 and ran green on four tiles within
+  two minutes of staging. The pair is the round's deliverable on the
+  card.
+- **Still open**: the ledger's fold into VALIDATION and memory; the
+  method proposals above, which are Logan's to settle.
 
 ## What METHOD.md should say differently (proposed at the end of the round's build phase, 2026-09-15 18:00; to settle with Logan)
 
