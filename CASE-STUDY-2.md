@@ -25,6 +25,29 @@ broadcast. Lead: one Claude session (the author of this record).
 Parcels: Opus agents in git worktrees of the same repository. The
 build box and the card belong to the lead; the parcels see neither.
 
+**How the round was run.** For the majority of its twelve-hour-plus
+runtime no human monitored progress. Logan's touches on the day were
+the approval of the plan and the ABI at 03:30, the instruction to
+dispatch on the quick tests at 06:3x, the instruction to keep this
+record, two questions about the method (whether the ledger helped;
+how it held up under start/stop), a status question at eleven hours
+with the agent cards, and the cost figures afterwards - the desktop
+app's own accounting puts the human-active time at 1 h 38 min against
+23 h 40 min of API time across every agent. Every other decision was
+the lead's: five dispatches and four verifier dispatches, four
+send-backs, six merges with their staging branches and box runs, the
+corrections to the plan (the bindings item, the cwrap premise, the
+value statement for ask 5), the answers to every escalation, the docs
+sweep, and the two corrections of the lead's own work. Each was taken
+within the plan Logan approved and the repository's standing standards
+- bit identity across backends, refusal by name, every gate green with
+fresh binaries, the box's suite at every merged tip, nothing pushed on
+a report alone - and each is in the ledger at the time it was taken,
+with what it rested on, so the record does not depend on anyone's
+memory of it. The round did not need a human in the loop to keep its
+standards; it needed one to set them, and to be told, at the end, what
+the standards had produced.
+
 ## Timeline (2026-09-15, local time; commit times and file mtimes where they exist, `~` where only an agent's own stamp does)
 
 | when | what |
@@ -432,4 +455,17 @@ the places the method was silent and the round had to decide.
 | P3 lane mask | 4 h 22 min | 814.1k | 939 |
 | **nine agents** | **22.8 h of agent wall inside an 11 h round** | **4.92M** | **2,907** |
 
-The lead used about 1.6M tokens over the same 11 hours (Logan's figure), so the round to this point is about 6.5M tokens, of which the four verifiers are 1.86M (38 percent of the agents' total) and they produced four send-backs, each for something the parcel could not have seen. The largest parcel (P3) cost 814k and 939 tool uses for a feature the round measured to be worth bytes and flags rather than compute; the smallest (P5) 411k for the entry point the plan had assumed existed. Agent wall time exceeds the round's wall by 2.1x, which is the parallelism the method bought; the lead's own idle time went to the docs sweep.
+The lead used about 1.6M tokens over the same 11 hours (Logan's figure), so the round to this point is about 6.5M tokens by the cards' measure, of which the four verifiers are 1.86M (38 percent of the agents' total) and they produced four send-backs, each for something the parcel could not have seen. The largest parcel (P3) cost 814k and 939 tool uses for a feature the round measured to be worth bytes and flags rather than compute; the smallest (P5) 411k for the entry point the plan had assumed existed. Agent wall time exceeds the round's wall by 2.1x, which is the parallelism the method bought; the lead's own idle time went to the docs sweep.
+
+**The session panel's figures** (read by Logan after the twelfth hour), which
+are a different measure and do not reconcile with the cards by addition:
+API time 23 h 40 min across every agent; human-active time 1 h 38 min;
++15,544 / -987 lines; model split Opus 76 percent, the lead's model 24;
+cache hit 99 percent. Tokens: input 92.9k, output 818.9k (the parcels' and
+verifiers' 797.2k, the lead's 21.7k), cache read 3.5 billion, cache write
+37.5 million. The cards' "tokens" count what each agent's turns carried;
+the panel counts what the API was asked for - so the 819k of output is the
+round's generated text and code, and the 3.5 billion is the same context
+re-read on every turn at a 99 percent cache hit. The round ran on a
+subscription; no fees were paid, and the panel's price estimates are not
+recorded here.
