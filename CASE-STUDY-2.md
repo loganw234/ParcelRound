@@ -469,3 +469,5 @@ round's generated text and code, and the 3.5 billion is the same context
 re-read on every turn at a 99 percent cache hit. The round ran on a
 subscription; no fees were paid, and the panel's price estimates are not
 recorded here.
+| 18:47 | **The box on the round's final main**: 25 benches, the census, lint, nothing failing - the sixth and last merge verified at its tip. Every merge of the round was verified this way; none was pushed on a report. |
+| 18:49 | **The image build launched** on the box from the final main at 135 MHz, after the build script's own dry run had passed every assertion at that tip: single tile first, the quad only if the single verifies, staged only past the image check. The build phase of round 2 ends here, 16 h 49 min after the plan was begun and 12 h 19 min after the first dispatch; what follows - the image's timing, the card day - is the lead's and Logan's, and joins this timeline when it exists. |
