@@ -233,10 +233,23 @@ rests on, and this one had to be reconstructed.
 
 **§5, the lead's patches are parcels without a verifier.** Twice today a lead-side change was wrong on its first run (the stale binary; this guard), and both times a gate caught it - a count that did not move, a segfault. The lead had written the rule "a rule that dereferences a caller's buffer belongs behind every rule that does not" into two briefs and then got the arithmetic of the bound wrong while applying it. The method should say that the lead's own code goes through the same gates as a parcel's and, where it is more than a line, through a verifier: the lead is the one author in a round nobody disconfirms by default.
 
-## What is not yet known
+## What is not yet known (at the end of the build phase, 18:00)
 
-The merges, the verifiers, the seam tests, wave 2 (P2, P3), the image
-and the card day. This section is replaced as they happen.
+The build phase is complete: every parcel is merged and every merge
+was verified on the box at its tip except the last, whose suite is
+running as this is written. What the round cannot know from a host:
+the image's timing and utilisation at 135 MHz with the mask's logic in
+it (V3's area column, after P3's rewrite); the card's numbers for the
+gather (one HBM round trip a gathered element is the model's
+prediction), for the mask (one round trip a block), and for the
+accumulator's segmented sums against the seq6 entry; whether the
+composed elementwise run's STATUS word matches the dense run's on a
+tile; whether `device-test`'s resident-binds assertion, which has
+never counted on any host, passes the first time it counts; and
+whether cft-rebound's agent adopts what was built, which is theirs.
+The image build and the card day are the lead's and the owner's, after
+this document's build phase ends; their rows go in the timeline when
+they exist.
 
 ## What METHOD.md should say differently (proposed at the end of the round's build phase, 2026-09-15 18:00; to settle with Logan)
 
