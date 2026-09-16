@@ -314,6 +314,26 @@ The image build and the card day are the lead's and the owner's, after
 this document's build phase ends; their rows go in the timeline when
 they exist.
 
+### What is known now (22:10, the card day's end for the single tile)
+
+- **The image works, and the round's RTL was never wrong on the card.**
+  Both failures the card produced were the host's: a staged output
+  window whose device copy held the previous run (the mask's "every
+  masked lane written"), and buffer capacities that were beat-granular
+  where the runtime is page-granular (the crash above ~300 lanes).
+  Neither could have been seen by a bench (memory starts empty, the C
+  executor writes in place, every test ran at 64 lanes). Both were
+  found by instruments built in the hour, each to disconfirm one
+  reading; neither needed a rebuild.
+- **The numbers the round was for** are in `docs/VALIDATION.md` (the
+  card day's second half): 310-340 ns a gathered element at every
+  format; 128 bodies at x1.5-1.7 against the dense calls with the
+  host gathers removed as well; the mask at 1.3% of a run; the
+  segmented reduction at 2.4 ms against 91 ms in a thousand calls.
+- **Still open**: the quad image (in the placer at 22:07) and its
+  card run; the ledger's fold into VALIDATION and memory; the method
+  proposals above, which are Logan's to settle.
+
 ## What METHOD.md should say differently (proposed at the end of the round's build phase, 2026-09-15 18:00; to settle with Logan)
 
 Every item below is one sentence the method does not have and this
