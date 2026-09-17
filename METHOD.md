@@ -2,7 +2,9 @@
 
 Every rule here is here because something broke without it. Where a
 rule cites an incident, that is evidence rather than colour; the
-incidents are written up in [CASE-STUDY.md](CASE-STUDY.md).
+incidents are written up in [CASE-STUDY.md](CASE-STUDY.md) (round 1)
+and [CASE-STUDY-2.md](CASE-STUDY-2.md) (round 2, whose timestamps the
+citations below use).
 
 **This file is the canonical copy.** It was extracted from a working
 copy that still lives in the project it was developed on, as that
@@ -61,6 +63,17 @@ CFT_MAX_BODIES in src/ias15_cft.c`, naming the file it could not find it
 in. A transcribed copy would have gone on silently testing a stale
 number. **A test that breaks when you move a definition is working.**
 
+### Read the requester's code, not its ask list
+
+A round that exists because another project asked for something starts
+by reading that project's *code*, not its list of asks. Round 2's plan
+took its three largest corrections from there before a single parcel
+was dispatched: one ask had already been delivered and nobody had told
+the requester; two asks were one mechanism wearing two names; a third
+ask's ceiling was two percent of the requester's wall, measured from
+its own timing table. Every one of those would otherwise have been a
+parcel. [CASE-STUDY-2, 02:00-03:30]
+
 ---
 
 ## 2. P0: make the shared thing shared, before you split
@@ -113,6 +126,30 @@ it.
 Then prove the check can fail — add a dummy row, confirm the failure
 names it, remove the row.
 
+### Four more things a seam settles
+
+**A seam's refusal belongs in every backend**, never only in the one
+function the first parcel will edit. Round 2's P0 put the refusal of the
+not-yet-built feature exactly where P1 would remove it, so the moment
+P1 landed, the remote route accepted the feature it could not run.
+[CASE-STUDY-2, 08:2x]
+
+**A value statement names the measurement that would falsify it.**
+"The mask removes idle lanes' compute and bytes" read as a fact in the
+plan until the parcel measured that the sequencer issues per beat: the
+compute half was never there. A brief's stop line says what to measure
+before stopping; the measurement made the report decidable in one
+reading. [12:37]
+
+**A wave boundary is the one moment a brief can be updated.** Fold the
+ledger into the next wave's briefs there and then; otherwise the next
+wave starts from the plan as it was written the night before. The
+ledger's `For:` lines are what made twenty minutes enough. [11:41]
+
+**Name a base commit "at or after"**, and put the exact tip in the
+dispatch message, where it can be right. A brief that names its base
+exactly is wrong the moment the brief itself is committed. [11:41]
+
 ---
 
 ## 3. The brief
@@ -132,7 +169,21 @@ is a workable boundary; "the step control" is not.
 
 **Files you must NOT touch, and who owns each.** Naming the owner
 matters: a boundary with a reason behind it gets respected, an arbitrary
-one gets litigated in the report.
+one gets litigated in the report. **Derive the ownership list from the
+seam's own comments**, or diff the two before dispatch: round 2's first
+escalation, two minutes after dispatch, was an edit the brief required
+and the ownership list forbade. [CASE-STUDY-2, 06:32]
+
+**The cost model, with the divisor it assumes.** "A gathered element
+costs about one beat" assumed a read side that pipelines; the tile keeps
+one burst in flight, and the number was a round trip. A cost model that
+names its assumption is checked by the parcel's first measurement; one
+that does not is believed until a verifier prices it. [08:2x]
+
+**The trap, and what will be measured at verification** - cycles,
+cells, a mux count, a poisoned pointer - so the parcel measures it
+first. The named trap got solved; the column nobody named got a
+send-back. [12:49; 14:56]
 
 **The small edits outside your files that ARE expected**, enumerated.
 Without this an agent either avoids a necessary edit and delivers
@@ -156,7 +207,17 @@ will rediscover these in forty minutes; you can spend three lines.
 
 **Working rules learned the hard way** — the two or three
 environment-specific traps that have actually cost hours. Keep the list
-short and true; a long one gets skimmed.
+short and true; a long one gets skimmed. **Environment facts belong in
+the brief, not in the parcel's first hour**: which interpreter runs the
+gates, the heredoc and line-ending traps, the pipeline that deadlocks
+at zero CPU, the generated files a fresh worktree lacks. Round 2 learned
+every one of these twice. [CASE-STUDY-2, the parcels' ledger files]
+
+**A prohibition is written as the command to use.** "Never kill by
+image name" was broken under pressure; "`docker ps --no-trunc`, then one
+container ID whose command line is yours" was not. A rule that names
+the safe action is followed when the unsafe one is closer to hand.
+[08:14]
 
 **The negative control, named specifically.** See §5.
 
@@ -175,7 +236,11 @@ list came across unchecked. Harmless as a prohibition; the same
 carelessness in an *owned*-files list sends an agent to edit the wrong
 thing.
 
-Check that every path in a brief exists before you send it.
+Check that every path in a brief exists before you send it. **And
+verify the functions you name.** Two of round 2's briefs named
+functions that did not exist and one carried a premise about a loader
+that was wrong as a mechanism; each cost a parcel its first half hour,
+and each was a grep away. [CASE-STUDY-2, 11:53; 15:30]
 
 **Check the worktree is of the right repository.** If your tooling
 creates an agent's worktree from *the session's* repository, a parcel
@@ -280,6 +345,22 @@ unverified claim propagates faster than a verified one.
 
 **The lead writes to it too**, and this is half the value: it is the
 only channel for correcting a brief after dispatch.
+
+**Stamps are substituted, not typed.** Every author in round 2 - the
+lead three times, four parcels, a verifier - typed a guessed time at
+least once, and every guess ran ahead of the clock by three to ninety
+minutes. The fix that held was mechanical: write the entry with a
+placeholder and let the append substitute the clock. [CASE-STUDY-2, §4]
+
+**A correction is linked from the entry it corrects** - an appended "see
+HH:MM" line beneath the old entry is an append, not an edit - and a
+number a sibling might reuse is restated in the form the sibling would
+search for. A retracted count sat in the file for fifteen minutes, in
+order, headlined CORRECTION, and was used once anyway. [13:34]
+
+**A background job that writes to the ledger stamps at write and says
+what it describes.** A launch wrapper appended its entry an hour after
+the state it described had been superseded. [12:45]
 
 ### Reading it is a polling schedule; add a push channel
 
@@ -411,7 +492,13 @@ exactly the latency the channel exists to remove. Same rule as the
 verifier's "found nothing".
 
 At the end of the round, fold anything durable into the repository's own
-records and throw the ledger away. It is scaffolding, not history.
+records, and then - if the round's case study cites the ledger by time,
+as round 2's does - archive it beside the case study and delete the
+working copy; otherwise throw it away. It is scaffolding, not history,
+and an archive is for the reader of the case study, not a channel.
+
+**The lead's watcher skips the lead's own file.** Every entry the lead
+wrote in round 2 came back as a notification. [CASE-STUDY-2, §4]
 
 ---
 
@@ -448,6 +535,48 @@ meant to hold down:
 And one more, found by a verifier rather than a parcel: a **bit
 comparison** that could be swapped for a **value comparison** and still
 pass the entire suite, while silently breaking signed zero.
+
+Round 2 added six, three of them about the gate's own plumbing:
+
+- **A single target's exit code is not a verdict** where the harness
+  cannot set one; the brief says which command is. A parcel found the
+  test framework's makefile checked only that a results file existed;
+  main fixed it the same morning. [CASE-STUDY-2, 07:30]
+- **Print the build time of every binary a gate runs.** The tell for a
+  stale binary was a count that did not move; the line that would have
+  said "05:13" costs nothing. And name the test executables to the
+  build: `make all` does not build them, twice in one round. [11:50;
+  the card day]
+- **The lead's code goes through the same gates as a parcel's**, and
+  where it is more than a line, through a verifier. Twice the lead's
+  own change was wrong on its first run - a stale test binary standing
+  in for a gate, a bound computed from the wrong example - and both
+  times a gate caught it, not a person. [11:50; 17:39]
+- **When a mechanism is enforced in two places, a gate that reads the
+  cheapest observable cannot see a defect in the other.** A mask was
+  enforced at the active set and again at the drain strobes; the
+  strobes hid a revived lane from every byte-level case, and only a flag
+  could tell. [14:56; 16:04]
+- **A crash can be a gate's faithful signal** when the property is "no
+  read happened": a regression cannot pass it silently. [13:59]
+- **A probe that has caught a defect goes into the suite.** A probe that
+  sat outside the suite caught two real defects from there; it is in
+  the suite now. [10:24; 12:18]
+
+And two from the card day, where the suite was green and the silicon
+was not:
+
+- **A device gate needs a device with its own memory.** The simulator's
+  memory model started every test empty and the software executor wrote
+  the caller's buffer in place, so no host in the suite ever held a
+  device copy with a previous run in it - and the first masked run after
+  an unmasked one on the card returned the previous run's bytes. The
+  seam test is the one the device test already had: the masked leg
+  after the unmasked one, on the same window. [the card day, 21:44]
+- **Test the largest shape a capacity claims, and one past it.** A
+  capacity kept at page granularity behind a per-beat contract passed
+  every shape the suite had and failed at 64 lanes, the first shape
+  that crossed a page. [the card day, 22:0x]
 
 So: **name each parcel's negative control in its brief.** Not "test it
 properly" — the specific control. "A do-nothing routine must leave the
@@ -513,6 +642,29 @@ before" — by writing the file at both commits and comparing. The
 behaviour was fine; the sentence was not, and a sentence in the code is
 something the next person will rely on.
 
+**A verifier per parcel pays.** Round 2's four verifiers were 38
+percent of the agents' tokens and produced four send-backs, none for a
+wrong bit: each found a property the parcel had no instrument for - a
+cost class, a flag arm reading stale lanes, a read before a bounds
+check, a gate hole beside an unpriced area column. The parcel measures
+what its brief names; the verifier measures what the brief did not know
+to name. [CASE-STUDY-2, §6]
+
+**A verifier's report is due when its LIST is exhausted, not when its
+first pass is.** "No defect" was posted before the one target outside
+the list had run, and the lead had the parcel staged within minutes of
+it. [10:07; 10:24]
+
+**A verifier's default list carries the instruments the parcel lacks**:
+synthesis cell and mux counts for RTL, a poisoned pointer for anything
+that reads a caller's buffer, "derive the increment" for any count a
+report quotes, and the lead's own artefacts - the seam paragraph, the
+plan's premise - beside the parcel's. [09:29; 10:49; 13:34; 14:56]
+
+**The scoped re-check after a fix is the default** - eleven to
+twenty-three minutes each in round 2 - not a re-run of the whole list.
+[10:38; 12:09; 13:59; 17:31]
+
 **One technique worth copying.** To prove a change did not touch a build
 it was not supposed to, diff the **preprocessed translation unit** at
 both commits, not the source. In one case the same file compiled two
@@ -539,8 +691,20 @@ construction. A hundred-line seam test found it in seconds.
 - **Files that are the lead's alone** — the README, published docs, CI
   config. Not because agents cannot write prose, but because those files
   state the project's claims and the claims must be one voice.
-- **Every merge, and the full suite after each one.**
+- **Every merge, and the full suite after each one** - as a staging
+  branch per merge, the suite on the build host at the staging commit,
+  and main moving on the verdict. A merge is a push, not a staging. Keep
+  a second, third and fourth checkout on the build host so a send-back
+  never queues behind a sibling's hour. [CASE-STUDY-2, 11:06; 11:47;
+  12:57]
 - **The ledger's own file**, and folding it into the record at the end.
+- **The docs sweep, in the lead's idle time during the round**, for
+  every file no parcel touches, so the end of the round is one section
+  rather than a sweep. [15:03]
+- **The summary to the owner, with the cost** - from the agent cards,
+  per agent, with the verifiers' share stated, and the wall clock split
+  between the build phase and whatever ran unattended after it.
+  [Cost of the round]
 
 ### Habits
 
@@ -563,6 +727,31 @@ checker, read the merged parcel's **new** script off disk, and drove it
 against the **old** compiled binary, producing three failures that were
 entirely self-inflicted. A suite is only as prebuilt as its
 least-compiled component, and scripts are never prebuilt.
+
+**A merge conflict is not two piles of text.** The VCS hoists a shared
+ending out of the conflict block; a resolver that has not read the lines
+after the block has not read the conflict, and the compiler is the gate
+that says so twenty seconds later. [CASE-STUDY-2, 14:12]
+
+**A merge with no RTL in its diff gets no RTL suite, and the ledger says
+so**, rather than the lead pretending it ran one; the build host's run
+at the next merge with RTL covers the combined tree. [14:09]
+
+**One instrument per hypothesis, cheapest first, before touching the
+design.** When the card disagreed with the bench, three instruments in
+an hour - a fingerprint of the wrong bytes, a flag that only the lanes
+could raise, a pattern in a pad that only the strobes could preserve -
+told the host from the tile without a rebuild, and the defect was the
+host's. The rebuild would have taken two hours and proved nothing.
+[the card day, 21:2x-21:44]
+
+**Unattended, decide what the standards decide and ask for what is the
+owner's.** Round 2 ran for most of its length with no human watching;
+the lead merged, verified, diagnosed and recorded within the project's
+own rules, and put the owner's questions - the card, a clock, a push to
+another repository - in the ledger to be answered when read. That is
+the posture: the standards are the brief the owner already wrote.
+[The setting]
 
 **Read the log, not the exit code.** A background wrapper once reported
 exit 0 for a run whose log said `Error 1`, because a trailing `echo`
@@ -591,3 +780,19 @@ failure a defect *or* a false alarm until a clean re-run says which.
 - **Re-brief from what comes back.** The first report usually corrects
   the plan. Fold it into the remaining briefs, and into the ledger for
   the ones already running.
+- **Dispatch on the fast simulator; the slow one confirms in the
+  background.** The owner said so in round 2, and the confirmation
+  changed nothing all day. [CASE-STUDY-2, 06:3x]
+- **A send-back needs no re-brief.** The harness resumes the agent with
+  its whole context, so a fix costs half an hour of parcel and half an
+  hour of verifier, and the hour is the build host. The method assumed
+  a parcel could not be re-entered; it can, and the loop is cheap enough
+  to run three times on one parcel. [§6 of the case study]
+- **A stop line fires for value, not only for size.** The parcel priced
+  smallest stopped at its line because the value was not there, and the
+  plan was corrected with its table. [12:37]
+- **The build phase is done when every parcel is merged and verified on
+  the build host; the image and the card day are the lead's and the
+  owner's, after**, and that phase can be the longer half of the round
+  in wall clock: round 2 was 24 hours, of which the last ten were tile
+  builds and the runs against them. [17:49; the card day]

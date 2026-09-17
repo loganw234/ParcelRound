@@ -344,7 +344,7 @@ they exist.
 - **Still open**: the ledger's fold into VALIDATION and memory; the
   method proposals above, which are Logan's to settle.
 
-## What METHOD.md should say differently (proposed at the end of the round's build phase, 2026-09-15 18:00; to settle with Logan)
+## What METHOD.md should say differently (proposed at the end of the round's build phase, 2026-09-15 18:00; adopted in full on 2026-09-16 - Logan went over every item - and integrated into METHOD.md that day, with the card day's lessons beside them)
 
 Every item below is one sentence the method does not have and this
 round paid for; the row or paragraph that paid is in brackets. None is
@@ -525,7 +525,7 @@ the places the method was silent and the round had to decide.
 | P3 lane mask | 4 h 22 min | 814.1k | 939 |
 | **nine agents** | **22.8 h of agent wall inside an 11 h round** | **4.92M** | **2,907** |
 
-The lead used about 1.6M tokens over the same 11 hours (Logan's figure), so the round to this point is about 6.5M tokens by the cards' measure, of which the four verifiers are 1.86M (38 percent of the agents' total) and they produced four send-backs, each for something the parcel could not have seen. The largest parcel (P3) cost 814k and 939 tool uses for a feature the round measured to be worth bytes and flags rather than compute; the smallest (P5) 411k for the entry point the plan had assumed existed. Agent wall time exceeds the round's wall by 2.1x, which is the parallelism the method bought; the lead's own idle time went to the docs sweep.
+The lead used about 1.6M tokens over the same 11 hours (Logan's figure), so the round to this point is about 6.5M tokens by the cards' measure, of which the four verifiers are 1.86M (38 percent of the agents' total) and they produced four send-backs, each for something the parcel could not have seen. **To the round's end** (Logan's figures, 2026-09-16): the wall was about 24 hours, of which the last ten were the tile builds and the runs against them, with the lead alone; the agents' tokens are the cards above, and the lead's grew by about a million handling the builds, the card days and the records - roughly 2.6M for the lead and 7.5M for the round. The largest parcel (P3) cost 814k and 939 tool uses for a feature the round measured to be worth bytes and flags rather than compute; the smallest (P5) 411k for the entry point the plan had assumed existed. Agent wall time exceeds the round's wall by 2.1x, which is the parallelism the method bought; the lead's own idle time went to the docs sweep.
 
 **The session panel's figures** (read by Logan after the twelfth hour), which
 are a different measure and do not reconcile with the cards by addition:
@@ -539,3 +539,46 @@ round's generated text and code, and the 3.5 billion is the same context
 re-read on every turn at a 99 percent cache hit. The round ran on a
 subscription; no fees were paid, and the panel's price estimates are not
 recorded here.
+
+## The round's end (2026-09-16, 12:30)
+
+**What was delivered.** ABI 0.14 and sequencer revision 6: an input
+block fetched through an index table (asks 1 and 4, one mechanism), a
+per-run lane mask (ask 5), a beat-wide reduction accumulator, the
+composed indexed elementwise route, and the bindings' entry point -
+five parcels, four verifiers, every one merged and box-verified by the
+eleventh hour. A pair of images from one commit at 135 MHz: the single
+built and run on the card the same night; the quad closed on its second
+implementation and ran green on four tiles within two minutes of
+staging. Every published case reproduced on silicon through one tile
+and through four. A conformance profile written on the last morning,
+with the vector sets' hashes as its identity. And the numbers the
+requester asked for, measured rather than promised: a gathered element
+at 316 to 335 ns, one call for a thousand segments at 1.5 to 2.4 ms
+against 91 ms of calls, four tiles at exactly four times one on
+resident work.
+
+**What went wrong, and where the record has it.** Two host defects the
+suite could not see and the card found in its first hour - a masked
+run reading a device copy the caller's bytes were never uploaded to,
+and buffer capacities kept at page granularity behind a per-beat
+contract - both fixed the same night, neither in the RTL, no rebuild.
+The quad's first implementation missed timing by a third of a
+nanosecond on the engine's oldest path, six hours of build with nothing
+to show, and closed on the second with the tool's own directives. A
+stale test binary standing in for a gate, twice. Guessed timestamps
+from every author. A driver mistake in the saturation runs caught by
+the script's own check. Each is a row in the timeline and a rule in
+METHOD.md now.
+
+**What carries forward.** The reductions that do not overlap across
+tiles, the buffer allocated for a bound role, program runs on one
+tile, beat skipping for masked lanes - all in the roadmap's debts, as
+the seed of the next card day or the next round. The requester's four
+asks are built and measured; adopting them is that project's own work.
+
+**The ledger** is archived at [archive/round2-ledger.zip](archive/round2-ledger.zip)
+(eighteen files: the lead's 84 entries, the five parcels', the four
+verifiers', the seven urgent messages) for a reader of this case study
+who wants an entry by its time; the working copy is deleted, as the
+method says.
