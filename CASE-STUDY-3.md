@@ -783,3 +783,18 @@ which are the owner's to adopt or not, as round 2's were.
 and the follow-ups' (forty-nine entries in twelve author files, sixteen
 urgent messages), each with its original timestamps. The working copies
 are deleted, as the method says.
+
+## Postscript (2026-09-25, 07:58)
+
+The owner read this and asked for the corrections and the nine notes the
+same morning, and for the lead to make them alone, without agents, as a
+small job. In cft-fp256, 0ae1c5e makes the notes of §6 true: each was
+checked against the source before it was changed, and each code change
+was watched to fire - a segmented reduction forced absent prints its
+NOT COMPARED line and is counted by nothing, and the three skip-line
+shapes the replay writes reach the log from a passing set and are
+counted. 7d7285d appends a dated VALIDATION entry that corrects the two
+entries this study found wrong, without editing them. The runner's
+docs, formal, remote, node and wasm stages passed on the fixes with
+nothing skipped. Where the text above says a note is "still open on
+main", it describes 987ee41.
