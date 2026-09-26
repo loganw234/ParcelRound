@@ -120,6 +120,7 @@ says what METHOD.md should say differently.
 | 00:34 | **verifier-P2's fifth pass: the limit stated as found, and one phrase left.** PINNED.md still said two libm routes "cannot run in a pinned chain". P2 had corrected the same claim in the docstring beside it, and missed its twin in the document; the verifier had missed it on the pass before. P2 was resumed to replace the phrase with the docstring's own wording. |
 | 00:35-00:38 | P2's one-line fix (`d4007b2`), then verifier-P2's confirming pass. It put log10 and np.interp into pinned code in copies of the tree; the rule refused each by name, and the trap caught each. **READY TO PUSH.** |
 | 00:39 | **atlas-film's `pinned` pushed** (`d4007b2`), under the owner's word of 15:35 the day before. It went from the round's clone, never the owner's checkout. `git ls-remote` shows the new branch beside main, unchanged at `be1d674`, and no pull request was opened. **Every parcel of the round is landed and verified.** Left for the owner: METHOD.md's lessons, the ledger's archive, the clean-up, and whether `pinned` merges. |
+| 04:25-04:40 | **The owner, on waking: archive the ledger and clean up.** <br>- The ledger's durable items went into Quantum-Film's ROADMAP.md first. <br>- The ledger was zipped beside this case study and checked byte for byte, and its working copy deleted. <br>- The merged P1 and P3 worktrees and branches, the round's atlas-film clone and the nine verifier directories were removed, each checked first for anything unpushed. |
 
 ## What the method predicted, and what happened
 
