@@ -91,6 +91,20 @@ says what METHOD.md should say differently.
 | 18:43 | **P1's report** (`857065b`). The pinned binary64 sampler lays the authority's roll on 2,300 pauli-4x4 and 740 pauli rolls, with 0 random hand-offs. The control fails as it must. On the 16x16 stock it is faster than the authority, at 0.62x. And a finding against its own brief: **equality with the authority passed 10 of 11 planted certificate faults**, so each step is now held to exact arithmetic. |
 | 18:54 | **P3's fixes** (`961b385`). `--score` fails when a check does, the coherence sign is pinned, and `kind` and `fixed_at` are held. The 0/0 convention and the platform that wrote the QASM are recorded. |
 | 18:56 | **Paused at the owner's word**, with every parcel finished. main is `73a79af`; P1's and P3's branches merge onto it cleanly. Owed on resume: re-checks of P2's and P3's fixes, a first verifier for P1, a fourth pass on the lead's last three commits, then the merges and atlas-film's push. The ledger's lead.md 01:56Z entry lists everything, including what the lead missed. |
+| 20:56-20:58 | **Resumed at the owner's word** ("Continue work"). Nothing had been written to the ledger in the two hours paused. The lead re-armed its watch first. Then it dispatched four checks together, from the pause entry's list: <br>- verifier-P2 and verifier-P3 re-check their parcels' fixes; <br>- verifier-P1 makes its first pass; <br>- the P0 verifier makes a fourth, over three lead commits no verifier had seen. |
+| 21:12 | **The P0 verifier's fourth pass: the lead's import allowlist does not hold.** Five lint-clean modules ran an effect at import and passed the whole front door: <br>- a bare decorator; <br>- a class that fires `__init_subclass__`; <br>- `operator.call`; <br>- `itertools.starmap`; <br>- a name rebound after its last allowed use. <br>Seventeen more shapes passed the parse, `import antigravity` (which opens a web browser) among them. The verifier named four mechanisms no list of spellings closes, and proposed a check on behaviour: PEP 578's audit hook. |
+| 21:18 | verifier-P3: P3's fixes hold as found, and its merge onto main is green. Five minor items. |
+| 21:23 | verifier-P2: P2's seven fixes hold as found. But three routes pass both P2's rule and its replay, where PINNED.md says they cannot: <br>- libm computed outside a registered function; <br>- long-double arithmetic in the integer layers; <br>- replay marks stripped. <br>P2 resumed. |
+| 21:25 | **P3 merged** (`63a831e`, integrated at `bda92eb`, pushed). 12 of 12 stages pass with `--require-all`, and all 1,995 device rolls pass main's fixer. Also `4ff989b`: every module is imported in a child process under an audit hook. The hook refuses a process, a socket, a file write or a library load, however it is spelled. Each of nine planted effects is stopped and named. |
+| 21:28-21:31 | **The owner, going to bed: the watch tool needs consent**, so watch with a script. The expiring watch and the new script ran together on one snapshot's temporary files. Each moved the other's copy, and the script reported the ledger "REWRITTEN". The lead checked every file by hand: the ledger was untouched. The script now has per-run temporary files. |
+| 21:32 | **verifier-P1's first pass.** P1's arithmetic holds as claimed: 600 + 60 rolls equal, and 68 planted refusals never answered. It is NOT READY on five defects: <br>- six one-ulp faults in the wrong direction pass every gate, because wide boxes hide the slack; <br>- six respellings pass the source rule; <br>- a refusal after a hand-off comes back misnamed; <br>- writable caches; <br>- a non-bytes stream. |
+| 22:15, 22:25 | P1's fixes (`3c29f3a`), then P2's (`27c9b4b`: the rule reads every path into a pinned chain, and the chains run under a libm trap). |
+| 22:38 | verifier-P1's re-check: the five are fixed as found. But seven new faults pass every gate, and five respellings pass P1's new allowlist. |
+| 22:39 | **The lead scoped both parcels' next rounds to converge.** Five rules that read spellings had now fallen, each to a spelling it did not list. The scope: close the structural gaps, and hold what behaviour can hold (tight exact checks inside the steps; audit hooks and libm traps at the edges). State the rest as a limit. The verifiers judge READY by the standard verifier-P1 had offered: "a gate, or a stated limit". |
+| 22:54 | **verifier-P2's third pass: the bits and the branch are ready; the document is not.** Two routes passed the rule and the trap, where PINNED.md, which the push publishes, says neither can: <br>- libm through `**` inside a subscript or a validator; <br>- pinned code's exact methods rebound from a module the rule does not read. <br>P2 resumed at the converge scope. |
+| 23:05 | P1's third round (`6dcd5a1`): the structural gaps closed, and the spelling limit stated. |
+| 23:24 | **verifier-P1's third pass: one defect left, and the shipped code correct.** The end-to-end check read what `decide` traced, not the position it returned. So a two-line fault in `decide` certified the wrong site on a tight input, while passing every gate, 300 of 300 equal rolls and the rule. It was a decision certified without its Gram factor, and traced honestly. |
+| 23:25-23:35 | P1 resumed on it at 23:25. The lead wrote its answer to the ledger ten minutes later, after the message. verifier-P1, which watches the ledger, had found no answer there. |
 
 ## What the method predicted, and what happened
 
@@ -114,6 +128,25 @@ says what METHOD.md should say differently.
     - P2's source rule, found by verifier-P2 on another repository the same afternoon.
 
     The versions that held name what is allowed: pure modules at import; an exact reference on a tile whose arithmetic is not accidentally exact. METHOD §5 should say this outright.
+
+    *(Written at 17:52, and half wrong by 21:12: the allowlists fell too. See 14.)*
 11. **Check a new seam against the parcels' branches before they merge.** The lead's allowlist was right about Atlas and wrong about the parcels. Run against their branches before either merged, it would have refused both. METHOD's merge section should add: a seam changed mid-round is checked against every open branch at once, not at each merge.
 12. **A usage pause is survivable when the ledger is the state.** Three agents stopped mid-task on a rate limit. Each resumed from its own ledger entries and its tree after a full read, and none repeated or lost work that was recorded. P1 had written its state down before the pause, unasked. METHOD should make that a rule: when a pause is announced, each agent records where it is.
 13. **Verification converges slowly on the lead's own gates.** The P0 verifier's three passes found 21, then 4, then 5 defects, a third of them in fixes to the pass before. Every fix was planted and watched to fail first, but on faults the fixer chose. The lesson of observation 7 bears repeating: the verifier picks the faults.
+
+*(Observations 14-17, from the night of the 25th.)*
+
+14. **Allowlists over spellings fell too; checks on behaviour held.** Observation 10 was right about lists of forbidden spellings and wrong about lists of allowed ones. Three allowlists fell overnight, each to a spelling it did not list:
+    - the lead's list of what may run at import (the P0 verifier, 21:12);
+    - P1's source rule (verifier-P1, 21:32 and 22:38);
+    - P2's per-layer rule (verifier-P2, 21:23 and 22:54).
+
+    What held checks behaviour instead:
+    - an audit hook that sees a process, a socket or a file write however it is spelled;
+    - a libm trap around the chains;
+    - exact checks on tight inputs inside each step.
+
+    METHOD §5 should say: a gate that reads source text is a stated limit, not a guarantee. Put the guarantee in a check of what the code does, and state what that check cannot see.
+15. **A verifier loop over a spelling rule does not end by itself.** P1 and P2 each went three rounds, and each pass found new spellings. The lead ended the loop by scoping a round to converge: close the structural holes, state the limit, and judge READY by "a gate, or a stated limit". The verifiers had offered that standard themselves. METHOD should put the READY standard in the brief, before the first pass, not in the third round.
+16. **A check on what the code says it did is not a check on what it did.** P1's end-to-end check held the trace `decide` wrote, and not the position it returned. A fault that traced honestly and returned another answer passed every gate and 300 of 300 rolls. Only a target planted inside the fault's reach showed it, which is observation 8 again: a control bites only where the fault bites.
+17. **The lead's decisions go in the ledger first, then in the message.** The lead resumed P1 by message and wrote the ledger ten minutes later, and a verifier that reads only the ledger saw no answer. A watch that needs a human to approve it does not run overnight. With the owner asleep, the lead's watch became a script it relaunches at each exit. Its first run raced the expiring watch on shared temporary files, and reported a rewrite that had not happened. METHOD should say: one watch at a time, on files of its own.
