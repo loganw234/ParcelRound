@@ -170,3 +170,15 @@ says what METHOD.md should say differently.
 20. **A unit is part of a figure.** Two figures reached VALIDATION.md with the parcel's label but not its definition: "units of u", where u was the uniform and not the unit roundoff, and "(relative)" on absolute distances. Every figure traced to the ledger, so a check that traced figures passed them. METHOD should say: a figure that crosses from a parcel's report into the docs carries its definition with it, or it is re-measured.
 21. **A limit stated by its instances is walked past, as a rule stated by its instances is.** P2's limits named what had been found: rebindings below the names, and a rebinding between checks. A trace hook is neither, and it passed every gate. The fix states the class: code the interpreter runs inside a chain that pinned code did not call. Observation 14 applies to limits as it does to gates. State a limit by the behaviour it concedes, not by the plants that found it.
 22. **A claim in two places is corrected in one.** P2's last false sentence was one it had already fixed, in a docstring. Its twin in PINNED.md said the same and kept it. HonestFramework's "one fact in one place" applies to claims about a gate's reach as much as to parameters: a limit stated in the document and restated in a docstring drifts. The docstring should point to the document.
+
+**The ledger** is archived at [archive/round4-ledger.zip](archive/round4-ledger.zip).
+It holds fourteen files, each with its original timestamps:
+- the lead's 33 entries;
+- the three parcels' 18;
+- the four verifiers' 23;
+- the three briefs;
+- the two urgent messages.
+
+It is there for a reader who wants an entry by its time. What was durable
+went into Quantum-Film's own records first: its ROADMAP.md carries what the
+verifiers left open. The working copy is deleted, as the method says.
