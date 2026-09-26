@@ -18,6 +18,7 @@ defence against it.
 | [CASE-STUDY.md](CASE-STUDY.md) | One round, measured: what it caught, what it cost, what went wrong. |
 | [CASE-STUDY-2.md](CASE-STUDY-2.md) | A second round, recorded as it ran: a timeline, the verifiers' yield, the card day, the cost. |
 | [CASE-STUDY-3.md](CASE-STUDY-3.md) | A third round, reconstructed after it ran unattended: a documentation sweep and four follow-ups dispatched by workflow scripts, and what that changed. |
+| [CASE-STUDY-4.md](CASE-STUDY-4.md) | A fourth round, recorded as it ran: two repositories and a verifier on the lead before dispatch, then a second round the lead ran alone; the timeline, what the verifiers found, the cost, and what METHOD.md should say. |
 | [templates/brief.md](templates/brief.md) | A parcel brief. Every section earns its place. |
 | [templates/verifier.md](templates/verifier.md) | A verifier brief — the agent whose job is to disconfirm. |
 | [templates/ledger.md](templates/ledger.md) | Drop-in README for the cross-agent ledger. |

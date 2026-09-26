@@ -2,8 +2,11 @@
 
 Written during the round it describes, like [CASE-STUDY-2.md](CASE-STUDY-2.md),
 so that what the method predicted and what happened can be set beside each
-other with timestamps. It is a draft until the round ends; the final section
-says what METHOD.md should say differently.
+other with timestamps. It covers two rounds of one project: three parcels and
+four verifiers on the first day, and on the next morning a second round the
+lead ran alone, with one verifier. The last sections propose what METHOD.md
+should say differently, which is the owner's to settle, and record how the
+rounds ended.
 
 ## The setting
 
@@ -120,7 +123,7 @@ says what METHOD.md should say differently.
 | 00:34 | **verifier-P2's fifth pass: the limit stated as found, and one phrase left.** PINNED.md still said two libm routes "cannot run in a pinned chain". P2 had corrected the same claim in the docstring beside it, and missed its twin in the document; the verifier had missed it on the pass before. P2 was resumed to replace the phrase with the docstring's own wording. |
 | 00:35-00:38 | P2's one-line fix (`d4007b2`), then verifier-P2's confirming pass. It put log10 and np.interp into pinned code in copies of the tree; the rule refused each by name, and the trap caught each. **READY TO PUSH.** |
 | 00:39 | **atlas-film's `pinned` pushed** (`d4007b2`), under the owner's word of 15:35 the day before. It went from the round's clone, never the owner's checkout. `git ls-remote` shows the new branch beside main, unchanged at `be1d674`, and no pull request was opened. **Every parcel of the round is landed and verified.** Left for the owner: METHOD.md's lessons, the ledger's archive, the clean-up, and whether `pinned` merges. |
-| 04:25-04:40 | **The owner, on waking: archive the ledger and clean up.** <br>- The ledger's durable items went into Quantum-Film's ROADMAP.md first. <br>- The ledger was zipped beside this case study and checked byte for byte, and its working copy deleted. <br>- The merged P1 and P3 worktrees and branches, the round's atlas-film clone and the nine verifier directories were removed, each checked first for anything unpushed. |
+| 04:25-04:33 | **The owner, on waking: archive the ledger and clean up.** <br>- The ledger's durable items went into Quantum-Film's ROADMAP.md first. <br>- The ledger was zipped beside this case study and checked byte for byte, and its working copy deleted. <br>- The merged P1 and P3 worktrees and branches, the round's atlas-film clone and the nine verifier directories were removed, each checked first for anything unpushed. |
 
 ## What the method predicted, and what happened
 
@@ -172,14 +175,240 @@ says what METHOD.md should say differently.
 21. **A limit stated by its instances is walked past, as a rule stated by its instances is.** P2's limits named what had been found: rebindings below the names, and a rebinding between checks. A trace hook is neither, and it passed every gate. The fix states the class: code the interpreter runs inside a chain that pinned code did not call. Observation 14 applies to limits as it does to gates. State a limit by the behaviour it concedes, not by the plants that found it.
 22. **A claim in two places is corrected in one.** P2's last false sentence was one it had already fixed, in a docstring. Its twin in PINNED.md said the same and kept it. HonestFramework's "one fact in one place" applies to claims about a gate's reach as much as to parameters: a limit stated in the document and restated in a docstring drifts. The docstring should point to the document.
 
-**The ledger** is archived at [archive/round4-ledger.zip](archive/round4-ledger.zip).
-It holds fourteen files, each with its original timestamps:
-- the lead's 33 entries;
-- the three parcels' 18;
-- the four verifiers' 23;
-- the three briefs;
-- the two urgent messages.
+## The second round: the lead alone (2026-09-26)
 
-It is there for a reader who wants an entry by its time. What was durable
-went into Quantum-Film's own records first: its ROADMAP.md carries what the
-verifiers left open. The working copy is deleted, as the method says.
+On waking, the owner asked for the first round's archive and clean-up,
+"then get ready for the first prints". What is new against the first round:
+- **No parcels.** At the owner's word the round was "lead only, fast". The
+  lead built the seam that turns rolls into film, laid the first prints and
+  spent the platform's last jobs. One verifier pass followed, over the
+  pushed commit, then a confirming pass.
+- **The verifier was not fresh.** It was the first round's P0 verifier,
+  resumed for a sixth pass. It knew the codebase, its traps and the
+  converge standard, and it carried them: its first request held 845,387
+  tokens of the first round's context.
+- **A resource with a deadline.** The Atlas key would expire at about 10:25
+  with five of its six jobs unused, and a device roll cannot be re-run. The
+  lead asked before spending them.
+- **Presentation after the verifier's cut.** At the owner's request: a web
+  demo, a video's source, a poster, then a paper. The owner submitted the
+  entry at 07:31.
+- **Where:** a second ledger, `quantum-film-ledger\round2\`, on the first
+  round's template. Its first entry records the owner's words, which were
+  the plan.
+
+### Timeline (2026-09-26, local time, UTC-7)
+
+| when | what |
+|---|---|
+| 04:33-04:37 | The lead read atlas-film's pinned branch for the seam's contract. A supplied sheet gives each cell a crystal count and a 16-bit threshold per crystal, and development is a comparison. The lead timed golden and pinned Pauli rolls on this machine. |
+| 04:38-04:43 | **A spike first, in scratch.** Pauli tiles were stacked in layers and developed beside a Poisson twin: 11,776 rolls. It found two things the design had to answer: <br>- atlas-film coats about 9 crystals in each cell's column, so a site cannot be a cell's only crystal, and the depth needs layers; <br>- a sheet of fixed-count tiles suppresses S(k) above the tile's scale "for ANY law". The evidence was one law, the uniform twin (D2, at 06:23). |
+| 04:44-04:45 | Three questions to the owner, answered within the minute: <br>- spend the key's last five jobs now; <br>- vendor atlas-film as a submodule at its verified `d4007b2`; <br>- the round is "lead only, fast". |
+| 04:46-04:53 | **Five Atlas jobs**, one after another, on a branch, by P3's tool: 20,480 more shots. Each commitment was committed before its job's first status call. The verifier later found each commitment commit's time equal to the server's submission second. |
+| 04:53-04:56 | **The new records failed a test.** `test_p3_records.py` had assumed one run per directory, and five runs now shared one. The check was generalised: a platform record names the commit of a run that wrote its QASM file. A planted foreign commit fails it (`757c9a1`). |
+| 04:58 | The runs recorded in VALIDATION.md, merged and pushed (`9b3b2c2`). |
+| 04:59-05:04 | **The develop seam**, `quantum_film/develop.py`, 199 lines: atlas-film vendored at `d4007b2`, a sheet laid at the borrowed stock's own density, and the honesty floor refused by name. <br>- At 05:01 its shadow guard refused the lead's own smoke test, which had imported the owner's editable atlas-film first. The first round measured that trap for P2 (13:06 on the 25th); now it is a refusal in the seam. <br>- Eight faults were planted one at a time, and every one failed a gate. <br>- The runner's new stage line carried a literal `\n` from a heredoc's escaping. The lead's byte check found it before the stage first ran. |
+| 05:05-05:22 | **The first prints**: five, one of them laid entirely by Atlas's shots, with a gallery and a structure-factor figure. At 05:16 the owner asked for the prints as images in the README. At 05:21 the VALIDATION entry quoted the exposure from memory; the lead replaced it with the recorded hex float 16 seconds later. |
+| 05:22 | The round's ledger created, outside every repository. |
+| 05:35-05:38 | Every print re-developed to the same bits (`--check`). `run.sh --require-all` passed 14 of 14 stages, and one pytest session passed 601 tests. `a228cf5` and `e7935ef` pushed. |
+| 05:39-05:40 | **The verifier dispatched** on `e7935ef`. The lead armed its watch 10 seconds later, in the same turn. That is observation 2 applied, carried by the lead's memory: METHOD.md has not changed. |
+| 05:50 | The verifier's connection dropped mid-pass (ECONNRESET). Resumed under the first round's rule, it said where it had stopped, and nothing was lost. |
+| 05:51-06:16 | At the owner's request: the web demo, the video's source and the poster (`ec65c44`, `7e6f60d`, `5ebbb82`), deployed by GitHub Actions. The lead's ledger entry says they are outside the verifier's brief. |
+| 06:23 | **The verifier: NOT READY, on two sentences of prose.** The code, the records, the gates and the prints held. <br>- D1: a table's columns, k = 16 to 64, read as a band out to k = 90. <br>- D2: "for ANY law" on the evidence of one law. The verifier built a bunched law that the tiling enhances several-fold. <br>- Eight minors. One, m1, passed every stage: a Sattolo shuffle in place of Fisher-Yates. |
+| 06:28 | Corrections pushed (`05011bd`). The band was re-read from the records, STOCKS.md's rule was restated to what holds, and m1 became a gate. D1 had reached the demo's caption, which was corrected with it. |
+| 06:37-06:38 | **PASS.** The confirming pass found one sentence repeating the verifier's own earlier error (n1: the lowest bin holds eight modes, not two) and one to sharpen (n2). Both were fixed at `4ff684f`. No agent was running, and the watch stopped. |
+| 06:41-06:51 | The owner's once-over before the submission. The notices were stale: atlas-film was listed as a pip extra at its old commit, and Pillow, matplotlib and three.js were missing (`339e2ca`). At the owner's word the entry was narrowed to one challenge (`077687f`). |
+| 06:50-07:20 | **The paper**, with StoryDocs, at the owner's request: 15 pages, with figures drawn from the records. At every build a check recomputes the numbers of 21 sentences and finds 20 cited figures in their sources. At 07:07 the draft said every piece of the work had been checked by an independent agent; the lead corrected it 16 seconds later. Pushed as `aca7709`. |
+| 07:31 | **The owner submitted the entry.** |
+| 07:56 | The owner: push StoryDocs, archive the round, and finish this study. StoryDocs was pushed at 08:00; the rest is this study's end. |
+
+### Observations from the second round
+
+*(Observations 23-32.)*
+
+23. **Every defect the verifier found lay in the words around a measured figure, not in the figure.** Every figure in D1 and D2 was measured. The words around them were not: D1 gave a table's columns as a band that reached past them, and D2 quantified over every law on the evidence of one. The same slip happened twice more where no verifier was looking, and the lead caught both before they were committed:
+    - the paper's draft said every piece of the work had been checked by an independent agent;
+    - this study's own fold-in into Quantum-Film first said that every number in the paper is held, when its check holds the ones it lists.
+
+    The figures themselves were guarded by habit: the one typed from memory, the print's exposure, was replaced by the recorded value 16 seconds later. HonestFramework's "a number in prose is measured, not typed" held. It needs a companion: a claim's domain and its quantifier are measured too. Observation 20 found the same of a unit.
+24. **A spike's finding is one case.** The spike ran before the design and found what the design had to answer: the depth needs layers, and fixed-count tiles quiet S(k) at low k. The second finding was right for the shelf's laws, and it was stated for every law. Its figures came from scratch work that nothing in the tree reproduces (m4). The verifier's corrections rest on scripts of the same kind; they are archived with the ledger, and Quantum-Film's ROADMAP carries them as open. METHOD should say: a spike states the cases it measured, and a figure the docs quote has a script in the tree, or the docs say it has none.
+25. **A trap written into a brief is a rule to remember; written into the seam, it is a refusal.** The first round measured the editable-install trap and put it in P2's brief. The second put it into the seam as a refusal by name, and the first thing it refused was the lead's own smoke test. METHOD §2 has the seam settle what parcels would otherwise each decide, and a trap one round has measured is one of those things.
+26. **New data tests the tests.** The five new runs broke a check that had assumed one run per directory. Nothing stated the assumption, and the first directory to hold a second run found it, as a new gate's first run did in observation 6. The verifier held the fix to the old case too, and found the one-run directory's check exactly as strict as before.
+27. **A check that no stage runs is not a gate.** `first_prints.py --check` catches the Sattolo shuffle on the Atlas print in 3 seconds, and nothing ran it. METHOD §2's registry fails a test file that no stage runs, and a tool's own check is the same gap in another place. The minor became a gate five minutes after the verifier named it. Quantum-Film's ROADMAP carries the four slower prints as open.
+28. **A verifier's figure is a report too.** n1 began in the verifier's own entry, as "2 independent modes". The lead copied it into VALIDATION.md's correction as "two modes", dropping a word and keeping the error. The verifier's confirming pass caught it and named it as its own. Four more of the verifier's figures went into the docs the same way, unmeasured by the lead. The lead re-read the records' band itself, but not the law's expectation, the bunched control or the density identity. As far as anyone knows they are right, and they rest on the verifier's scripts alone, which this study found only while archiving them. Observation 20 has a figure that crosses from a parcel's report into the docs carry its definition, or be re-measured. The same holds when the report is a verifier's.
+29. **Work the owner asks for after the verifier's cut is stated as unverified, and held to the records where it can be.** The demo, the poster and the paper came after the one pass. The ledger said so as they landed. The demo's data test and the paper's number check hold what they can, and Quantum-Film's ROADMAP carries the rest. The paper's draft claimed more (observation 23).
+30. **The owner's once-over found what no gate and no verifier looked at.** The notices had not followed the round's dependencies: a new submodule, two image libraries, a script from a CDN. No gate holds a notices file against the tree, and the verifier's brief was the correctness of claims. A licence notice is a claim, and a small gate could hold it; Quantum-Film's ROADMAP carries that too.
+31. **The lead-only round's shape.** From the start of its work at 04:33, the round reached the verifier's PASS in 2 h 4 min and the submission in 2 h 58 min. There were no parcels, one verifier pass over a pushed commit, and a confirming pass. One pass was enough, and two things likely made it so:
+    - the new code was small: a 199-line seam, its tests and a 194-line tool;
+    - it sat on the first round's gates.
+
+    The pass found no correctness defect in the code; its one finding against the gates was m1. The resumed verifier planted its own faults, distinct from the lead's eight, and every one failed a gate except m1. It paid for its memory: its first request carried 845,387 tokens of the first round's context. A fresh verifier would have paid instead to learn the codebase. The two were not compared.
+32. **A lesson the owner has not adopted travels in the lead's memory, and only there.** The watch was armed with the dispatch, as observation 2 asks, because the lead's memory carried the lesson from the night before. METHOD.md still does not say it. A different lead, or this one without its memory, would not have had it. The proposals below are how a lesson reaches every lead.
+
+## Cost of the rounds (measured from the transcripts)
+
+One measure, the **processed** one of [CASE-STUDY-3.md](CASE-STUDY-3.md).
+Every API response in the session's transcripts is counted once, by message
+id, from the line with the largest output count. The figures are the output
+generated, the prompt tokens read from cache and written to it, and the tool
+uses.
+
+The **harness figure** cannot be totalled here. The task notifications of
+several runs are not in the lead's transcript, and a resumed agent's figure
+is its context at its last request, which falls when the agent compacts.
+
+The lead's figures are split by the rounds' hours, and an agent's belong to
+its round. The one exception is the P0 verifier's, which is split at its
+sixth pass.
+
+| round | who | responses | output | cache read | cache write | tool uses |
+|---|---|---|---|---|---|---|
+| before | four research agents, the 25th | 367 | 534,385 | 86.3M | 1.52M | 486 |
+| before | the lead, 10:01-12:40 | 132 | 382,923 | 65.6M | 0.75M | 221 |
+| first | P1, the pinned sampler | 424 | 946,086 | 271.2M | 7.42M | 544 |
+| first | P2, atlas-film on cft-fp256 | 718 | 1,275,700 | 431.8M | 9.26M | 864 |
+| first | P3, the circuit and device rolls | 237 | 329,870 | 95.5M | 1.11M | 289 |
+| first | verifier-P0, passes 1-5 | 278 | 580,116 | 130.1M | 3.99M | 331 |
+| first | verifier-P1 | 279 | 440,634 | 136.2M | 5.00M | 310 |
+| first | verifier-P2 | 367 | 571,922 | 198.8M | 7.14M | 382 |
+| first | verifier-P3 | 178 | 253,550 | 58.6M | 1.45M | 191 |
+| first | the lead, 12:40-00:41 | 571 | 752,269 | 290.0M | 2.53M | 756 |
+| first | **the round** | **3,052** | **5,150,147** | **1,612.2M** | **37.90M** | **3,667** |
+| close | the lead, 04:23-04:33 | 27 | 24,036 | 9.5M | 0.34M | 30 |
+| second | verifier-P0, pass 6 and its confirmation | 101 | 179,952 | 45.5M | 1.30M | 124 |
+| second | the lead, 04:33-07:31 | 260 | 384,888 | 173.0M | 0.58M | 305 |
+| second | **the round** | **361** | **564,840** | **218.5M** | **1.88M** | **429** |
+
+- **The first round** ran twelve hours from the owner's word to atlas-film's
+  push. That includes the usage-limit pause, at most 38 minutes, and the
+  owner's two-hour pause.
+  - The four verifiers generated 42 percent of the agents' output.
+    CASE-STUDY-2 put its verifiers at 38 percent of the agents' tokens, by
+    another measure.
+  - P2, the parcel in another repository, cost the most: 1.28 million
+    output tokens and 864 tool uses.
+- **The second round** cost about a ninth of the first's output and under a
+  seventh of its cache reads. Its verifier generated 32 percent of the
+  round's output, and the lead built everything else. The verifier's
+  resumed context shows in its cache reads: 45.5M over 101 responses, about
+  450,000 a response.
+- **Not counted:** this study's own close, from 07:56.
+
+## What METHOD.md should say differently (proposed; the owner's to settle)
+
+Each item says whether it is **new**, a **reinforcement** of a rule the
+method already has, an **extension** of one, or a **relaxation**. The
+bracket names the observations it rests on. Most were written as the rounds
+ran; here they are gathered by section.
+
+**§2, P0 and the seam.**
+- **The lead's P0 goes past a verifier before any parcel that reads it is
+  dispatched** (extension of §5's rule that the lead's code goes through
+  the same gates; the owner made it the first round's precondition). A parcel
+  that reads none of P0's seams need not wait (relaxation). [1, 5]
+- **A trap one round measures goes into the next round's seam as a refusal,
+  not into its briefs as a rule** (extension of "four more things a seam
+  settles"). [25]
+- **A tool's check that no stage runs is flagged, as a test file that no
+  stage runs is** (extension of "make the registry self-enforcing"). [27]
+- **A spike states the cases it measured, and a figure the docs quote has a
+  script in the tree, or the docs say it has none** (new). [24]
+
+**§3, the brief.**
+- **Name a control by the property that makes it bite, or run it before the
+  brief goes out** (extension of "verify the constraints you write down",
+  from paths and functions to controls). [8, 16]
+- **Name each agent's scratch directory, and keep secrets outside every
+  directory an agent is given** (new). [9]
+- **State the READY standard, "a gate, or a stated limit", in the brief
+  before the first pass** (new). [15]
+- **An agent's "what I did not do" is a claim: the lead checks its own tree
+  after every agent** (extension of "expect boundary violations"). [4]
+
+**§4, the ledger and the watch.**
+- **The lead arms its watch with its first dispatch** (reinforcement of
+  "arm one", which says nothing of when). [2, 32]
+- **Re-arm a watch when it expires, keep its snapshot across re-arms, and
+  run one watch at a time, on files of its own** (extension). [3, 17]
+- **When a pause is announced, each agent records where it is** (new). [12]
+- **The lead's decisions go in the ledger first, then in the message**
+  (reinforcement). [17]
+
+**§5, gates and negative controls.**
+- **A gate that reads source text is a stated limit, not a guarantee.** The
+  guarantee goes in a check of behaviour, which states what it cannot see
+  (extension; it replaces observation 10's first reading, that allowlists
+  hold). [10, 14]
+- **A limit is stated by the behaviour it concedes, not by the plants that
+  found it** (new). [21]
+- **The lead's fixes to a verifier's findings go back to that verifier,
+  which picks its own faults** (extension of "a gate you haven't watched
+  fail"). [7, 13]
+
+**§6, the verifier.**
+- **A stated limit is tested: the verifier builds a fault that passes every
+  gate, and READY needs it to land inside the limit** (new). [18]
+- **The verifier reads a claim's domain and quantifier as claims, beside its
+  numbers** (extension of the cheat shapes it looks for). [23]
+- **A figure that crosses into the docs from any report, a verifier's
+  included, carries its definition or is re-measured** (new). [20, 28]
+- **Work added after the verifier's cut is stated as unverified, in the
+  ledger and in the records, and held to the records by a gate where it can
+  be** (new). [29]
+
+**§7-§8, what the lead keeps, and sequencing.**
+- **A seam changed mid-round is checked against every open branch at once**
+  (new). [11]
+- **The lead may prepare a merge while the verifier works; the verdict still
+  gates main** (new). [19]
+- **A claim stated in two places is corrected in one, so a docstring points
+  to the document** (reinforcement of HonestFramework's "one fact in one
+  place"). [22]
+- **A lead-only round is a shape of its own**: build on verified seams, one
+  verifier pass over the pushed commit, then a confirming pass (new). [31]
+
+## The rounds' end (2026-09-26)
+
+**What was delivered.**
+- **Quantum-Film** (MIT, public). Before the submission, all 14 of its
+  runner's stages passed with `--require-all`. It holds:
+  - six runs of the shelf's law on Atlas: 24,576 shots and 12,071 device
+    rolls;
+  - P1's pinned sampler and P3's circuit, merged;
+  - the develop seam, and five first prints, one laid by Atlas alone;
+  - the web demo on GitHub Pages, and the poster;
+  - the paper, whose source is in StoryDocs at `673148c`, pushed at the
+    owner's word.
+- **atlas-film's `pinned`** at `d4007b2`, pushed and vendored.
+- **The entry**, submitted by the owner at 07:31.
+
+**What carries forward.**
+- Quantum-Film's ROADMAP carries what each round left open, each item
+  stated where it lives: "Carried from round 1" and "Carried from round 2".
+- Whether atlas-film's `pinned` merges into its main, which is the owner's
+  call.
+- The proposals above, which are the owner's to adopt or not.
+
+**The ledgers.**
+- **The first round's** is archived at
+  [archive/round4-ledger.zip](archive/round4-ledger.zip). It holds fourteen
+  files, each with its original timestamps:
+  - the lead's 33 entries;
+  - the three parcels' 18;
+  - the four verifiers' 23;
+  - the three briefs;
+  - the two urgent messages.
+- **The second round's** is at
+  [archive/round4-second-ledger.zip](archive/round4-second-ledger.zip), each
+  file with its original timestamps:
+  - the lead's five entries and the verifier's two;
+  - the ledger's README and its empty `urgent/`;
+  - `verifier-P0-work/`: the verifier's fourteen scripts, its two plants and
+    its four run logs. Its entries cite them by name, and four figures
+    Quantum-Film's docs quote rest on them alone (observation 28). Its two
+    clones are left out, since they are clones of public commits.
+
+Each archive is there for a reader who wants an entry by its time. What was
+durable went into Quantum-Film's own records first. Its ROADMAP.md carries
+what each round left open, and its VALIDATION.md says where the second
+archive is. The working copies are deleted, as the method says.
