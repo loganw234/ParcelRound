@@ -47,11 +47,15 @@ The checks, by name:
                 does every id in OTHER_IDS (the B, R and S rows); a row with
                 any other id fails
   anchors    4. every ADOPTION.md row whose status is adopted names METHOD.md
-                headings that exist; every file:line anywhere in ADOPTION.md
-                has a commit, in backticks, in its cell or line; in a
-                repository, every commit ADOPTION.md writes in backticks is in
+                headings that exist; every file:line in ADOPTION.md, METHOD.md,
+                README.md and templates/ (outside code, but anywhere in
+                ADOPTION.md) has a commit, in backticks, in its cell or line;
+                in a repository, every commit ADOPTION.md writes in backticks,
+                and every commit beside a line number in those files, is in
                 HEAD's history, unless FOREIGN_COMMITS declares it another
-                repository's pin; and each pin declared there is still named
+                repository's pin; and each pin declared there is still named in
+                ADOPTION.md. The case studies and the archive are records that
+                do not change, so their line numbers are not read.
   refs       5. every section number written with a section sign or the word
                 "section", alone or in a list, in METHOD.md, README.md,
                 ADOPTION.md and templates/, is one of METHOD.md's sections. A
@@ -80,7 +84,8 @@ remove fenced code blocks and HTML comments first. Check 6 also removes code
 spans, since a link in code is not a link. Checks 1, 2 and 5 remove code spans
 and fenced code blocks, since code shows a form rather than using it, and read
 HTML comments. Check 4 reads ADOPTION.md's line numbers and commits in all of
-its text. A check that crashes fails, by name. No failure line prints a path, address or token the
+its text, and line numbers in METHOD.md, README.md and the templates outside
+their code. A check that crashes fails, by name. No failure line prints a path, address or token the
 gate refuses: its output is pasted into ledgers that will be published. There
 is no cache: each run reads everything again. Standard library only, and git
 for what checks 1, 4 and 10 read from a repository.
@@ -133,12 +138,13 @@ a new spelling of a stated class falls inside it:
       observation number is a placeholder.
   - proposals: it holds ids, not the rows' content, so a wrong status passes.
   - anchors: it holds that an adopted row's headings exist, not that the rule
-    is under them. It holds that every file:line has a commit beside it, and
-    in a repository that each commit is in HEAD's history; not that the line
-    is right at it, nor that the commit beside it is the one it was counted
-    at. A line named any other way ("line 66 of METHOD.md") is not read, and
-    nor is a commit written other than in backticks. Outside a repository, a
-    commit is not looked up.
+    is under them. It holds that every file:line in the files check 4 names
+    has a commit beside it, and in a repository that each commit is in HEAD's
+    history; not that the line is right at it, nor that the commit beside it
+    is the one it was counted at. A line named any other way ("line 66 of
+    METHOD.md") is not read, nor is a line number in a case study or the
+    archive, nor a commit written other than in backticks. Outside a
+    repository, a commit is not looked up.
   - refs: a section number is read after the section sign or the word
     "section", in any case, alone or in a list joined by commas, "and", "or",
     "to", "through", "&" or dashes. A section named any other way is not
@@ -845,20 +851,33 @@ def anchors(root, foreign):
                     bad.append(f"ADOPTION.md line {i}: {cells[0]} is {cells[si]} at "
                                f"'{h}', which is no heading in METHOD.md")
     # Lines move, so a line number is only true at a commit, and names one: in
-    # every cell of every row, and in every line of prose.
+    # every cell of every row, and every line of prose, of ADOPTION.md, and of
+    # the files that change round to round, METHOD.md, README.md and the
+    # templates (outside their code, which shows forms). The case studies and
+    # the archive are records that do not change, so theirs cannot go stale.
     text = read(root, "ADOPTION.md")
-    refs = 0
-    for i, line in enumerate(text.splitlines(), 1):
-        parts = line.strip().strip("|").split("|") if line.startswith("|") else [line]
-        for part in parts:
-            found = LINE_REF.findall(part)
-            refs += len(found)
-            if found and not COMMIT_REF.search(part):
-                bad.append(f"ADOPTION.md line {i}: {found[0]} without the commit it is counted at")
-    # Every commit ADOPTION.md writes, whatever word precedes it, is this
-    # repository's own, in what main will carry, or another repository's pin
-    # that FOREIGN_COMMITS declares.
-    commits = set(COMMIT_REF.findall(text))
+    refs, beside = 0, set()
+    files = ["ADOPTION.md", "METHOD.md", "README.md"] + [f for f in md_files(root) if f.startswith("templates/")]
+    for rel in files:
+        if not os.path.exists(os.path.join(root, rel)):
+            continue
+        raw = read(root, rel)
+        seen = raw.splitlines() if rel == "ADOPTION.md" else uncoded(raw).splitlines()
+        for i, (line, shown) in enumerate(zip(raw.splitlines(), seen), 1):
+            cells = (zip(line.strip().strip("|").split("|"), shown.strip().strip("|").split("|"))
+                     if line.startswith("|") and shown.count("|") == line.count("|") else [(line, shown)])
+            for part, shown_part in cells:
+                found = LINE_REF.findall(shown_part)
+                refs += len(found)
+                if found:
+                    shas = COMMIT_REF.findall(part)
+                    beside |= set(shas)
+                    if not shas:
+                        bad.append(f"{rel} line {i}: {found[0]} without the commit it is counted at")
+    # Every commit ADOPTION.md writes, whatever word precedes it, and every
+    # commit beside a line number elsewhere, is this repository's own, in what
+    # main will carry, or another repository's pin that FOREIGN_COMMITS declares.
+    commits = set(COMMIT_REF.findall(text)) | beside
     if foreign:
         for sha in sorted(set(FOREIGN_COMMITS) - commits):
             bad.append(f"FOREIGN_COMMITS declares {sha}, which ADOPTION.md no longer names; remove it")
@@ -1355,6 +1374,7 @@ PLANTS = [
     ("anchors", "a line number with no commit", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("; both at `49a9266`", "", 1))),
     ("anchors", "a line number in prose with no commit", lambda t: append(t, "ADOPTION.md", "\nThe planted rule is at METHOD.md:66.\n")),
     ("anchors", "a declared foreign pin no longer named", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("`4190a47`", "its pin"))),
+    ("anchors", "a line number in a template with no commit", lambda t: append(t, "templates/brief.md", "\nThe planted rule is at METHOD.md:241.\n")),
     ("refs", "a wrapped section reference", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("[METHOD.md](../METHOD.md)\n§3", "[METHOD.md](../METHOD.md)\n§9", 1))),
     ("refs", "a bare section sign", lambda t: append(t, "templates/verifier.md", "\nThe planted rule (§9) applies here.\n")),
     ("refs", "section signs in a list joined by 'and'", lambda t: append(t, "templates/verifier.md", "\nSee §§4 and 9.\n")),
