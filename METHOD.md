@@ -88,6 +88,25 @@ ask's ceiling was two percent of the requester's wall, measured from
 its own timing table. Every one of those would otherwise have been a
 parcel. [CASE-STUDY-2, 02:00-03:30]
 
+### Survey the tree before the plan, read-only
+
+**Before the plan is written, send read-only surveyors to the tree.**
+They edit nothing, and they read one named commit. Each reports the
+facts it finds with the file and line behind them, marks which it
+measured and which it only read, as §4 has a ledger entry mark what it
+measured, and names the gaps and the places where the documents and the
+code disagree. The lead writes the plan from their reports. The cert,
+language and step-6 rounds of cft-fp256 each began with read-only agents
+surveying the tree at a fixed commit, before the plan of record
+([round 6's survey, B17](archive/round6-practice-survey.md)). In the
+language round three surveyors cited each fact to a file and line
+([docs/VALIDATION.md:16682, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16682)),
+and a parcel then fixed the defects the survey found
+([docs/VALIDATION.md:16764, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16764)).
+That is the evidence: no case study records a break from the lack of it.
+
 ---
 
 ## 2. P0: make the shared thing shared, before you split
@@ -120,6 +139,25 @@ Two conditions:
   suite means nothing.
 - **It must land and be pushed before any parcel starts**, so every
   worktree branches from it. A P0 landing mid-round is worse than none.
+  When the round runs on a round branch (§7), P0 lands on that branch
+  before any parcel starts, and every worktree is cut from the branch
+  after it. That is what the push was for, so the branch itself need not
+  be pushed: the language and step-6 rounds cut their parcels' worktrees
+  from an unpushed one, and no case study records a break from that.
+  [round 6's survey, the departures table](archive/round6-practice-survey.md)
+
+**P0 goes past a verifier before any parcel that reads it is
+dispatched.** The lead's code goes through the same gates as a parcel's
+(§5), and P0 is the code every parcel stands on. In round 4 the
+verifier's report on P0 found a run credited to the wrong law, two gates
+that could not fail, and a runner that could report PASSED over a
+failure; the first would have sent a parcel to reuse a scorer written
+for another law, and to improve on a baseline that never existed. The
+gate is per parcel, on the seams that parcel reads, so a parcel that
+reads none of P0's seams need not wait for its fixes: the one working in
+another repository, which read only the lead's library build, was
+dispatched after that report and ahead of the fixes, because none of the
+findings touched its inputs. [CASE-STUDY-4, obs 1; obs 5; 13:49; 13:53]
 
 ### Make the registry self-enforcing
 
@@ -139,6 +177,14 @@ it.
 
 Then prove the check can fail — add a dummy row, confirm the failure
 names it, remove the row.
+
+**A tool's check that no stage runs is flagged, as a test file that no
+stage runs is.** Round 4's registry failed any test file no stage ran,
+and a tool's own check is the same gap in another place: in its second
+round a Sattolo shuffle in place of Fisher-Yates passed every stage,
+while the print tool's `--check` would have caught it in three seconds
+and nothing ran that check. It became a gate five minutes after the
+verifier named it. [CASE-STUDY-4, obs 27; 06:23; 06:28]
 
 ### Four more things a seam settles
 
@@ -164,6 +210,23 @@ ledger's `For:` lines are what made twenty minutes enough. [11:41]
 dispatch message, where it can be right. A brief that names its base
 exactly is wrong the moment the brief itself is committed. [11:41]
 
+### Put what a round measures into the tree
+
+**A trap one round measures goes into the next round's seam as a
+refusal, not into its briefs as a rule.** A trap in a brief is a rule
+each parcel has to remember; in the seam it is refused by name. Round 4
+measured that an editable install of the owner's checkout made any test
+run from outside a clone's root import the owner's code, and put that in
+a parcel's brief as a rule with an assertion. Its second round put it in
+the seam as a refusal, and the first thing the refusal stopped was the
+lead's own smoke test. [CASE-STUDY-4, obs 25; 13:06; 05:01]
+
+**A figure the documents quote has a script in the tree.** In round 4 a
+spike's figures came from scratch work that nothing in the tree
+reproduced, and the verifier's corrections rested on scripts of the same
+kind, which were found only while the ledger was archived.
+[CASE-STUDY-4, obs 24; obs 28]
+
 ---
 
 ## 3. The brief
@@ -177,6 +240,20 @@ has read the post-mortem does not repeat it.
 **Your job** — one paragraph. If it needs three, the parcel is two
 parcels.
 
+**Design first: a parcel proposes, and the lead approves before it
+builds.** The brief can make the parcel's first phase a design: say
+"Before you build anything, write your design in your ledger, make it
+your report, and stop. The lead approves it, or answers it, before you
+build." The brief lists what the design must cover. In each of the rev7,
+audit, fixes, steps-5-and-6, language and step-6 rounds of cft-fp256, at
+least one parcel's brief had it propose before it built, and the lead
+decided ([round 6's survey, B13](archive/round6-practice-survey.md));
+the language round's record has one parcel's design, of ten decisions,
+approved
+([docs/VALIDATION.md:16851, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16851)).
+That is the evidence: no case study records a break from the lack of it.
+
 **Files you own** — by path, and by *function* where a file is shared.
 "`choose_timestep()` in `src/engine.c`, and nothing else in that file"
 is a workable boundary; "the step control" is not.
@@ -188,6 +265,17 @@ seam's own comments**, or diff the two before dispatch: round 2's first
 escalation, two minutes after dispatch, was an edit the brief required
 and the ownership list forbade. [CASE-STUDY-2, 06:32]
 
+**A parcel may own the documents that describe its own code**, named by
+section where a document is shared, and listed with its files. The
+documents that state the project's claims stay the lead's (§7), and the
+brief names them among the files the parcel must not touch. Every claim
+in a document a parcel writes goes on its verifier's list: round 3 let
+parcels write the rows that describe their own change, and six of its
+eleven defects were false text in exactly those rows. [CASE-STUDY-3, §7]
+In cft-fp256's later rounds parcels wrote their own documents, and the
+lead kept only its record, its plan and its standing instructions.
+[round 6's survey, the departures table](archive/round6-practice-survey.md)
+
 **The cost model, with the divisor it assumes.** "A gathered element
 costs about one beat" assumed a read side that pipelines; the tile keeps
 one burst in flight, and the number was a round trip. A cost model that
@@ -198,6 +286,16 @@ that does not is believed until a verifier prices it. [08:2x]
 cells, a mux count, a poisoned pointer - so the parcel measures it
 first. The named trap got solved; the column nobody named got a
 send-back. [12:49; 14:56]
+
+**What READY means, stated before the first pass.** READY is "a gate, or
+a stated limit": every property of the work is held by a gate, or stated
+as a limit (§5 says how a limit is stated, §6 how it is tested). Put it
+in the parcel's brief and in its verifier's, before the first verifier
+pass. Without it a verifier loop over a spelling rule does not end by
+itself: in round 4 two parcels each went three rounds, every pass
+finding new spellings, until the lead scoped the next round to converge
+and judged READY by the standard the verifiers had offered themselves.
+[CASE-STUDY-4, obs 15; 22:39]
 
 **The small edits outside your files that ARE expected**, enumerated.
 Without this an agent either avoids a necessary edit and delivers
@@ -215,9 +313,28 @@ not necessarily branch from where you think: one parcel found itself a
 merge behind the SHA its brief named, noticed, and reset. Say the SHA
 and say "check you are on it".
 
+Say what to do when it is not: "run `git merge --ff-only <sha>`, check
+the SHA again, and if the merge refuses, stop and tell the lead." A
+harness that cuts the worktree from the session's checkout hands the
+parcel whatever that checkout's HEAD is. In round 3 it was the commit
+another session had made in the shared repository, so the wave-2 brief
+had every parcel fast-forward to the staging branch and check the SHA.
+When another session works in the same repository, the brief says so,
+and says never to switch that checkout's branch: round 3's lead did,
+before it knew the other session committed there, and the branch was
+gone within twelve seconds. [CASE-STUDY-3, The shared checkout]
+
 **Host build traps, as verbatim commands.** Not "build it" — the exact
 invocation, including whatever is non-obvious on this machine. An agent
 will rediscover these in forty minutes; you can spend three lines.
+
+**Each agent's own scratch directory, named in its brief**, and no
+secret in any directory an agent is given. Say: "Your scratch directory
+is `<dir>/<your-name>/`; put everything you make outside your worktree
+there, and nowhere else." In round 4 the agents shared the lead's
+session scratchpad, which held the platform key the round used, and a
+parcel that wrote a script at its root overwrote a file of the lead's.
+[CASE-STUDY-4, obs 9; 16:13]
 
 **Working rules learned the hard way** — the two or three
 environment-specific traps that have actually cost hours. Keep the list
@@ -233,13 +350,31 @@ container ID whose command line is yours" was not. A rule that names
 the safe action is followed when the unsafe one is closer to hand.
 [08:14]
 
-**The negative control, named specifically.** See §5.
+**The negative control, named specifically.** See §5. Name it by the
+property that makes it bite, or run it before the brief goes out: a
+control the brief names is a claim, like a path or a function. In round
+4 the lead's brief asked for a target "about 1e-14" from a boundary
+without measuring the error there; plain binary64 decides such a target
+identically, so the control could not fail, and the parcel planted
+inside binary64's own error instead. The lesson came back later: a check
+held what a function traced, not what it returned, so a fault that
+traced honestly and answered otherwise passed every gate. A control
+bites only where the fault bites. [CASE-STUDY-4, obs 8; obs 16; 16:17]
 
 **Do not** — push, merge, rebase, or commit to the main branch; weaken
 an assertion to make something pass; fix anything outside scope.
 
 **Report format**, always including *"anything you found that the brief
 got wrong."* This is the highest-yield sentence in the whole system.
+Round 1 measured it: all five parcels corrected their briefs, twelve
+corrections in all ([CASE-STUDY.md](CASE-STUDY.md)). **Write it into
+every parcel brief.** Method and template both carry it, and none of the
+parcel briefs cft-fp256 has written since 2026-09-25 (37, as counted on
+2026-10-02) does; rounds 4 and 5 kept it. The survey records the
+absence, not what it cost.
+[round 6's survey, the departures table](archive/round6-practice-survey.md)
+A verifier's brief keeps its own open question, what else is there (§6),
+and does not carry this one.
 
 ### Verify the constraints you write down
 
@@ -293,6 +428,15 @@ And one for the lead: when a report mentions an outstanding child,
 **that is an open item, not a footnote**. Track it the way you track a
 parcel.
 
+What a parcel starts that is not an agent outlives it the same way.
+**Stop your own background work before you report**: the watches and
+servers you started. In round 5, finished agents' watch loops and two
+local web servers that parcels had started outlived them; they held the
+worktree folders open, so the cleanup could not delete them, and one
+server, started with no bind address, listened on every interface.
+Stopping the loops woke a finished verifier, which re-armed its watch on
+a closed round. [CASE-STUDY-5, obs 12]
+
 ### Expect boundary violations, and judge them on disclosure
 
 A seam drawn by function is a hypothesis like any other, and one round
@@ -309,6 +453,12 @@ not on whether it happened.** A parcel that silently stays inside a
 wrong boundary ships something half-implemented; a parcel that crosses
 one quietly is the thing the ownership list exists to prevent. Ask for
 the disclosure explicitly and you get it.
+
+**Disclosure is a claim, and the lead checks it.** Say "end your report
+with what you did not do", and after every agent check the lead's own
+tree against that list. In round 4 a verifier's clone sat inside the
+lead's tree and its report did not list it; only the lead's `git status`
+found it. [CASE-STUDY-4, obs 4; 13:51]
 
 ---
 
