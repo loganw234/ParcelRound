@@ -48,7 +48,7 @@ owner's to settle, and record how the round ended.
 - **The models**, read from the transcripts: the lead and every verifier on
   Opus 5.5, the five parcels on Sonnet 5.5.
 
-## Timeline (2026-10-02 into the 3rd, local time, UTC-7; from the ledger's own timestamps)
+## Timeline (2026-10-02 into the 3rd, local time, UTC-7; from the ledger's own timestamps, and from the commits' times where a row says so)
 
 | when | what |
 |---|---|
@@ -69,7 +69,7 @@ owner's to settle, and record how the round ended.
 | 22:23-22:35 | The four parcels report. The lead audits each and dispatches its verifier on a copy that may hold planted faults. |
 | 22:48-23:03 | The four verifiers report. Each catches both of its planted faults: eight of eight. |
 | 22:53 | The lead reveals three keys while verifier-P4 is still working. |
-| 22:55-23:08 | P1 to P4 merged, each followed by the lead's restates; the lead's integration and gate commits. |
+| 22:55-23:08 | P1 to P4 merged, each followed by the lead's restates; the lead's integration and gate commits (the commits' times). |
 | 23:09 | P5 dispatched on the templates, from `56df604`. |
 | 23:16 | ADOPTION.md's sixty wave-1 rows adopted at `fe58489`; verifier-I dispatched on wave 1's integration. |
 | 23:47-00:18 | verifier-I: NOT READY three times on the lead's own work. Nine restates (23:47), two of them still open (00:06), then one phrase (00:18); fixed at `5c19906`, `e5ce41e` and `6975994`. |
@@ -77,7 +77,7 @@ owner's to settle, and record how the round ended.
 | 00:21 | P5 reports. |
 | 00:23 | verifier-P5 dispatched on a copy that may hold planted faults. |
 | 00:45 | verifier-P5 reports: both plants caught, ten of ten in the round. |
-| 00:47-00:48 | P5 merged, and the lead's restates after it. |
+| 00:47-00:48 | P5 merged, and the lead's restates after it (the commits' times). |
 
 ## What the method predicted, and what happened
 
@@ -322,7 +322,8 @@ and both re-checks.
 - **The verifiers' share** of output tokens, verifier-P0's and the plan's
   verifier's included, is 650,610 of 2,738,114, about 24%. The parcels' is
   1,187,270, about 43%. The lead's is 823,019, about 30%.
-- **The wall clock:** 17:07 to 00:48 for the work above, 7 hours 41
+- **The wall clock:** 17:07, the round's opening entry, to 00:48, the last
+  commit before this file, for the work above: 7 hours 41
   minutes. P0's gate took 4 hours 12 minutes of it, to wave 1's dispatch at
   21:19.
 
