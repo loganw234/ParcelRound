@@ -1158,8 +1158,8 @@ any limit:
 
 **The lead's seam commits and fixes (§5), its merges and its records go
 past a verifier before main moves, from the first commit of the round to
-the last.** Its records are the project's record entries, its commit
-messages and the case study. Not only P0 (§2), and the plan goes past
+the last.** Its records are the project's record entries and its commit
+messages. Not only P0 (§2), and the plan goes past
 one too, before the owner approves it (below). The lead is the one
 author in a round that nobody disconfirms by default
 [CASE-STUDY-2, §5], and in each of rounds 2 to 5 the record shows its
@@ -1178,18 +1178,13 @@ own work going in without a verifier:
   of its own with only its own gate; the verifier it then added found
   gate-kind defects in three. [CASE-STUDY-5, obs 2]
 
-Records need that reader as much as code does. Round 5's case study was
-drafted from the lead's own summary; read against the ledger, twelve of
-its claims were wrong or had no source, and its verifier then found two
-more things in the commit. [CASE-STUDY-5, obs 14]
-
 - **The plan of record, and a verifier on it before the owner approves
   it.** The verifier reads the draft against the tree, the lead answers
   its findings in a new draft, the verifier re-checks that, and the
   owner is asked after. In cft-fp256's certificate round the first draft
   drew twenty findings and the second six more gaps, and the plan
   changed before any code; one change was a salt committed by HMAC,
-  since a bare hash of a key longer than 64 bytes would publish the key
+  since a bare SHA-256 of a key longer than 64 bytes would publish the key
   ([docs/VALIDATION.md:15649, at `4190a47`](
   https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L15649)).
   Its language and step 6 plans went the same way, step 6's reaching the
@@ -1226,8 +1221,8 @@ construction. A hundred-line seam test found it in seconds.
   tip at the round's end or at a milestone, not at each merge. Three
   conditions keep what the staging branch is for: a gate runs after each
   merge into it; each merge is made again by the integration verifier
-  (below); and main moves only to a tip that has passed that gate and a
-  verifier. The shape rests on practice, and no case study records a
+  (below); and main moves only to a tip on which the full suite has run
+  and which a verifier has passed. The shape rests on practice, and no case study records a
   break from it: round 3 ran one staging branch for the round and moved
   main once [CASE-STUDY-3, 17:17; 00:22; §7], and cft-fp256's later
   rounds ran a round branch
@@ -1263,8 +1258,8 @@ construction. A hundred-line seam test found it in seconds.
 - **The docs sweep, in the lead's idle time during the round**, for
   every file no parcel touches, so the end of the round is one section
   rather than a sweep. [15:03]
-- **The summary to the owner, with the cost** - from the agent cards,
-  per agent, with the verifiers' share stated, and the wall clock split
+- **The summary to the owner, with the cost** - per agent, measured as
+  below, with the verifiers' share stated, and the wall clock split
   between the build phase and whatever ran unattended after it.
   [Cost of the round]
   Measure the cost as the tokens processed, read from each agent's
