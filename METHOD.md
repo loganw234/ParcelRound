@@ -97,7 +97,8 @@ measured and which it only read, as §4 has a ledger entry mark what it
 measured, and names the gaps and the places where the documents and the
 code disagree. The lead writes the plan from their reports. The cert,
 language and step-6 rounds of cft-fp256 each began with read-only agents
-surveying the tree at a fixed commit, before the plan of record
+surveying the tree at a fixed commit (one agent, in the cert round),
+before the plan of record
 ([round 6's survey, B17](archive/round6-practice-survey.md)). In the
 language round three surveyors cited each fact to a file and line
 ([docs/VALIDATION.md:16682, at `4190a47`](
@@ -246,8 +247,9 @@ builds.** The brief can make the parcel's first phase a design: say
 your report, and stop. The lead approves it, or answers it, before you
 build." The brief lists what the design must cover. In each of the rev7,
 audit, fixes, steps-5-and-6, language and step-6 rounds of cft-fp256, at
-least one parcel's brief had it propose before it built, and the lead
-decided ([round 6's survey, B13](archive/round6-practice-survey.md));
+least one parcel's brief had it propose before it built, and the audit,
+steps-5-and-6 and language rounds' ledgers record the lead deciding
+([round 6's survey, B13](archive/round6-practice-survey.md));
 the language round's record has one parcel's design, of ten decisions,
 approved
 ([docs/VALIDATION.md:16851, at `4190a47`](
@@ -294,7 +296,8 @@ in the parcel's brief and in its verifier's, before the first verifier
 pass. Without it a verifier loop over a spelling rule does not end by
 itself: in round 4 two parcels each went three rounds, every pass
 finding new spellings, until the lead scoped the next round to converge
-and judged READY by the standard the verifiers had offered themselves.
+and the verifiers judged READY by the standard they had offered
+themselves.
 [CASE-STUDY-4, obs 15; 22:39]
 
 **The small edits outside your files that ARE expected**, enumerated.
