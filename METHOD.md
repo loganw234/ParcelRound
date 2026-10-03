@@ -1,8 +1,9 @@
 # The method
 
 Every rule here is here because something broke without it, or because
-its practice caught a defect before it shipped. Where a rule rests on
-practice alone, or on the owner's word, it says so.
+its practice caught a defect before it shipped, or, where the rule says
+so, because it rests on practice that held, on a cost, or on the owner's
+word.
 Where a rule cites an incident, that is evidence rather than colour; the
 incidents are written up in [CASE-STUDY.md](CASE-STUDY.md) (round 1)
 and [CASE-STUDY-2.md](CASE-STUDY-2.md) (round 2, whose timestamps the
@@ -544,6 +545,7 @@ in the downtime", and that round's first-session agents did not survive the
 pause: each was dispatched again from its brief and its own ledger's resume
 note ([docs/VALIDATION.md:16507, at `4190a47`](
 https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16507)).
+It rests on practice and on the owner's word.
 
 **The lead writes to it too**, and this is half the value: it is the
 only channel for correcting a brief after dispatch. **The lead's decisions go

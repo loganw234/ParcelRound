@@ -994,11 +994,11 @@ def check_quoted(root):
     for rel, passage in HF_PASSAGES:
         raw, shown = both(rel)
         k, s = squash(raw).count(squash(passage)), squash(shown).count(squash(passage))
-        w = plain(shown).count(plain(passage))
-        if (k, s, w) != (1, 1, 1):
-            bad.append(f"{rel}: a passage HonestFramework quotes appears {k} times as written, "
-                       f"{s} as rendered and {w} as words, where it must appear once in each: "
-                       f"\"{passage[:60]}…\"")
+        wk, ws = plain(raw).count(plain(passage)), plain(shown).count(plain(passage))
+        if (k, s, wk, ws) != (1, 1, 1, 1):
+            bad.append(f"{rel}: a passage HonestFramework quotes appears {k} times as written and "
+                       f"{s} as rendered, and as words {wk} and {ws} times, where it must appear "
+                       f"once in each: \"{passage[:60]}…\"")
     return bad, f"{len(LOGANW_PATTERNS)} loganw.dev patterns and {len(HF_PASSAGES)} HonestFramework passages read"
 
 
@@ -1409,6 +1409,7 @@ PLANTS = [
     ("brieferr", "the clause respelled", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("got wrong", "got right"))),
     ("sections", "a section renamed", lambda t: edit(t, "METHOD.md", lambda s: s.replace("## 4. The ledger", "## 4. The record", 1))),
     # Rewrap a passage loganw.dev reads with literal spaces: its pattern stops matching.
+    ("quoted", "a passage HonestFramework quotes, copied without its bold into a code fence", lambda t: edit(t, "METHOD.md", lambda s: s + "\n```\nA gate that cannot fail is not a gate.\n```\n")),
     ("quoted", "a passage HonestFramework quotes, copied without its bold", lambda t: edit(t, "METHOD.md", lambda s: s + "\nA gate that cannot fail is not a gate.\n")),
     ("quoted", "a passage rewrapped", lambda t: edit(t, "README.md", lambda s: s.replace("Two agents\non a two-way split", "Two\nagents on a two-way split", 1))),
     ("quoted", "a passage kept only in an HTML comment", lambda t: edit(t, "METHOD.md", lambda s: s.replace(

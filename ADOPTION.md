@@ -20,13 +20,13 @@ METHOD.md, and every line number to the commit it is counted at.
   Round 6's rows (2026-10-02) name the commit of the parcel that wrote
   them, or of both parcels where two did. The lead's restates and
   corrections after each merge are in the round's ledger and its case
-  study. Each row was adopted at the owner's word: the proposals and B
-  rows practised in a later round at "Everything practised
-  (Recommended)", the R rows at "Restore safeguards (Recommended)", and
-  the S rows with the plan, "Approve; P0 verifier rechecks
-  (Recommended)". B9, S2 and S3 were approved by name, as their rows say.
-- **adopted in part at `<commit>`**: the same, for only the part that was
-  practised, which the status names.
+  study. Each row was adopted at the owner's word, in the answers round
+  6's plan of record records: the proposals and B rows practised in a
+  later round at "Everything practised (Recommended)"; the R rows, and
+  S1, S4, S5 and S6, at "Restore safeguards (Recommended)", which named
+  them; B9, S2 and S3 by name, as their rows say.
+- **adopted in part at `<commit>`**: the same, for only the part the
+  status names: the part that was practised, or the part a ruling kept.
 - **pending**, or **not adopted**: not in METHOD.md. The reason is given. A
   pending proposal is the owner's to settle.
 
