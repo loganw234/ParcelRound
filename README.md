@@ -54,8 +54,9 @@ parcels is comfortable. Eight is a queue.
    run. End with *"tell me anything you found that this brief got
    wrong."*
 3. **Stand up a ledger** — append-only, one file per author, outside
-   every worktree — and say when to read it. It's the only way to
-   correct a brief after dispatch.
+   every worktree — and say when to read it. It's the channel of record
+   for correcting a brief after dispatch: a message may carry the
+   correction, but only once its entry is written.
 4. **Merge serially, run the full suite after each one, and read the
    log rather than the exit code.** Never merge while a suite is
    running.

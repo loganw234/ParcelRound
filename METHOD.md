@@ -1,7 +1,8 @@
 # The method
 
-Every rule here is here because something broke without it. Where a
-rule cites an incident, that is evidence rather than colour; the
+Every rule here is here because something broke without it, except
+where a rule says it rests on practice or on the owner's word instead.
+Where a rule cites an incident, that is evidence rather than colour; the
 incidents are written up in [CASE-STUDY.md](CASE-STUDY.md) (round 1)
 and [CASE-STUDY-2.md](CASE-STUDY-2.md) (round 2, whose timestamps the
 citations below use).
@@ -641,8 +642,8 @@ Three things make this work rather than backfire.
 out, been killed, been auto-stopped for volume — looks exactly like a
 ledger with nothing new in it. Silence is not success. The three read
 moments stay as the floor and the watcher is latency reduction on top;
-if an agent notices its watch is gone, it re-arms *and* does a full
-read. This holds whatever carries the push: the file watch, the runtime's
+if an agent notices its watch is gone while it is still working, it
+re-arms *and* does a full read. This holds whatever carries the push: the file watch, the runtime's
 messages, or neither. And where every watch expires, as in a harness that
 caps one at thirty minutes, the expiry notice is the moment to re-arm it and
 do a full read, not a later noticing: round 3's lead's watch expired at 13:29
@@ -1204,12 +1205,10 @@ construction. A hundred-line seam test found it in seconds.
 - **Files that are the lead's alone** — the README, published docs, CI
   config. Not because agents cannot write prose, but because those files
   state the project's claims and the claims must be one voice.
-  A parcel may own the document that describes its own code (§3); what
-  stays the lead's is the documents that state the project's claims.
-  Round 3 let parcels write the rows describing their own change, and
-  six of its eleven defects were false text in exactly those rows, so
-  every claim in what a parcel wrote is on its verifier's list (§6).
-  [CASE-STUDY-3, §7]
+  A parcel may own the documents that describe its own code; what stays
+  the lead's is the documents that state the project's claims, and every
+  claim a parcel writes is on its verifier's list. §3 has the rule and
+  its incident.
 - **Every merge, and the full suite after each one** - as a staging
   branch per merge, the suite on the build host at the staging commit,
   and main moving on the verdict. A merge is a push, not a staging. Keep
@@ -1222,10 +1221,10 @@ construction. A hundred-line seam test found it in seconds.
   conditions keep what the staging branch is for: a gate runs after each
   merge into it; each merge is made again by the integration verifier
   (below); and main moves only to a tip on which the full suite has run
-  and which a verifier has passed. The shape rests on practice, and no case study records a
-  break from it: round 3 ran one staging branch for the round and moved
-  main once [CASE-STUDY-3, 17:17; 00:22; §7], and cft-fp256's later
-  rounds ran a round branch
+  and which a verifier has passed. The shape rests on practice, and no
+  case study records a break from it: round 3 ran one staging branch for
+  the round and moved main once [CASE-STUDY-3, 17:17; 00:22; §7], and
+  cft-fp256's later rounds ran a round branch
   ([round 6's survey, the departures table](archive/round6-practice-survey.md)).
 - **The long runs.** Agents test as much as they can quickly, and hand
   large runs back to the lead to monitor. That is the owner's rule of
