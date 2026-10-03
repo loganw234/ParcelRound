@@ -490,8 +490,9 @@ ledger's directory (the drop-in text above), or as the same rules in every
 brief. Either is allowed, and the second only if every brief carries them,
 the three read moments included, verifiers' and fixers' briefs as much as
 parcels'. A rule its carrier lacks does not reach the agents who rely on that
-carrier, as the stamp rule below shows. cft-fp256's later parcel briefs, which
-carry the rules in place of a README, say only "append only" [round 6's
+carrier, as the stamp rule below shows. A later cft-fp256 parcel brief, which
+carries the rules in place of a README, has "append only", the stamp rule and
+measured-or-believed, and none of the three read moments [round 6's
 survey, B7 and the departures table](archive/round6-practice-survey.md).
 
 **Where it lives matters.** Agents in worktrees cannot see each other's
