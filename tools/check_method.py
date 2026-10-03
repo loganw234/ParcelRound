@@ -2,73 +2,134 @@
 """ParcelRound's gate: does the method still hold together?
 
     python tools/check_method.py            every check; exit 1 if any fails
-    python tools/check_method.py --control  plant one fault per check in a copy
-                                            of the tree; each must be caught
+    python tools/check_method.py --control  plant faults, each in a copy of the
+                                            tree or in a scratch repository, at
+                                            least one per check; each must be
+                                            caught
 
 It reads structure and citations, never what a rule says. A gate that reads a
 rule's wording is a stated limit, not a guarantee (case study 4's proposals
 for section 5). Checks 7 and 9 read text, and are such limits.
 
 The checks, by name:
-  links      1. every relative link in a Markdown file names a file that exists
-  citations  2. every case-study citation in METHOD.md and templates/ resolves
-                to its round's record: the case study's own text (its bracketed
-                citations aside), or the round's ledger archived beside it
+  links      1. every relative link and link definition in a Markdown file,
+                its text wrapped or not, names a file inside the repository,
+                spelled exactly as it is (GitHub's paths are case-sensitive);
+                an #anchor into a Markdown file names one of its headings
+  citations  2. every case-study citation in METHOD.md and templates/, wrapped
+                or not, resolves to its round's record: the case study's own
+                text (its bracketed citations aside), or the Markdown of the
+                round's ledger archived beside it. Every item a citation holds
+                must resolve, so one that names its case study any other way
+                fails. The archived ledgers' bytes are pinned.
   proposals  3. every proposal in a case study's list "What METHOD.md should
-                say differently" has exactly one row in ADOPTION.md
+                say differently" has exactly one row in ADOPTION.md, and so
+                does every id in OTHER_IDS (the B, R and S rows); a row with
+                any other id fails
   anchors    4. every ADOPTION.md row whose status is adopted names METHOD.md
-                headings that exist
-  refs       5. every section of METHOD.md a template cites exists
+                headings that exist, and every line number ADOPTION.md gives
+                names the commit it is counted at
+  refs       5. every section number written with a section sign or the word
+                "section" in METHOD.md, README.md, ADOPTION.md and templates/
+                is one of METHOD.md's sections; a section mark inside a
+                case-study citation is check 2's
   readme     6. README.md links every case study and every template
   brieferr   7. templates/brief.md's report section still asks what the brief
                 got wrong
   sections   8. METHOD.md's eight sections keep their numbers and titles
-  quoted     9. every passage another repository quotes still matches once:
-                loganw.dev's own patterns, run as it runs them, and
-                HonestFramework's quotations, word for word
-  privacy   10. no email address, personal path or secret-shaped token in any
-                file, archive member or commit message, but those allowed
+  quoted     9. each passage loganw.dev reads by pattern (all its patterns on
+                this repository, at loganw.dev LOGANW_REV) and each passage
+                HonestFramework quotes (read at HF_REV) matches exactly once,
+                in its file as written and as rendered
+  privacy   10. no email address, personal path or secret-shaped token, but
+                those allowed, in: any file a commit here would publish, or
+                its name; any archive member or its name, nested archives
+                opened; any blob in HEAD's history; any commit message.
+                Percent-escapes, HTML entities and full-width forms are
+                decoded first. A file it cannot read fails.
 
-There is no cache: each run reads everything again. Standard library only.
+Checks 4, 6, 7, 8 and 9 read Markdown as rendered: fenced code blocks and HTML
+comments are removed first. Checks 1, 2 and 5 remove code spans and fenced
+code blocks, since code shows a form rather than using it. A check that crashes
+fails, by name. No failure line prints a path, address or token the gate
+refuses: its output is pasted into ledgers that will be published. There is
+no cache: each run reads everything again. Standard library only, and git for
+the history check 10 reads.
 
 Citation forms (check 2) in METHOD.md and the templates:
-  [CASE-STUDY-n, 15:09]   a time in case study n or its archived ledger; ranges
-                          (12:00-12:30) and minute wildcards (08:2x) read too
-  [12:37]                 a bare time is round 2's, in METHOD.md only
+  [CASE-STUDY-n, 15:09]   a time in case study n, or in its archived ledger;
+                          ranges (12:00-12:30) and minute wildcards (08:2x)
+                          read too
+  [12:37]                 a bare time is round 2's, in METHOD.md only; in a
+                          template, a citation names its case study
   [CASE-STUDY-n, §4]      a section mark in case study n
   [CASE-STUDY-n, obs 10]  a numbered observation, where the case study numbers
                           its observations (case studies 4 and 5)
   [The setting]           a heading or a bold-marked item of the case study
                           (such as "the card day"), by its opening words
   [CASE-STUDY-n, the ledger]  the round's archived ledger itself
-  An incident recorded outside the case studies is cited as a Markdown link to
-  its record, e.g. [round 6's survey, B3](archive/round6-practice-survey.md),
-  which check 1 resolves.
+  Items are separated by ";" or ",". In METHOD.md, every bracketed text that
+  is not a link is read as a citation. An incident recorded outside the case
+  studies is cited as a Markdown link to its record, e.g.
+  [round 6's survey, B3](archive/round6-practice-survey.md), which check 1
+  resolves.
 
 What it cannot see (stated limits, each by the behaviour it concedes):
-  - citations: a time resolves if the round's record holds that minute anywhere,
-    so a citation of the right minute and the wrong event passes;
+  - links: a link with a scheme (https:, mailto:) is not fetched; a link
+    written as HTML, or inside code, is not read; an anchor into a file that
+    is not Markdown is not checked, and anchors are computed by GitHub's rule
+    for "#" headings of plain text, so a setext heading, or one holding HTML,
+    may differ;
+  - citations: a time resolves if the round's record holds that minute
+    anywhere, an entry's stamp or a time an entry's body records, so a
+    citation of the right minute and the wrong event passes; a named phrase
+    resolves if it opens any heading or bold-marked item at a word boundary,
+    so a phrase that opens many (such as "the") passes; in a template, a
+    bracketed phrase with no time, section mark or observation number is read
+    as a placeholder; a citation outside ASCII square brackets, inside code,
+    or outside METHOD.md and templates/, is not read;
   - proposals: it holds ids, not the rows' content, so a wrong status passes;
-  - anchors: it holds that the headings exist, not that the rule is under them;
+  - anchors: it holds that the headings exist, not that the rule is under
+    them, and that a line number names its commit, not that the line is
+    right there; a line number written other than as file:line is not read;
+  - refs: a section named in words ("the ninth section") or by its title is
+    not read; another document's section is cited in brackets, for check 2;
   - brieferr: the clause kept where nothing asks it (negated, or moved within
     the report section) passes; a respelled clause fails it;
-  - quoted: it holds the passages listed in QUOTED; a passage another
-    repository starts to quote is held only once it is added there, and
-    HonestFramework's quotations are held as words, not as line wrapping;
-  - privacy: an address spelled out for a person to reassemble, written in
-    look-alike letters, or a secret of a shape not in SECRET passes; the
-    archived ledgers' personal paths pass by design (they are records);
-  - links: an http(s) link is not fetched.
+  - quoted: a passage another repository starts to quote is held only once it
+    is added to LOGANW_PATTERNS or HF_PASSAGES; HonestFramework's quotations
+    are held as words, not as line wrapping; loganw.dev's other reads of this
+    repository (file counts, existence, last change, two commits by SHA) are
+    not held;
+  - privacy: an address spelled out for a person to reassemble, split by a
+    line break or by markup, or written in another script's look-alike
+    letters passes; a secret of a shape not in SECRET passes; the personal
+    paths in the archived ledgers KNOWN_PATHS names pass by design (they are
+    records published before this gate, and their bytes are pinned); author
+    and committer fields are not read (every commit's carry the owner's own
+    address, public in each commit); only HEAD's history is read, so other
+    branches and tags are not (only main is pushed, and a branch push carries
+    no tags); a binary file whose zero bytes fall like UTF-16's is read as
+    that text;
+  - everywhere: an indented code block is read as text.
 Each of these is on every verifier's list by name.
 """
+import contextlib
+import gzip
 import hashlib
+import html
+import io
 import os
+import posixpath
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
+import unicodedata
 import zipfile
+from urllib.parse import unquote
 
 # Each case study's ledger, archived beside it. Round 1 kept none.
 ARCHIVES = {
@@ -77,11 +138,26 @@ ARCHIVES = {
     4: ["round4-ledger.zip", "round4-second-ledger.zip"],
     5: ["round5-ledger.zip"],
 }
+# The archived ledgers are records, so their bytes never change: a citation
+# resolves against a record nobody can edit unseen, and the paths an archive
+# may hold (check 10) stay the ones it was published with.
+ARCHIVE_SHA256 = {
+    "archive/round2-ledger.zip": "d5eed511e455ebc87fef777a6e38df81fb070b6dd87a070d0de044e87929cd3e",
+    "archive/round3-ledger.zip": "3a8a191e4e32607d03bf100c919e321e0a56c6d1cb8a52533490fd0d6bbca150",
+    "archive/round4-ledger.zip": "6166f93f725f604282a244cec3ea8cd3850918a113b1db86fbba08ec5a99f2f7",
+    "archive/round4-second-ledger.zip": "71c1b4f29978c16809a2d66f8a799c307d5c8815682e523972cf32c2c239c28e",
+    "archive/round5-ledger.zip": "0f44d183b570bf5c5f49aa68dfd7da9ed7ceee2cbbc645c1bffb520417213e1e",
+}
 # Declared once and checked (METHOD.md section 1, the second grade): the case
 # studies are records, so their proposal lists never change. A parse that
 # finds another count means the parser or a record changed, and either is a
 # finding.
 EXPECTED_PROPOSALS = {2: 35, 3: 18, 4: 23, 5: 13}
+# ADOPTION.md's other rows, declared once: practices nobody proposed (B),
+# safeguards restored (R) and adaptations allowed (S), from round 6's survey.
+OTHER_IDS = ["B1", "B3", "B4", "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15", "B16", "B17",
+             "R1", "R2", "R3", "R4", "R5",
+             "S1", "S2", "S3", "S4", "S5", "S6"]
 # METHOD.md's preamble: bare times are round 2's.
 METHOD_DEFAULT_ROUND = 2
 # The headings under which case studies number their observations.
@@ -102,23 +178,45 @@ SECTIONS = [
 ]
 
 # loganw.dev reads these at its pin with re.finditer(pattern, text, re.M) and
-# refuses any count but one (its site/facts.py, prose()). They are its own
-# patterns, copied verbatim, so a rewrap that would break them breaks this.
+# refuses any count but one (its site/facts.py, prose()). They are all of its
+# patterns on this repository, copied verbatim from its page modules at
+# LOGANW_REV, one per call, so a rewrap that would break one breaks this.
+LOGANW_REV = "43c36a2"
 LOGANW_PATTERNS = [
-    ("README.md", r"^(A method for splitting one body of work across several coding agents\s+at\s+once,\s+without the pieces failing to meet)\.", "site/pages/method.py"),
-    ("README.md", r"^(A method for splitting one body of work across several coding agents at\s+once, without the pieces failing to meet)\.", "site/pages/work_parcelround.py"),
-    ("README.md", r"^(A method for splitting one body of work across several coding agents\s+at\s+once)", "site/pages/home.py, thread_determinism.py"),
-    ("README.md", r"## (Is this for you\?)", "site/pages/work_parcelround.py"),
-    ("README.md", r"\*\*Don't\*\* (for a single task, for exploratory work where the split isn't\s+obvious yet, or where the pieces can't be tested separately)\.", "site/pages/work_parcelround.py"),
-    ("README.md", r"(Two agents\s+on a two-way split is usually slower than doing it yourself, because\s+the brief costs more than the work)\.", "site/pages/work_parcelround.py"),
-    ("README.md", r"\*\*(twelve corrections from five parcels — every single parcel\s+corrected its brief)\*\*", "site/pages/work_parcelround.py"),
-    ("README.md", r'\*"(Report anything you found that this brief got wrong)\."\*', "site/pages/work_parcelround.py"),
-    ("METHOD.md", r"## 1\. (The one failure mode)", "site/pages/work_parcelround.py"),
-    ("METHOD.md", r"The failure is that (\*\*the work between the parcels belongs to\s+nobody\*\*, and it is invisible because every parcel's own gate is green)\.", "site/pages/work_parcelround.py"),
-    ("METHOD.md", r"\*\*(Exactly one file owns each shared fact; everyone else includes it)\.\*\*", "site/pages/method.py"),
+    ("CASE-STUDY-2.md", 'produced (four send-backs, none for a wrong bit)', "site/pages/method.py:102"),
+    ("CASE-STUDY-2.md", 'puts the human-active time at (1 h 38 min against\\s+23 h 40 min of API time across every agent)', "site/pages/method.py:33"),
+    ("CASE-STUDY-2.md", '(every guess was AHEAD of the clock \\(by 3 to 90 minutes\\))', "site/pages/work_parcelround.py:54"),
+    ("CASE-STUDY-2.md", '(The fix that finally held for the lead was mechanical: write the entry with a placeholder and let the append command substitute `date`)\\.', "site/pages/work_parcelround.py:57"),
+    ("CASE-STUDY-2.md", '(stamps are substituted, not typed)\\.', "site/pages/work_parcelround.py:60"),
+    ("CASE-STUDY-2.md", '(which is how a wrong number propagates - it was in the ledger for fifteen minutes and got used once)', "site/pages/work_parcelround.py:63"),
+    ("CASE-STUDY-2.md", '(a correction should EDIT nothing but should be linked from the entry it corrects)', "site/pages/work_parcelround.py:66"),
+    ("CASE-STUDY-2.md", '(\\"see 11:52\\" appended below the old entry is an append, not an edit)', "site/pages/work_parcelround.py:68"),
+    ("CASE-STUDY-2.md", '(a number a sibling might reuse should be stated in the entry that supersedes it in the form the sibling would search for)\\.', "site/pages/work_parcelround.py:70"),
+    ("CASE-STUDY-3.md", '^(Six send-backs and eleven defects)\\.', "site/pages/method.py:105"),
+    ("CASE-STUDY-3.md", 'the gate: (32 planted controls, 29 of 29 mutations killed)', "site/pages/method.py:107"),
+    ("CASE-STUDY-4.md", "\\*\\*atlas-film's `pinned`\\*\\* at `([0-9a-f]{7})`", "site/pages/home.py:134"),
+    ("CASE-STUDY-4.md", "(Whether atlas-film's `pinned` merges into its main)", "site/pages/home.py:135"),
+    ("CASE-STUDY-4.md", '(Every print re-developed to the same bits) \\(`--check`\\)', "site/pages/home.py:214"),
+    ("CASE-STUDY-4.md", '\\*\\*(equality with the authority passed 10 of 11 planted certificate faults)\\*\\*', "site/pages/method.py:110"),
+    ("LICENSE", '^(MIT) License', "site/pages/propose.py:92"),
+    ("METHOD.md", '\\*\\*(Exactly one file owns each shared fact; everyone else includes it)\\.\\*\\*', "site/pages/method.py:63"),
+    ("METHOD.md", '## 1\\. (The one failure mode)', "site/pages/work_parcelround.py:36"),
+    ("METHOD.md", "The failure is that (\\*\\*the work between the parcels belongs to\\s+nobody\\*\\*, and it is invisible because every parcel's own gate is green)\\.", "site/pages/work_parcelround.py:37"),
+    ("README.md", '^(A method for splitting one body of work across several coding agents\\s+at\\s+once)', "site/pages/home.py:106"),
+    ("README.md", '^(A method for splitting one body of work across several coding agents\\s+at\\s+once,\\s+without the pieces failing to meet)\\.', "site/pages/method.py:60"),
+    ("README.md", '^(A method for splitting one body of work across several coding agents\\s+at\\s+once)', "site/pages/thread_determinism.py:39"),
+    ("README.md", '^(A method for splitting one body of work across several coding agents at\\s+once, without the pieces failing to meet)\\.', "site/pages/work_parcelround.py:22"),
+    ("README.md", '## (Is this for you\\?)', "site/pages/work_parcelround.py:27"),
+    ("README.md", "\\*\\*Don't\\*\\* (for a single task, for exploratory work where the split isn't\\s+obvious yet, or where the pieces can't be tested separately)\\.", "site/pages/work_parcelround.py:28"),
+    ("README.md", '(Two agents\\s+on a two-way split is usually slower than doing it yourself, because\\s+the brief costs more than the work)\\.', "site/pages/work_parcelround.py:31"),
+    ("README.md", '\\*\\*(twelve corrections from five parcels — every single parcel\\s+corrected its brief)\\*\\*', "site/pages/work_parcelround.py:46"),
+    ("README.md", '\\*"(Report anything you found that this brief got wrong)\\."\\*', "site/pages/work_parcelround.py:50"),
 ]
-# HonestFramework quotes these as verbatim through unpinned links
-# (WITH-PARCELROUND.md; METHOD.md section 9), re-wrapped in its own lines.
+# HonestFramework quotes these through unpinned links (its WITH-PARCELROUND.md
+# and METHOD.md, read at HF_REV), re-wrapped in its own lines, one marked "word
+# for word" and others with a word's case changed or split in two. This holds
+# ParcelRound's own words, so what HonestFramework quotes stays here to find.
+HF_REV = "65447fd"
 HF_PASSAGES = [
     ("README.md", "**Merge serially, run the full suite after each one, and read the log rather than the exit code.**"),
     ("METHOD.md", "**A gate that cannot fail is not a gate**"),
@@ -133,20 +231,30 @@ EMAIL = re.compile(r"([A-Za-z0-9._%+-]+)@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-
 # domains reserved for examples (RFC 2606 and RFC 6761).
 ALLOWED_ADDRESSES = {"noreply@anthropic.com", "logan@loganw.dev"}
 RESERVED = re.compile(r"(^|\.)(example\.(com|net|org)|example|invalid|test|localhost)$", re.I)
-# Built from parts, so that this file holds no personal path of its own to find.
-_SL = "/"
+# A home directory on any of three systems, in any case, with or without its
+# drive letter: C:\Users\<name>, c:/users/<name>, \Users\<name>, /c/Users/<name>,
+# /Users/<name>, /home/<name>. Built from parts, so that this file holds no
+# personal path of its own to find.
+_SL, _BS = "/", "\\"
+_HOME = "(?:" + "us" + "ers|" + "ho" + "me)"
+_NAME = r"[^\\/\s'\"`<>|*?]+"
 USER_PATH = re.compile(
-    r"[A-Za-z]:[\\/]+Users[\\/]+[^\\/\s]+"
-    + "|" + _SL + "c" + _SL + "Users" + _SL + r"[^/\s]+"
-    + "|" + _SL + "home" + _SL + r"[^/\s]+"
-    + "|" + _SL + "Users" + _SL + r"[^/\s]+")
+    r"(?i)(?<![\w])[a-z]:[\\/]+" + "us" + "ers" + r"[\\/]+" + _NAME
+    + r"|(?<![\w.:/\\-])" + _SL + r"[a-z]" + _SL + "us" + "ers" + _SL + _NAME
+    + r"|(?<![\w.:/\\-])" + _BS + _BS + "us" + "ers" + _BS + _BS + _NAME
+    + r"|(?<![\w.:/\\-])" + _SL + _HOME + _SL + _NAME)
 # Common credential shapes, built from parts for the same reason.
 SECRET = re.compile("|".join([
     "gh" + r"[pousr]_[A-Za-z0-9]{20,}",
     "github" + r"_pat_[A-Za-z0-9_]{20,}",
     "s" + r"k-[A-Za-z0-9_-]{20,}",
+    "[sr]" + r"k_live_[A-Za-z0-9]{16,}",
     "AK" + r"IA[0-9A-Z]{16}",
+    "AI" + r"za[0-9A-Za-z_-]{35}",
+    "gl" + r"pat-[A-Za-z0-9_-]{20,}",
+    "np" + r"m_[A-Za-z0-9]{36}",
     "xo" + r"x[abprs]-[A-Za-z0-9-]{10,}",
+    "hooks" + r"\.slack\.com/services/[A-Za-z0-9/]{20,}",
     "-----BEGIN " + r"(?:RSA |OPENSSH |EC |DSA |PGP )?PRIVATE KEY-----",
 ]))
 # Addresses published before this gate existed, held per archive member and
@@ -166,11 +274,36 @@ KNOWN_PRIVACY = {
     },
 }
 _PUBLIC_KNOWN_DOMAINS = {"amazon.com"}
+# The archived ledgers whose members hold the personal paths of the machines
+# their rounds ran on. They are records, published before this gate, so their
+# paths pass, but only while their bytes are the pinned ones; an archive
+# listed here that holds no path fails as stale. A new archive is not listed:
+# it is held to no paths.
+KNOWN_PATHS = [
+    "archive/round2-ledger.zip",
+    "archive/round3-ledger.zip",
+    "archive/round4-ledger.zip",
+    "archive/round4-second-ledger.zip",
+    "archive/round5-ledger.zip",
+]
 
 STAMP = re.compile(r"(?<![\d:])(\d{1,2}):(\d[\dx])(?![\d:])")
-LINK = re.compile(r"\[[^\]\n]*\]\(([^)\s]+)\)")
-CITATION = re.compile(r"\[([^\]\n]+)\](?!\()")
+# A citation: square brackets, the text wrapped or not but never across a blank
+# line, that is neither a link's text ("](", "][") nor a link's label.
+CITATION = re.compile(r"(?<![\]\\])\[((?:[^\[\]\n]|\n(?![ \t]*\n))+)\](?![(\[])")
+# What makes a bracketed phrase in a template a citation rather than a placeholder.
+CITES = re.compile(r"(?<![\d:])\d{1,2}:\d[\dx](?![\d:])|§\s*\d|\bobs(?:ervation)?\.?\s*\d", re.I)
+LINK = re.compile(r"\[(?:[^\[\]\n]|\n(?![ \t]*\n))*\]\(\s*<?([^\s)>]+)>?(?:\s+(?:\"[^\"]*\"|'[^']*'))?\s*\)")
+LINK_DEFINITION = re.compile(r"(?m)^ {0,3}\[[^\]\n]+\]:[ \t]*<?([^\s>]+)>?")
 LEDGER_PHRASE = re.compile(r"(?:the )?(?:round's |parcels' |lead's )?ledger(?: files?)?", re.I)
+FENCE = re.compile(r"(?ms)^ {0,3}(`{3,}|~{3,})[^\n]*\n.*?(?:^ {0,3}\1[ \t]*$|\Z)")
+COMMENT = re.compile(r"(?s)<!--.*?(?:-->|\Z)")
+CODE_SPAN = re.compile(r"`(?:[^`\n]|\n(?![ \t]*\n))*`")
+# A section number: "§4", "§§4-6", "§4-§6", "section 4", "sections 4, 5 and 6".
+SECTION_REF = re.compile(r"§§?\s*(\d+)(?:\s*[-\u2013]\s*§?\s*(\d+))?"
+                         r"|\b[Ss]ections?\s+(\d+)((?:\s*(?:,|and|or|to|-|\u2013)\s*\d+)*)")
+# A line number ADOPTION.md gives, such as METHOD.md:66 or CS2:358.
+LINE_REF = re.compile(r"(?<![\w/.])[A-Za-z][\w./-]*:\d+(?:-\d+)?\b")
 
 
 def read(root, rel):
@@ -188,6 +321,30 @@ def md_files(root):
     return sorted(out)
 
 
+def _blank(m):
+    """The match's text as spaces, its line breaks kept, so line numbers hold."""
+    return re.sub(r"[^\n]", " ", m.group(0))
+
+
+def _lines_only(m):
+    return "\n" * m.group(0).count("\n")
+
+
+def rendered(text):
+    """Markdown as a reader sees it: fenced code blocks and HTML comments gone."""
+    return COMMENT.sub(_lines_only, FENCE.sub(_lines_only, text))
+
+
+def uncoded(text):
+    """Markdown with its code (fenced blocks and spans) blanked: code shows a
+    form rather than using it."""
+    return CODE_SPAN.sub(_blank, FENCE.sub(_lines_only, text))
+
+
+def line_of(text, pos):
+    return text.count("\n", 0, pos) + 1
+
+
 def norm_stamp(h, m):
     return f"{int(h):02d}:{m}"
 
@@ -196,6 +353,19 @@ def stamp_matches(cited, known):
     if len(cited) != len(known):
         return False
     return all(a == b or a == "x" or b == "x" for a, b in zip(cited, known))
+
+
+def git(root, *args, data=None):
+    """A read-only git command in root, as bytes, taking no optional lock that
+    another session working in the same repository would notice."""
+    env = dict(os.environ, GIT_OPTIONAL_LOCKS="0")
+    return subprocess.run(["git", "-C", root, *args], input=data, capture_output=True,
+                          check=True, env=env).stdout
+
+
+def is_repository(root):
+    # A repository's .git is a directory; a worktree's is a file naming its repository.
+    return os.path.exists(os.path.join(root, ".git"))
 
 
 # ---- the round's record: what a citation may resolve against ----
@@ -218,14 +388,14 @@ def record_of(root, n):
         if not os.path.exists(path):
             continue
         archived = True
+        # Every time in the ledger's Markdown, its entries' stamps and the times
+        # their bodies record: round 2's suite "started 11:47" in the body of the
+        # 11:48 entry, and METHOD.md cites the start.
         with zipfile.ZipFile(path) as zf:
             for name in zf.namelist():
-                if not name.endswith(".md"):
-                    continue
-                body = zf.read(name).decode("utf-8", "replace")
-                for line in body.splitlines():
-                    if line.startswith("#"):
-                        stamps |= {norm_stamp(h, m) for h, m in STAMP.findall(line)}
+                if name.endswith(".md"):
+                    body = zf.read(name).decode("utf-8", "replace")
+                    stamps |= {norm_stamp(h, m) for h, m in STAMP.findall(body)}
     headings = [l.lstrip("#").strip().lower() for l in lines if l.startswith("#")]
     # Bold-marked items, such as a timeline's "**The card day begins**".
     bold = [re.sub(r"\s+", " ", b).strip().lower() for b in re.findall(r"\*\*([^*]+)\*\*", text)]
@@ -241,83 +411,189 @@ def record_of(root, n):
             "observations": observations, "archived": archived}
 
 
+def opens(phrase, items):
+    """True if the phrase opens one of the items and ends at a word boundary
+    there: "the card day" opens "the card day begins", and "w" opens nothing."""
+    for h in items:
+        if h.startswith(phrase) and (len(h) == len(phrase) or not (h[len(phrase)].isalnum()
+                                                                  or h[len(phrase)] == "_")):
+            return True
+    return False
+
+
+def resolve_phrase(phrase, n, rec):
+    p = re.sub(r"\s+", " ", phrase).strip().lower()
+    if opens(p, rec["headings"] + rec["bold"]):
+        return None
+    if LEDGER_PHRASE.fullmatch(p) and rec["archived"]:
+        return None  # a citation of the round's archived ledger itself
+    return f"'{phrase}' opens no heading or bold-marked item of case study {n}"
+
+
 def resolve_item(item, n, rec):
-    """None if the item resolves in round n's record, else the reason."""
-    item = item.strip().lstrip("~").strip()
+    """None if the item resolves in round n's record, else the reason. What an
+    item holds beside its time must resolve too, so "CS3 02:00" is no time of
+    round 2's: "CS3" opens nothing there."""
+    item = re.sub(r"\s+", " ", item).strip().lstrip("~").strip()
     if not item:
-        return "an empty citation"
+        return "an empty item"
     found = [norm_stamp(h, m) for h, m in STAMP.findall(item)]
     if found:
         missing = [s for s in found if not any(stamp_matches(s, k) for k in rec["stamps"])]
-        return f"no {', '.join(missing)} in round {n}'s record" if missing else None
+        if missing:
+            return f"no {', '.join(missing)} in round {n}'s record"
+        # What is left once the times are gone, but a range's dash or brackets.
+        rest = re.sub(r"(?:^|(?<=\s))[~()\-\u2013\u2014]+(?=\s|$)", " ", STAMP.sub(" ", item)).strip()
+        return resolve_phrase(rest, n, rec) if rest else None
     m = re.search(r"§\s*(\d+)", item)
     if m:
         k = m.group(1)
-        ok = (f"**§{k}" in rec["text"] or any(f"§{k}" in h for h in rec["headings"]))
-        return None if ok else f"no §{k} in case study {n}"
+        if not (f"**§{k}" in rec["text"] or any(f"§{k}" in h for h in rec["headings"])):
+            return f"no §{k} in case study {n}"
+        rest = (item[:m.start()] + item[m.end():]).strip().lower()
+        if rest in ("", "of the case study"):
+            return None
+        return f"'{rest}' beside §{k} is no part of a citation's forms"
     m = re.fullmatch(r"obs(?:ervation)?\.?\s*(\d+)", item, re.I)
     if m:
         k = m.group(1)
         return None if k in rec["observations"] else f"no numbered observation {k} in case study {n}"
-    phrase = re.sub(r"\s+", " ", item).lower()
-    if any(h.startswith(phrase) for h in rec["headings"] + rec["bold"]):
-        return None
-    if LEDGER_PHRASE.fullmatch(phrase) and rec["archived"]:
-        return None  # a citation of the round's archived ledger itself
-    return f"'{item}' opens no heading or bold-marked item of case study {n}"
+    return resolve_phrase(item, n, rec)
 
 
 # ---- the checks: each returns (failures, a line that says what ran) ----
 
+def resolve_path(root, base, target):
+    """(the repository path a link names, None), or (None, why not). Each part
+    must exist spelled exactly so: GitHub's paths are case-sensitive, and a
+    trailing dot that Windows forgives is a different name there."""
+    joined = target.lstrip("/") if target.startswith("/") else posixpath.join(base, target)
+    norm = posixpath.normpath(joined)
+    if norm == ".":
+        return "", None
+    if norm == ".." or norm.startswith("../"):
+        return None, "it points outside the repository"
+    cur = root
+    for part in norm.split("/"):
+        try:
+            names = os.listdir(cur)
+        except (NotADirectoryError, FileNotFoundError):
+            return None, "which does not exist"
+        if part not in names:
+            near = [x for x in names if x.lower() == part.lower().rstrip(". ")]
+            if near:
+                return None, f"which does not exist as spelled; GitHub would not find '{part}' (the file is '{near[0]}')"
+            return None, "which does not exist"
+        cur = os.path.join(cur, part)
+    return norm, None
+
+
+def heading_anchors(text):
+    """The anchors GitHub gives a Markdown file's "#" headings."""
+    out, seen = set(), {}
+    for line in rendered(text).splitlines():
+        m = re.match(r" {0,3}#{1,6}[ \t]+(.*?)(?:[ \t]+#+)?[ \t]*$", line)
+        if not m:
+            continue
+        h = re.sub(r"!?\[([^\]]*)\]\([^)]*\)", r"\1", m.group(1))
+        s = re.sub(r"[^\w\- ]", "", h.strip().lower()).replace(" ", "-")
+        k = seen.get(s, 0)
+        seen[s] = k + 1
+        out.add(s if k == 0 else f"{s}-{k}")
+    return out
+
+
 def check_links(root):
     bad, n = [], 0
+    anchors = {}
     for rel in md_files(root):
-        for target in LINK.findall(read(root, rel)):
-            if re.match(r"(https?:|mailto:|#)", target):
-                continue
+        text = uncoded(read(root, rel))
+        targets = [(m.start(), m.group(1)) for m in LINK.finditer(text)]
+        targets += [(m.start(), m.group(1)) for m in LINK_DEFINITION.finditer(text)]
+        for pos, target in targets:
+            if re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target):
+                continue  # a scheme: https:, mailto:
             n += 1
-            path = os.path.normpath(os.path.join(root, os.path.dirname(rel), target.split("#")[0]))
-            if not os.path.exists(path):
-                bad.append(f"{rel}: link to {target}, which does not exist")
+            where = f"{rel}:{line_of(text, pos)}"
+            path, _, frag = target.partition("#")
+            if path:
+                dest, why = resolve_path(root, posixpath.dirname(rel), unquote(path))
+                if why:
+                    bad.append(f"{where}: link to {target}, {why}")
+                    continue
+            else:
+                dest = rel
+            if frag and dest.endswith(".md"):
+                if dest not in anchors:
+                    anchors[dest] = heading_anchors(read(root, dest))
+                if unquote(frag) not in anchors[dest]:
+                    bad.append(f"{where}: link to {target}: {dest} has no heading whose anchor is "
+                               f"#{frag} (GitHub's anchors are lower case)")
     return bad, f"{n} relative links read"
 
 
 def citation_groups(root, rel):
-    for i, line in enumerate(read(root, rel).splitlines(), 1):
-        # A code span shows a citation's form rather than citing: skip it.
-        for g in CITATION.findall(re.sub(r"`[^`]*`", " ", line)):
-            if g.strip() in ("", "x", " "):
-                continue  # a checklist box
-            yield i, g
+    """(line, group) for every bracketed citation in a file, wrapped or not."""
+    text = uncoded(read(root, rel))
+    # A link definition ("[label]: target") is a link, not a citation.
+    text = re.sub(r"(?m)^ {0,3}\[[^\]\n]+\]:.*$", _blank, text)
+    for m in CITATION.finditer(text):
+        g = re.sub(r"\s+", " ", m.group(1)).strip()
+        if g in ("", "x", "X") or g.startswith("^"):
+            continue  # a checklist box, or a footnote
+        yield line_of(text, m.start()), g
+
+
+def archive_pins(root):
+    bad = []
+    for rel, want in ARCHIVE_SHA256.items():
+        p = os.path.join(root, rel)
+        if not os.path.exists(p):
+            bad.append(f"{rel}: a pinned record is gone")
+            continue
+        with open(p, "rb") as f:
+            got = hashlib.sha256(f.read()).hexdigest()
+        if got != want:
+            bad.append(f"{rel}: its bytes are not the record's (sha256 {got[:12]}…, pinned "
+                       f"{want[:12]}…); an archived ledger never changes")
+    for n, zs in ARCHIVES.items():
+        for z in zs:
+            if f"archive/{z}" not in ARCHIVE_SHA256:
+                bad.append(f"archive/{z}: round {n}'s ledger, read by citations, has no pin")
+    return bad
 
 
 def check_citations(root):
-    bad, n = [], 0
+    bad, n = archive_pins(root), 0
     records = {}
     files = ["METHOD.md"] + [f for f in md_files(root) if f.startswith("templates/")]
     for rel in files:
         for i, group in citation_groups(root, rel):
-            parts = [p.strip() for p in group.split(";")]
-            m = re.match(r"CASE-STUDY(?:-(\d))?(?:\.md)?\s*,\s*(.*)", parts[0])
+            items = [p.strip() for p in re.split(r"[;,]", group)]
+            m = re.fullmatch(r"CASE-STUDY(?:-(\d+))?(?:\.md)?", items[0])
             if m:
-                cs = int(m.group(1) or 1)
-                parts[0] = m.group(2)
+                cs, items = int(m.group(1) or 1), items[1:]
             elif rel == "METHOD.md":
                 cs = METHOD_DEFAULT_ROUND
+            elif CITES.search(group):
+                bad.append(f"{rel}:{i}: [{group}] names no case study; a citation in a template "
+                           f"starts with CASE-STUDY-n")
+                continue
             else:
-                # Templates hold placeholders such as [the post-mortem]; only an
-                # explicit case-study citation is checked there.
+                continue  # a template's placeholder
+            if not items:
+                bad.append(f"{rel}:{i}: [{group}] names a case study and nothing in it")
                 continue
             if not os.path.exists(os.path.join(root, case_study_file(cs))):
                 bad.append(f"{rel}:{i}: [{group}] cites case study {cs}, which does not exist")
                 continue
             rec = records.setdefault(cs, record_of(root, cs))
-            for p in parts:
+            for p in items:
                 n += 1
                 why = resolve_item(p, cs, rec)
                 if why:
                     bad.append(f"{rel}:{i}: [{group}]: {why}")
-    return bad, f"{n} cited items read"
+    return bad, f"{n} cited items read, {len(ARCHIVE_SHA256)} archived ledgers' pins checked"
 
 
 def proposals(root, n):
@@ -364,23 +640,25 @@ def check_proposals(root):
     rows = adoption_rows(root)
     if rows is None:
         return bad + ["ADOPTION.md does not exist"], "no ADOPTION.md"
+    declared = derived + OTHER_IDS
     seen = {}
     for i, cells in rows:
-        if re.fullmatch(r"CS(\d)#(\d+)", cells[0]):
+        if re.fullmatch(r"CS\d+#\d+|[A-Z]\d+", cells[0]):
             seen.setdefault(cells[0], []).append(i)
-    for pid in derived:
+    for pid in declared:
         if pid not in seen:
             bad.append(f"ADOPTION.md has no row for {pid}")
         elif len(seen[pid]) > 1:
             bad.append(f"ADOPTION.md has {len(seen[pid])} rows for {pid} (lines {seen[pid]})")
     for pid, where in seen.items():
-        if pid not in derived:
-            bad.append(f"ADOPTION.md line {where[0]}: {pid} is no proposal in any case study")
-    return bad, f"{len(derived)} proposals derived, {len(seen)} ids in ADOPTION.md"
+        if pid not in declared:
+            bad.append(f"ADOPTION.md line {where[0]}: {pid} is no proposal in any case study, "
+                       f"and no id OTHER_IDS declares")
+    return bad, f"{len(derived)} proposals derived and {len(OTHER_IDS)} other ids declared, {len(seen)} ids in ADOPTION.md"
 
 
 def method_headings(root):
-    return {l.lstrip("#").strip() for l in read(root, "METHOD.md").splitlines()
+    return {l.lstrip("#").strip() for l in rendered(read(root, "METHOD.md")).splitlines()
             if re.match(r"#{2,3} ", l)}
 
 
@@ -392,11 +670,13 @@ def check_anchors(root):
     if header is None:
         return ["ADOPTION.md has no table with a 'status' column"], "no table"
     lower = [x.lower() for x in header]
-    si, hi = lower.index("status"), lower.index("method heading")
+    if "method heading" not in lower or "evidence" not in lower:
+        return ["ADOPTION.md's table has no 'METHOD heading' or no 'evidence' column"], "no table"
+    si, hi, ei = lower.index("status"), lower.index("method heading"), lower.index("evidence")
     heads = method_headings(root)
-    bad, n = [], 0
+    bad, n, refs = [], 0, 0
     for i, cells in rows:
-        if cells is header or len(cells) <= max(si, hi):
+        if cells is header or len(cells) <= max(si, hi, ei):
             continue
         if cells[si].lower().startswith("adopted"):
             n += 1
@@ -405,35 +685,48 @@ def check_anchors(root):
                 if h not in heads:
                     bad.append(f"ADOPTION.md line {i}: {cells[0]} is {cells[si]} at "
                                f"'{h}', which is no heading in METHOD.md")
-    return bad, f"{n} adopted rows read"
+        # Lines move, so a line number is only true at a commit, and says which.
+        found = LINE_REF.findall(cells[ei])
+        refs += len(found)
+        if found and not re.search(r"\bat `[0-9a-f]{7,40}`", cells[ei]):
+            bad.append(f"ADOPTION.md line {i}: {cells[0]}'s evidence gives {found[0]} without "
+                       f"the commit it is counted at")
+    return bad, f"{n} adopted rows and {refs} line numbers read"
 
 
 def check_refs(root):
-    sections = {m.group(1) for m in re.finditer(r"(?m)^## (\d+)\. ", read(root, "METHOD.md"))}
+    sections = {int(m.group(1)) for m in re.finditer(r"(?m)^## (\d+)\. ", read(root, "METHOD.md"))}
     bad, n = [], 0
-    # The templates' own spellings, across a line break: "[METHOD.md](../METHOD.md)
-    # §3", "... section 4", "METHOD §6".
-    pat = re.compile(r"METHOD(?:\.md)?(?:\]\([^)]*\))?\s*(?:§\s*|section\s+)(\d+)")
-    for rel in [f for f in md_files(root) if f.startswith("templates/")]:
-        text = read(root, rel)
-        for m in pat.finditer(text):
-            n += 1
-            if m.group(1) not in sections:
-                line = text.count("\n", 0, m.start()) + 1
-                bad.append(f"{rel}:{line}: cites METHOD §{m.group(1)}, which METHOD.md does not have")
-    return bad, f"{n} section references read"
+    files = ["METHOD.md", "README.md", "ADOPTION.md"] + [f for f in md_files(root) if f.startswith("templates/")]
+    for rel in files:
+        if not os.path.exists(os.path.join(root, rel)):
+            continue
+        # A section mark in a citation is the case study's, and check 2's.
+        text = CITATION.sub(_blank, uncoded(read(root, rel)))
+        for m in SECTION_REF.finditer(text):
+            if m.group(1):
+                nums = [m.group(1)] + ([m.group(2)] if m.group(2) else [])
+            else:
+                nums = [m.group(3)] + re.findall(r"\d+", m.group(4) or "")
+            for k in nums:
+                n += 1
+                if int(k) not in sections:
+                    bad.append(f"{rel}:{line_of(text, m.start())}: '{squash(m.group(0))}' names "
+                               f"section {k}, which METHOD.md does not have; another document's "
+                               f"section is cited in brackets")
+    return bad, f"{n} section numbers read"
 
 
 def check_readme(root):
-    readme = read(root, "README.md")
-    want = [f for f in md_files(root) if re.fullmatch(r"CASE-STUDY(-\d)?\.md", f)]
+    readme = rendered(read(root, "README.md"))
+    want = [f for f in md_files(root) if re.fullmatch(r"CASE-STUDY(-\d+)?\.md", f)]
     want += [f for f in md_files(root) if f.startswith("templates/") and f != "templates/README.md"]
     bad = [f"README.md does not link {f}" for f in want if f"]({f})" not in readme]
     return bad, f"{len(want)} files the README must list"
 
 
 def check_brieferr(root):
-    text = read(root, "templates/brief.md")
+    text = rendered(read(root, "templates/brief.md"))
     m = re.search(r"(?ms)^## Report\s*$(.*?)(?=^## |\Z)", text)
     if not m:
         return ["templates/brief.md has no '## Report' section"], "no report section"
@@ -447,26 +740,38 @@ def squash(s):
 
 
 def check_sections(root):
-    found = [l[3:].strip() for l in read(root, "METHOD.md").splitlines() if re.match(r"## \d+\. ", l)]
+    found = [l[3:].strip() for l in rendered(read(root, "METHOD.md")).splitlines()
+             if re.match(r"## \d+\. ", l)]
     if found == SECTIONS:
         return [], f"{len(found)} sections read"
     return [f"METHOD.md's numbered sections are {found}; they must stay {SECTIONS}"], "read"
 
 
 def check_quoted(root):
-    bad = []
+    bad, texts = [], {}
+
+    def both(rel):
+        if rel not in texts:
+            raw = read(root, rel)
+            texts[rel] = (raw, rendered(raw))
+        return texts[rel]
+
     for rel, pattern, where in LOGANW_PATTERNS:
-        k = len(re.findall(pattern, read(root, rel), re.M))
-        if k != 1:
-            bad.append(f"{rel}: loganw.dev's pattern ({where}) matches {k} times, where it "
-                       f"must match once: {pattern[:60]}…")
+        raw, shown = both(rel)
+        k, s = len(re.findall(pattern, raw, re.M)), len(re.findall(pattern, shown, re.M))
+        if (k, s) != (1, 1):
+            bad.append(f"{rel}: loganw.dev's pattern ({where}) matches {k} times as written and "
+                       f"{s} as rendered, where it must match once in each: {pattern[:60]}…")
     for rel, passage in HF_PASSAGES:
-        k = squash(read(root, rel)).count(squash(passage))
-        if k != 1:
-            bad.append(f"{rel}: a passage HonestFramework quotes appears {k} times, where it "
-                       f"must appear once: \"{passage[:60]}…\"")
+        raw, shown = both(rel)
+        k, s = squash(raw).count(squash(passage)), squash(shown).count(squash(passage))
+        if (k, s) != (1, 1):
+            bad.append(f"{rel}: a passage HonestFramework quotes appears {k} times as written and "
+                       f"{s} as rendered, where it must appear once in each: \"{passage[:60]}…\"")
     return bad, f"{len(LOGANW_PATTERNS)} loganw.dev patterns and {len(HF_PASSAGES)} HonestFramework passages read"
 
+
+# ---- privacy ----
 
 def address_ok(local, domain):
     return f"{local}@{domain}".lower() in ALLOWED_ADDRESSES or RESERVED.search(domain) is not None
@@ -487,72 +792,207 @@ def masked(keys):
                    for k in keys})
 
 
-def commit_message_problems(repo):
-    try:
-        log = subprocess.run(["git", "-C", repo, "log", "--format=%B"], capture_output=True,
-                             text=True, encoding="utf-8", check=True).stdout
-    except (OSError, subprocess.CalledProcessError) as e:
-        return [f"commit messages could not be read: {e}"]
+def decoded(text):
+    """A text as a reader would see it: percent-escapes and HTML entities
+    decoded, and full-width and other compatibility forms folded (NFKC)."""
+    return unicodedata.normalize("NFKC", html.unescape(unquote(text)))
+
+
+def findings(text):
+    """(disallowed address keys, holds a personal path, holds a secret) for a text."""
+    t = decoded(text)
+    return disallowed(t), bool(USER_PATH.search(t)), bool(SECRET.search(t))
+
+
+def described(keys, path, secret):
+    out = [f"{len(keys)} disallowed address(es): {masked(keys)}"] if keys else []
+    out += ["an absolute personal path"] if path else []
+    out += ["a secret-shaped token"] if secret else []
+    return "; ".join(out)
+
+
+def decode_text(data):
+    """A file's text: UTF-8, or UTF-16 with or without its byte-order mark.
+    None for anything else, which the check then fails by name."""
+    if data[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        encodings = ["utf-16"]
+    elif b"\x00" in data:
+        # UTF-16 with no mark, in a Latin script: at least two in five of the
+        # bytes on one side of each pair are zero, and almost none on the
+        # other. Anything else with a zero byte is binary, and unreadable.
+        half = max(1, len(data) // 2)
+        odd, even = data[1::2].count(0), data[0::2].count(0)
+        if max(odd, even) >= 0.4 * half and min(odd, even) <= 0.05 * half:
+            encodings = ["utf-16-le" if odd > even else "utf-16-be"]
+        else:
+            encodings = []
+    else:
+        encodings = ["utf-8-sig"]
+    for enc in encodings:
+        try:
+            text = data.decode(enc)
+        except UnicodeDecodeError:
+            continue
+        if "\x00" not in text:
+            return text
+    return None
+
+
+def texts_in(name, data, depth=0):
+    """(name, text) for every text in data, archives opened: a zip's members
+    and a gzip's content, to a depth of four. Text that cannot be read comes
+    back as None."""
+    if depth > 4:
+        yield name, None
+        return
+    if data[:4] in (b"PK\x03\x04", b"PK\x05\x06"):
+        try:
+            with zipfile.ZipFile(io.BytesIO(data)) as zf:
+                members = [(i.filename, zf.read(i)) for i in zf.infolist() if not i.is_dir()]
+        except (zipfile.BadZipFile, NotImplementedError, RuntimeError, OSError, EOFError):
+            yield name, None  # broken, or encrypted
+            return
+        for member, body in members:
+            yield from texts_in(f"{name}!{member}", body, depth + 1)
+        return
+    if data[:2] == b"\x1f\x8b":
+        try:
+            inner = gzip.decompress(data)
+        except (OSError, EOFError):
+            yield name, None
+            return
+        yield from texts_in(name + "!(gunzipped)", inner, depth + 1)
+        return
+    yield name, decode_text(data)
+
+
+def object_problems(label, rel, data):
+    """Everything wrong with one file or blob: its name, its text, and each
+    archive member's name and text. rel is the path its known exceptions name."""
+    bad = []
+    keys, path, secret = findings(rel)
+    if keys or path or secret:
+        bad.append(f"{label}: its name holds {described(keys, path, secret)}")
+    conceded = rel in KNOWN_PATHS and hashlib.sha256(data).hexdigest() == ARCHIVE_SHA256.get(rel)
+    counts, with_paths = {}, 0
+    for name, text in texts_in(rel, data):
+        member = name.split("!", 1)[1] if "!" in name else None
+        where = f"{label}!{member}" if member else label
+        if member:
+            k, p, s = findings(member)
+            if k or p or s:
+                bad.append(f"{where}: its name holds {described(k, p, s)}")
+        if text is None:
+            bad.append(f"{where}: cannot be read as text or as an archive")
+            continue
+        keys, path, secret = findings(text)
+        if member:
+            for k in keys:
+                counts[(member, k)] = counts.get((member, k), 0) + 1
+        elif keys:
+            bad.append(f"{where}: {len(keys)} disallowed address(es): {masked(keys)}")
+        if path:
+            if conceded:
+                with_paths += 1
+            else:
+                bad.append(f"{where}: holds an absolute personal path")
+        if secret:
+            bad.append(f"{where}: holds a secret-shaped token")
+    known = KNOWN_PRIVACY.get(rel, {}).get("counts", {})
+    for key, c in counts.items():
+        if c != known.get(key, 0):
+            bad.append(f"{label}!{key[0]}: {c} disallowed address(es) at "
+                       f"{masked([key[1]])[0]}, where {known.get(key, 0)} are known")
+    for key in known:
+        if key not in counts:
+            bad.append(f"{label}: its known exception for {key[0]} no longer holds; remove or update it")
+    if conceded and not with_paths:
+        bad.append(f"{label}: no member holds a personal path, so its place in KNOWN_PATHS no "
+                   f"longer holds; remove it")
+    return bad
+
+
+def published_files(root):
+    """The files a commit here would publish: in a repository, git's own list
+    (tracked, and untracked but not ignored); elsewhere, every file."""
+    if is_repository(root):
+        out = git(root, "ls-files", "-z", "--cached", "--others", "--exclude-standard")
+        return sorted({p for p in out.decode("utf-8", "replace").split("\0") if p})
     out = []
-    found = disallowed(log)
-    if found:
-        out.append(f"commit messages: {len(found)} disallowed address(es): {masked(found)}")
-    if SECRET.search(log):
-        out.append("commit messages: a secret-shaped token")
-    return out
-
-
-def check_privacy(root):
-    bad, nfiles = [], 0
     for d, dirs, files in os.walk(root):
         dirs[:] = [x for x in dirs if x != ".git"]
         for f in files:
-            if f == ".git":
-                continue  # a worktree's pointer to its repository, not a published file
-            p = os.path.join(d, f)
-            rel = os.path.relpath(p, root).replace(os.sep, "/")
-            nfiles += 1
-            if f.endswith(".zip"):
-                counts = {}
-                with zipfile.ZipFile(p) as zf:
-                    for name in zf.namelist():
-                        body = zf.read(name).decode("utf-8", "replace")
-                        for k in disallowed(body):
-                            counts[(name, k)] = counts.get((name, k), 0) + 1
-                        if SECRET.search(body):
-                            bad.append(f"{rel}!{name}: a secret-shaped token")
-                known = KNOWN_PRIVACY.get(rel, {}).get("counts", {})
-                for key, c in counts.items():
-                    if c != known.get(key, 0):
-                        bad.append(f"{rel}!{key[0]}: {c} disallowed address(es) at "
-                                   f"{masked([key[1]])[0]}, where {known.get(key, 0)} are known")
-                for key, c in known.items():
-                    if key not in counts:
-                        bad.append(f"{rel}: its known exception for {key[0]} no longer holds; "
-                                   f"remove or update it")
-                continue  # the archived ledgers' personal paths are their records'
-            try:
-                with open(p, encoding="utf-8") as fh:
-                    text = fh.read()
-            except (UnicodeDecodeError, OSError):
-                continue
-            found = disallowed(text)
-            if found:
-                bad.append(f"{rel}: {len(found)} disallowed address(es): {masked(found)}")
-            if USER_PATH.search(text):
-                bad.append(f"{rel}: holds an absolute personal path")
-            if SECRET.search(text):
-                bad.append(f"{rel}: holds a secret-shaped token")
-    for rel in KNOWN_PRIVACY:
+            if f != ".git":  # a worktree's pointer to its repository, not a published file
+                out.append(os.path.relpath(os.path.join(d, f), root).replace(os.sep, "/"))
+    return sorted(out)
+
+
+def git_blob_id(data):
+    return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
+
+
+def history_blobs(root, skip):
+    """(path, id, bytes) for every blob reachable from HEAD whose id is not in
+    skip, each under the first path git names it by."""
+    named = {}
+    for line in git(root, "rev-list", "--objects", "HEAD").decode("utf-8", "replace").splitlines():
+        oid, _, path = line.partition(" ")
+        if path and oid not in named:
+            named[oid] = path
+    if not named:
+        return []
+    kinds = git(root, "cat-file", "--batch-check", data=("\n".join(named) + "\n").encode()).decode()
+    blobs = [l.split()[0] for l in kinds.splitlines()
+             if len(l.split()) >= 2 and l.split()[1] == "blob" and l.split()[0] not in skip]
+    if not blobs:
+        return []
+    out = git(root, "cat-file", "--batch", data=("\n".join(blobs) + "\n").encode())
+    res, pos = [], 0
+    for oid in blobs:
+        nl = out.index(b"\n", pos)
+        size = int(out[pos:nl].split()[2])
+        res.append((named[oid], oid, out[nl + 1:nl + 1 + size]))
+        pos = nl + 1 + size + 1
+    return res
+
+
+def check_privacy(root):
+    return privacy(root, exceptions=True)
+
+
+def privacy(root, exceptions):
+    """Check 10. exceptions=False skips only the check that each known
+    exception's file still exists, for the controls' scratch repositories,
+    which hold none of them."""
+    bad, nfiles, seen = [], 0, set()
+    repo = is_repository(root)
+    for rel in published_files(root):
+        try:
+            with open(os.path.join(root, rel), "rb") as f:
+                data = f.read()
+        except FileNotFoundError:
+            continue  # tracked but deleted here: its committed bytes are read with the history
+        nfiles += 1
+        seen.add(git_blob_id(data))
+        bad += object_problems(rel, rel, data)
+    for rel in sorted(set(KNOWN_PRIVACY) | set(KNOWN_PATHS)) if exceptions else []:
         if not os.path.exists(os.path.join(root, rel)):
             bad.append(f"{rel}: has a known exception but no longer exists; remove the exception")
-    # A repository's .git is a directory; a worktree's is a file naming its repository.
-    if os.path.exists(os.path.join(root, ".git")):
-        bad += commit_message_problems(root)
-        note = "and every commit message"
-    else:
-        note = "commit messages skipped by name: no .git here"
-    return bad, f"{nfiles} files read, {note}"
+    if not repo:
+        return bad, f"{nfiles} files read; history and commit messages skipped by name: no .git here"
+    try:
+        blobs = history_blobs(root, seen)
+        log = git(root, "log", "--format=%B%x00", "HEAD").decode("utf-8", "replace")
+    except (OSError, subprocess.CalledProcessError, ValueError, IndexError) as e:
+        return bad + [f"history could not be read: {e}"], f"{nfiles} files read"
+    for path, oid, data in blobs:
+        bad += object_problems(f"{path} (in history, blob {oid[:7]})", path, data)
+    keys, path, secret = findings(log)
+    if keys or path or secret:
+        bad.append(f"commit messages: {described(keys, path, secret)}")
+    nmsg = log.count("\x00")
+    return bad, (f"{nfiles} files, {len(blobs)} more blobs in HEAD's history and "
+                 f"{nmsg} commit messages read")
 
 
 CHECKS = [
@@ -569,21 +1009,34 @@ CHECKS = [
 ]
 
 
+def scrub(line):
+    """A line of output with every personal path, disallowed address and
+    secret-shaped token masked: what the gate refuses, it never prints, since
+    its output is pasted into ledgers that will be published."""
+    line = decoded(line)
+    line = USER_PATH.sub("<a personal path>", line)
+    line = SECRET.sub("<a secret-shaped token>", line)
+    return EMAIL.sub(lambda m: m.group(0) if address_ok(m.group(1), m.group(2)) else "<an address>", line)
+
+
 def run(root, only=None, quiet=False):
     failed = 0
     for name, fn in CHECKS:
         if only and name != only:
             continue
-        bad, ran = fn(root)
+        try:
+            bad, ran = fn(root)
+        except Exception as e:  # a check that crashes fails, by name
+            bad, ran = [f"the check could not run: {type(e).__name__}: {e}"], "crashed"
         failed += bool(bad)
         if not quiet:
             print(f"{name:<10} {'FAIL' if bad else 'ok':<5} {ran}")
             for b in bad:
-                print(f"           {b}")
+                print(f"           {scrub(b)}")
     return failed
 
 
-# ---- the controls: one planted fault per check, each must be caught ----
+# ---- the controls: planted faults, at least one per check, each must be caught ----
 
 def edit(t, rel, fn):
     p = os.path.join(t, rel)
@@ -597,104 +1050,187 @@ def edit(t, rel, fn):
 
 
 def append(t, rel, s):
-    with open(os.path.join(t, rel), "a", encoding="utf-8") as f:
+    with open(os.path.join(t, rel), "a", encoding="utf-8", newline="") as f:
         f.write(s)
 
 
-def plant_links(t):
-    append(t, "METHOD.md", "\n[a planted link](no-such-file.md)\n")
+def write_bytes(t, rel, b):
+    with open(os.path.join(t, rel), "wb") as f:
+        f.write(b)
 
 
-def plant_citations(t):
-    append(t, "METHOD.md", "\nA planted citation. [CASE-STUDY-3, obs 7]\n")
+def zipped(members):
+    b = io.BytesIO()
+    with zipfile.ZipFile(b, "w", zipfile.ZIP_DEFLATED) as z:
+        for name, body in members:
+            z.writestr(name, body)
+    return b.getvalue()
 
 
-def plant_proposals(t):
-    edit(t, "ADOPTION.md", lambda s: re.sub(r"(?m)^\| CS3#1 \|.*\n", "", s, count=1))
+# Built at run time, so this file holds neither.
+PLANTED_ADDRESS = "someone" + "@" + "personal-domain.net"
+PLANTED_PATH = "C:" + _BS + "Us" + "ers" + _BS + "someone" + _BS + "work"
 
 
-def plant_anchors(t):
-    edit(t, "ADOPTION.md", lambda s: re.sub(
-        r"(?m)^(\| CS2#1 \|(?:[^|]*\|){4})[^|]*\|", r"\1 No such heading |", s, count=1))
+def plant_archive_member(t):
+    # A record edited: one member added to an archived ledger, the zip still valid.
+    with zipfile.ZipFile(os.path.join(t, "archive/round2-ledger.zip"), "a") as z:
+        z.writestr("planted.md", "# 09:59 a planted entry\n")
 
 
-def plant_refs(t):
-    # A wrapped reference, the way brief.md writes them.
-    edit(t, "templates/brief.md", lambda s: s.replace("[METHOD.md](../METHOD.md)\n§3", "[METHOD.md](../METHOD.md)\n§9", 1))
-
-
-def plant_readme(t):
-    edit(t, "README.md", lambda s: re.sub(r"(?m)^.*\]\(CASE-STUDY-5\.md\).*\n", "", s, count=1))
-
-
-def plant_brieferr(t):
-    edit(t, "templates/brief.md", lambda s: s.replace("got wrong", "got right"))
-
-
-def plant_sections(t):
-    edit(t, "METHOD.md", lambda s: s.replace("## 4. The ledger", "## 4. The record", 1))
-
-
-def plant_quoted(t):
+PLANTS = [
+    # (the check that must catch it, what is planted, how)
+    ("links", "a link to no file", lambda t: append(t, "METHOD.md", "\n[a planted link](no-such-file.md)\n")),
+    ("links", "a link whose case differs from the file's", lambda t: append(t, "METHOD.md", "\n[a planted link](adoption.md)\n")),
+    ("links", "a link to an anchor no heading has", lambda t: append(t, "METHOD.md", "\n[a planted link](#no-such-heading)\n")),
+    ("citations", "an observation case study 3 does not number", lambda t: append(t, "METHOD.md", "\nA planted citation. [CASE-STUDY-3, obs 7]\n")),
+    ("citations", "a wrapped citation of no case study", lambda t: append(t, "METHOD.md", "\nA planted citation. [CASE-STUDY-9, 10:00;\n11:00]\n")),
+    ("citations", "a case study named another way", lambda t: append(t, "METHOD.md", "\nA planted citation. [CS3, 12:37]\n")),
+    ("citations", "an archived ledger edited", plant_archive_member),
+    ("proposals", "a case study's row removed", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(r"(?m)^\| CS3#1 \|.*\n", "", s, count=1))),
+    ("proposals", "a B row removed", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(r"(?m)^\| B9 \|.*\n", "", s, count=1))),
+    ("anchors", "an adopted row under no heading", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(
+        r"(?m)^(\| CS2#1 \|(?:[^|]*\|){4})[^|]*\|", r"\1 No such heading |", s, count=1))),
+    ("anchors", "a line number with no commit", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("; both at `49a9266`", "", 1))),
+    ("refs", "a wrapped section reference", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("[METHOD.md](../METHOD.md)\n§3", "[METHOD.md](../METHOD.md)\n§9", 1))),
+    ("refs", "a bare section sign", lambda t: append(t, "templates/verifier.md", "\nThe planted rule (§9) applies here.\n")),
+    ("readme", "a case study's row removed", lambda t: edit(t, "README.md", lambda s: re.sub(r"(?m)^.*\]\(CASE-STUDY-5\.md\).*\n", "", s, count=1))),
+    ("brieferr", "the clause respelled", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("got wrong", "got right"))),
+    ("sections", "a section renamed", lambda t: edit(t, "METHOD.md", lambda s: s.replace("## 4. The ledger", "## 4. The record", 1))),
     # Rewrap a passage loganw.dev reads with literal spaces: its pattern stops matching.
-    edit(t, "README.md", lambda s: s.replace("Two agents\non a two-way split", "Two\nagents on a two-way split", 1))
+    ("quoted", "a passage rewrapped", lambda t: edit(t, "README.md", lambda s: s.replace("Two agents\non a two-way split", "Two\nagents on a two-way split", 1))),
+    ("quoted", "a passage kept only in an HTML comment", lambda t: edit(t, "METHOD.md", lambda s: s.replace(
+        "**Exactly one file owns each shared fact; everyone else includes it.**",
+        "<!-- **Exactly one file owns each shared fact; everyone else includes it.** -->", 1))),
+    ("privacy", "an address in a file", lambda t: append(t, "README.md", f"\nContact {PLANTED_ADDRESS} for details.\n")),
+    ("privacy", "a percent-encoded address", lambda t: append(t, "README.md", "\n[Write](mailto:" + PLANTED_ADDRESS.replace("@", "%40") + ").\n")),
+    ("privacy", "an address in a nested archive", lambda t: write_bytes(t, "archive/planted.zip", zipped(
+        [("inner.zip", zipped([("lead.md", f"# lead\n\nwrite to {PLANTED_ADDRESS}\n")]))]))),
+    ("privacy", "a file that is not UTF-8", lambda t: write_bytes(t, "planted.txt", "Planted \u2013 notes\n".encode("cp1252"))),
+]
 
 
-def plant_privacy(t):
-    # A personal address assembled at run time, so this file never holds one.
-    planted = "someone" + "@" + "personal-domain.net"
-    append(t, "README.md", f"\nContact {planted} for details.\n")
+def _rmtree(path):
+    def retry(func, p, *_):
+        os.chmod(p, stat.S_IWRITE)  # git's objects are read-only on Windows
+        func(p)
+    if sys.version_info >= (3, 12):
+        shutil.rmtree(path, onexc=retry)
+    else:
+        shutil.rmtree(path, onerror=retry)
 
 
-PLANTS = {
-    "links": plant_links, "citations": plant_citations, "proposals": plant_proposals,
-    "anchors": plant_anchors, "refs": plant_refs, "readme": plant_readme,
-    "brieferr": plant_brieferr, "sections": plant_sections, "quoted": plant_quoted,
-    "privacy": plant_privacy,
-}
+def git_plant_message_address(g, repo):
+    g("commit", "-q", "--allow-empty", "-m", f"A planted message to {PLANTED_ADDRESS}")
 
 
-def control_commit_messages():
-    """The privacy check's commit-message branch, planted in a scratch repository."""
+def git_plant_message_path(g, repo):
+    g("commit", "-q", "--allow-empty", "-m", f"A planted message: built in {PLANTED_PATH}")
+
+
+def git_plant_history_blob(g, repo):
+    # Committed, then removed: only the history holds it.
+    with open(os.path.join(repo, "notes.md"), "w", encoding="utf-8", newline="\n") as f:
+        f.write(f"# notes\n\nwrite to {PLANTED_ADDRESS}\n")
+    g("add", "notes.md")
+    g("commit", "-q", "-m", "Notes")
+    g("rm", "-q", "notes.md")
+    g("commit", "-q", "-m", "Notes removed")
+
+
+GIT_PLANTS = [
+    ("privacy", "an address in a commit message", git_plant_message_address),
+    ("privacy", "a personal path in a commit message", git_plant_message_path),
+    ("privacy", "an address only history holds", git_plant_history_blob),
+]
+
+
+def control_in_repository(plant):
+    """The privacy check in a scratch repository with one clean commit, before
+    and after the plant: 'caught', 'missed', 'refused', or None without git."""
     tmp = tempfile.mkdtemp(prefix="check_method-git-")
+    env = dict(os.environ, GIT_AUTHOR_NAME="control", GIT_AUTHOR_EMAIL="control@example.com",
+               GIT_COMMITTER_NAME="control", GIT_COMMITTER_EMAIL="control@example.com",
+               GIT_CONFIG_NOSYSTEM="1", GIT_OPTIONAL_LOCKS="0")
+
+    def g(*a):
+        subprocess.run(["git", "-C", tmp, *a], check=True, capture_output=True, env=env)
     try:
-        env = dict(os.environ, GIT_AUTHOR_NAME="control", GIT_AUTHOR_EMAIL="control@example.com",
-                   GIT_COMMITTER_NAME="control", GIT_COMMITTER_EMAIL="control@example.com")
-        planted = "someone" + "@" + "personal-domain.net"
-        cmds = [["git", "init", "-q", tmp],
-                ["git", "-C", tmp, "commit", "-q", "--allow-empty", "-m", f"a planted message to {planted}"]]
-        for c in cmds:
-            subprocess.run(c, check=True, capture_output=True, env=env)
-        return bool(commit_message_problems(tmp))
+        subprocess.run(["git", "init", "-q", tmp], check=True, capture_output=True, env=env)
+        with open(os.path.join(tmp, "README.md"), "w", encoding="utf-8", newline="\n") as f:
+            f.write("# A scratch repository for the gate's controls\n")
+        g("add", "README.md")
+        g("commit", "-q", "-m", "A clean first commit")
+        if outcome(tmp, "privacy-in-repository") != "pass":
+            return "refused"
+        plant(g, tmp)
+        return {"fail": "caught", "pass": "missed", "crash": "crash"}[outcome(tmp, "privacy-in-repository")]
     except (OSError, subprocess.CalledProcessError):
         return None
     finally:
-        shutil.rmtree(tmp, ignore_errors=True)
+        _rmtree(tmp)
+
+
+def outcome(t, check):
+    """'pass', 'fail' or 'crash': a control counts only a failure the check
+    reports, never a crash, which proves nothing about the plant."""
+    fn = dict(CHECKS)[check] if check != "privacy-in-repository" else lambda r: privacy(r, exceptions=False)
+    try:
+        bad, _ = fn(t)
+    except Exception:
+        return "crash"
+    return "fail" if bad else "pass"
 
 
 def control(root):
     if run(root, quiet=True):
         print("CONTROL REFUSED: the tree fails before any fault is planted, so a caught plant proves nothing")
         return 1
-    missed = 0
-    for name, plant in PLANTS.items():
+    missed, total = 0, 0
+    for check, what, plant in PLANTS:
         tmp = tempfile.mkdtemp(prefix="check_method-")
         try:
-            shutil.copytree(root, os.path.join(tmp, "t"), ignore=shutil.ignore_patterns(".git"))
             t = os.path.join(tmp, "t")
-            plant(t)
-            caught = run(t, only=name, quiet=True) > 0
+            shutil.copytree(root, t, ignore=shutil.ignore_patterns(".git", "__pycache__"))
+            before = outcome(t, check)
+            if before != "pass":
+                verdict = f"REFUSED: the copy's check gives '{before}' before the plant"
+            else:
+                plant(t)
+                after = outcome(t, check)
+                verdict = {"fail": "caught", "pass": "NOT CAUGHT: this check cannot fail this way",
+                           "crash": "CRASHED: the plant broke the check rather than being caught"}[after]
         finally:
-            shutil.rmtree(tmp, ignore_errors=True)
-        missed += not caught
-        print(f"control {name:<16} {'caught' if caught else 'NOT CAUGHT: this check cannot fail'}")
-    cm = control_commit_messages()
-    if cm is None:
-        print("control privacy/commits SKIPPED by name: git is not available here")
-    else:
-        missed += not cm
-        print(f"control {'privacy/commits':<16} {'caught' if cm else 'NOT CAUGHT: this check cannot fail'}")
-    total = len(PLANTS) + (cm is not None)
+            _rmtree(tmp)
+        total += 1
+        missed += verdict != "caught"
+        print(f"control {check:<10} {what:<46} {verdict}")
+    tmp = tempfile.mkdtemp(prefix="check_method-")
+    try:
+        t = os.path.join(tmp, "t")
+        shutil.copytree(root, t, ignore=shutil.ignore_patterns(".git", "__pycache__"))
+        write_bytes(t, f"archive/{PLANTED_ADDRESS}.md", b"# notes\n")
+        out = io.StringIO()
+        with contextlib.redirect_stdout(out):
+            failed = run(t, only="privacy")
+        masked_out = failed and PLANTED_ADDRESS not in out.getvalue() and "<an address>" in out.getvalue()
+    finally:
+        _rmtree(tmp)
+    total += 1
+    missed += not masked_out
+    print(f"control {'privacy':<10} {'its output, which masks what it refuses':<46} "
+          f"{'caught, and masked' if masked_out else 'NOT MASKED: the output prints what it refuses'}")
+    for check, what, plant in GIT_PLANTS:
+        r = control_in_repository(plant)
+        if r is None:
+            print(f"control {check:<10} {what:<46} SKIPPED by name: git is not available here")
+            continue
+        total += 1
+        missed += r != "caught"
+        verdict = {"caught": "caught", "missed": "NOT CAUGHT: this check cannot fail this way",
+                   "refused": "REFUSED: the scratch repository fails before the plant",
+                   "crash": "CRASHED: the plant broke the check rather than being caught"}[r]
+        print(f"control {check:<10} {what:<46} {verdict}")
     print(f"controls: {total - missed} of {total} caught")
     return 1 if missed else 0
 

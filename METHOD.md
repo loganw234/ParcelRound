@@ -16,9 +16,9 @@ A bare time is round 2's. An incident recorded outside the case studies is
 cited by a link to its record.
 
 **Adoption.** What this file has adopted from each case study, and when, is in
-[ADOPTION.md](ADOPTION.md). `python tools/check_method.py` checks every
-citation here and the adoption record, and `--control` shows that each of its
-checks can fail.
+[ADOPTION.md](ADOPTION.md). `python tools/check_method.py` checks the citations
+here, in these forms, and the adoption record; its docstring states what it
+cannot see, and `--control` shows that each of its checks can fail.
 
 **This file is the canonical copy.** It was extracted from a working
 copy that still lives in the project it was developed on, as that
