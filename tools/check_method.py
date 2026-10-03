@@ -53,9 +53,10 @@ The checks, by name:
                 in a repository, every commit ADOPTION.md writes in backticks,
                 and every commit beside a line number in those files, is in
                 HEAD's history, unless FOREIGN_COMMITS declares it another
-                repository's pin; and each pin declared there is still named in
-                ADOPTION.md. The case studies and the archive are records that
-                do not change, so their line numbers are not read.
+                repository's pin; and each pin declared there is still named,
+                in ADOPTION.md or beside a line number in those files. The case
+                studies and the archive are records that do not change, so
+                their line numbers are not read.
   refs       5. every section number written with a section sign or the word
                 "section", alone or in a list, in METHOD.md, README.md,
                 ADOPTION.md and templates/, is one of METHOD.md's sections. A
@@ -857,6 +858,7 @@ def anchors(root, foreign):
     # the archive are records that do not change, so theirs cannot go stale.
     text = read(root, "ADOPTION.md")
     refs, beside = 0, set()
+    named_in = {sha: "ADOPTION.md" for sha in COMMIT_REF.findall(text)}
     files = ["ADOPTION.md", "METHOD.md", "README.md"] + [f for f in md_files(root) if f.startswith("templates/")]
     for rel in files:
         if not os.path.exists(os.path.join(root, rel)):
@@ -872,6 +874,8 @@ def anchors(root, foreign):
                 if found:
                     shas = COMMIT_REF.findall(part)
                     beside |= set(shas)
+                    for sha in shas:
+                        named_in.setdefault(sha, rel)
                     if not shas:
                         bad.append(f"{rel} line {i}: {found[0]} without the commit it is counted at")
     # Every commit ADOPTION.md writes, whatever word precedes it, and every
@@ -880,14 +884,15 @@ def anchors(root, foreign):
     commits = set(COMMIT_REF.findall(text)) | beside
     if foreign:
         for sha in sorted(set(FOREIGN_COMMITS) - commits):
-            bad.append(f"FOREIGN_COMMITS declares {sha}, which ADOPTION.md no longer names; remove it")
+            bad.append(f"FOREIGN_COMMITS declares {sha}, which nothing check 4 reads names any longer; "
+                       f"remove it")
     own = sorted(commits - set(FOREIGN_COMMITS))
     if is_repository(root):
         for sha in own:
             r = subprocess.run(["git", "-C", root, "merge-base", "--is-ancestor", sha, "HEAD"],
                                capture_output=True, env=dict(os.environ, GIT_OPTIONAL_LOCKS="0"))
             if r.returncode != 0:
-                bad.append(f"ADOPTION.md names commit {sha}, which is not in HEAD's history")
+                bad.append(f"{named_in.get(sha, 'ADOPTION.md')} names commit {sha}, which is not in HEAD's history")
         note = f"{len(own)} commits looked up in HEAD's history"
     else:
         note = "commits not looked up: no .git here"
@@ -1373,7 +1378,10 @@ PLANTS = [
         r"(?m)^(\| CS2#1 \|(?:[^|]*\|){4})[^|]*\|", r"\1 No such heading |", s, count=1))),
     ("anchors", "a line number with no commit", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("; both at `49a9266`", "", 1))),
     ("anchors", "a line number in prose with no commit", lambda t: append(t, "ADOPTION.md", "\nThe planted rule is at METHOD.md:66.\n")),
-    ("anchors", "a declared foreign pin no longer named", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("`4190a47`", "its pin"))),
+    # A pin declared that nothing names: declared in-process, so the control stays
+    # live wherever the real pins are cited, and undone after.
+    ("anchors", "a declared pin nothing names", lambda t: FOREIGN_COMMITS.update({"fffffff": "planted"}),
+     lambda: FOREIGN_COMMITS.pop("fffffff", None)),
     ("anchors", "a line number in a template with no commit", lambda t: append(t, "templates/brief.md", "\nThe planted rule is at METHOD.md:241.\n")),
     ("refs", "a wrapped section reference", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("[METHOD.md](../METHOD.md)\n§3", "[METHOD.md](../METHOD.md)\n§9", 1))),
     ("refs", "a bare section sign", lambda t: append(t, "templates/verifier.md", "\nThe planted rule (§9) applies here.\n")),
@@ -1537,7 +1545,7 @@ def control(root):
         print("CONTROL REFUSED: the tree fails before any fault is planted, so a caught plant proves nothing")
         return 1
     missed, total = 0, 0
-    for check, what, plant in PLANTS:
+    for check, what, plant, *undo in PLANTS:
         tmp = tempfile.mkdtemp(prefix="check_method-")
         try:
             t = os.path.join(tmp, "t")
@@ -1551,6 +1559,8 @@ def control(root):
                 verdict = {"fail": "caught", "pass": "NOT CAUGHT: this check cannot fail this way",
                            "crash": "CRASHED: the plant broke the check rather than being caught"}[after]
         finally:
+            for u in undo:  # a plant made in-process, not in the copy
+                u()
             _rmtree(tmp)
         total += 1
         missed += verdict != "caught"
