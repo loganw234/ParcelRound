@@ -23,8 +23,9 @@ METHOD.md, and every line number to the commit it is counted at.
   study. Each row was adopted at the owner's word, in the answers round
   6's plan of record records: the proposals and B rows practised in a
   later round at "Everything practised (Recommended)"; the R rows, and
-  S1, S4, S5 and S6, at "Restore safeguards (Recommended)", which named
-  them; B9, S2 and S3 by name, as their rows say.
+  S1, S4, S5 and S6, under "Restore safeguards (Recommended)", which
+  named R1, R2 and those four (R3 to R5 are in the plan's table of
+  safeguards, approved with it); B9, S2 and S3 by name, as their rows say.
 - **adopted in part at `<commit>`**: the same, for only the part the
   status names: the part that was practised, or the part a ruling kept.
 - **pending**, or **not adopted**: not in METHOD.md. The reason is given. A
