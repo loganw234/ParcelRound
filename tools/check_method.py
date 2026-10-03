@@ -11,6 +11,26 @@ It reads structure and citations, never what a rule says. A gate that reads a
 rule's wording is a stated limit, not a guarantee (case study 4's proposals
 for section 5). Checks 7 and 9 read text, and are such limits.
 
+Threat model (the owner's decision, 2026-10-02). The gate guards against two
+things:
+  - drift by honest, fallible authors:
+    - a reference that goes stale as files change (a line number, a link, an
+      anchor, a section number);
+    - a citation of something the record does not hold;
+    - a passage another repository reads, changed or duplicated;
+    - the adoption record drifting from the case studies;
+    - a section renamed, or an archived record edited;
+  - accidental publication: a personal address, a home-directory path or a
+    secret-shaped token written into a file, an archive, the index, history
+    or a commit message, the way pasted output or a careless note carries one.
+It does not guard against deliberate evasion: text built to pass it, such as
+an address encoded, split or spelled out, or a citation or link in a syntax
+its patterns don't read. Catching that is the verifiers' and the owner's job.
+Nor does it judge content: whether a rule says what its incident supports is
+a verifier's question, not this gate's. A fault built against the gate is
+judged against this paragraph. Inside the threat model, the gate must catch it
+or a limit below must state it. Outside the model, it is out of scope.
+
 The checks, by name:
   links      1. every relative link target in a Markdown file names a file
                 inside the repository, spelled exactly as it is (GitHub's paths
