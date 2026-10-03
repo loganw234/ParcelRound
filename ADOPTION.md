@@ -41,9 +41,10 @@ METHOD.md, and every line number to the commit it is counted at.
 
 **Templates.** The template column names the templates a row's rule is
 compiled into, as round 6 assigned them. The templates carry some rules in
-more places than the column names. Each template line names its own
-METHOD.md section, in parentheses, so the line, not this column, says where
-it comes from. For round 2's rows, the column gives the templates P5 put
+more places than the column names. Each rule in a template is tagged, in
+parentheses, with the METHOD.md section it comes from, or "own" for the
+templates' own guidance, as each template's legend says; the tag, not this
+column, says where a line comes from. For round 2's rows, the column gives the templates P5 put
 each in, or "none" with the reason.
 
 **Evidence.** The survey of 2026-10-02,
@@ -145,14 +146,14 @@ names the commit it is counted at, since lines move.
 | CS5#11 | The case study is written from the ledger, not from the lead's memory, and read against it by someone other than the lead before it is pushed | extension | pending: practised only in the round that proposed it | archive/round6-practice-survey.md, CS5#11 | — | — | — |
 | CS5#12 | Parcels, and their verifiers, can run on a smaller model when the work is sentences rather than code | observation | pending: practised only in the round that proposed it | archive/round6-practice-survey.md, CS5#12 | — | — | — |
 | CS5#13 | Take each agent's model from its transcript, not from its dispatch | new | pending: practised only in the round that proposed it | archive/round6-practice-survey.md, CS5#13 | — | — | — |
-| CS6#1 | A gate states its threat model before its first verifier pass; a fault outside it is out of scope, and one inside it is caught or stated by behaviour | extension | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 1 and 2 | — | — | — |
-| CS6#2 | A citation that writes one fact twice, as a link's text and its URL, is held equal by the gate, or written once | new | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 10 | — | — | — |
-| CS6#3 | Planted-fault keys, and any description of their plants, stay out of the ledger until every verifier on a planted copy in the round has reported | new | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 6 | — | — | — |
-| CS6#4 | A verifier on a planted copy forms its view before it reads the parcel's file, which holds the parcel's design | reinforcement | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 5 | — | — | — |
-| CS6#5 | A wrong answer the lead's own ruling caused is the lead's to fix, past a verifier; the parcel that followed it is not sent back | extension | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 4 | — | — | — |
-| CS6#6 | A restate at the merge only narrows a sentence to its source; it adds nothing the record does not hold | extension | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 12 | — | — | — |
-| CS6#7 | A published ledger names places by roots each dispatch defines, never by an absolute path | new | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 11 | — | — | — |
-| CS6#8 | A value in the lead's entry is read from the command that measured it, not typed | extension | pending: proposed by the round that practised it | CASE-STUDY-6.md, obs 11 | — | — | — |
+| CS6#1 | A gate states its threat model before its first verifier pass; a fault outside it is out of scope, and one inside it is caught or stated by behaviour | extension | pending: proposed by round 6 | CASE-STUDY-6.md, obs 1 and 2 | — | — | — |
+| CS6#2 | A citation that writes one fact twice, as a link's text and its URL, is held equal by the gate, or written once | new | pending: proposed by round 6 | CASE-STUDY-6.md, obs 10 | — | — | — |
+| CS6#3 | Planted-fault keys, and any description of their plants, stay out of the ledger until every verifier on a planted copy in the round has reported | new | pending: proposed by round 6 | CASE-STUDY-6.md, obs 6 | — | — | — |
+| CS6#4 | A verifier on a planted copy forms its view before it reads the parcel's file, which holds the parcel's design | reinforcement | pending: proposed by round 6 | CASE-STUDY-6.md, obs 5 | — | — | — |
+| CS6#5 | A wrong answer the lead's own ruling caused is the lead's to fix, past a verifier; the parcel that followed it is not sent back | extension | pending: proposed by round 6 | CASE-STUDY-6.md, obs 4 | — | — | — |
+| CS6#6 | A restate at the merge only narrows a sentence to its source; it adds nothing the record does not hold | extension | pending: proposed by round 6 | CASE-STUDY-6.md, obs 12 | — | — | — |
+| CS6#7 | A published ledger names places by roots each dispatch defines, never by an absolute path | new | pending: proposed by round 6 | CASE-STUDY-6.md, obs 11 | — | — | — |
+| CS6#8 | A value in the lead's entry is read from the command that measured it, not typed | extension | pending: proposed by round 6 | CASE-STUDY-6.md, obs 11 | — | — | — |
 | B1 | A verifier on the plan of record, before the owner approves it | practice | adopted at `d38fea1` | archive/round6-practice-survey.md, Table B | 7. What the lead keeps | checklists | P4 |
 | B3 | The send-back rule: only a regression or a wrong answer sends work back; anything else merges as a recorded known limit, and a sentence that claims too much is restated at the merge | practice; the owner's rule, 2026-09-27 | adopted at `4ff28ca` | archive/round6-practice-survey.md, Table B | What READY needs, and what sends work back | verifier | P3 |
 | B4 | Agents test quickly and hand long runs back to the lead | practice; the owner's rule, 2026-09-29 | adopted at `d38fea1` | archive/round6-practice-survey.md, Table B | 7. What the lead keeps | brief, checklists | P4 |

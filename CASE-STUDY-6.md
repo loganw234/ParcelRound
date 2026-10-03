@@ -4,7 +4,7 @@ Reconstructed after the round from its ledger and from the session's
 transcripts. The ledger is archived beside this file at the round's end. It
 covers one round of one project, ParcelRound itself:
 - the lead's P0, which built an adoption record and a gate over the method,
-  and went past a verifier five times;
+  and went past a verifier six times;
 - four parcels, which brought METHOD.md's eight sections to the method as
   practised;
 - a fifth, which compiled the templates from the result;
@@ -85,7 +85,8 @@ owner's to settle, and record how the round ended.
    verifier loop over a spelling rule does not end by itself (obs 15), and
    that a limit stated by the faults that found it lets a fault of another
    kind through (obs 21). P0's gate went through four passes in four hours.
-   - The first found 25 faults outside every stated limit (17:44:01). Its
+   - The first found 30 faults outside every stated limit, 25 in its
+     84-fault run and 5 in separate runs (17:44:01). Its
      ruling already asked for limits stated by the behaviour they concede,
      but the docstring still listed what had been found.
    - The second found a regression, and gaps stated by their instances
@@ -99,18 +100,21 @@ owner's to settle, and record how the round ended.
    and the gate had grown from 712 lines to 1,563 (21:05:47).
 
 2. **A threat model ended the loop, and its last pass found a real defect
-   inside it.** The owner set the threat model at 21:05:47: the gate guards
-   against drift by honest authors and against accidental publication, not
-   against deliberate evasion, nor does it judge content. A fault outside
+   inside it.** At the lead's recommendation, the owner had the gate state
+   a threat model (21:05:47), in words the lead wrote (`33fb047`): the gate
+   guards against drift by honest authors and against accidental
+   publication, not against deliberate evasion, nor does it judge content. A fault outside
    the model is out of scope; inside it, the gate must catch it or a limit
    must state it. Judged against that paragraph, the fourth pass found one
    defect inside it: the paragraph said the gate holds line numbers, and
    check 4 read them only in ADOPTION.md (verifier-P0, 21:10:30). It was
    fixed, not scoped down, and a scoped re-check closed it (21:19:10).
 
-3. **The verifiers' real findings in wave 1 were all overreach.** With
-   evasion out of scope, the verifiers' list put content first. Every real
-   finding they made in the parcels' work was a sentence wider than its
+3. **The verifiers' real findings in the parcels' own text were
+   overreach.** With evasion out of scope, the verifiers' list put content
+   first. Besides pointers to other sections that held once every parcel
+   had merged, and an older sentence that a new one now contradicted, each
+   real finding in a parcel's own text was a sentence wider than its
    source, which the gate does not judge:
    - "the lead decided" in six rounds, cited for three (B13);
    - "the lead judged READY", where the verifiers did (CS4#7);
@@ -124,7 +128,7 @@ owner's to settle, and record how the round ended.
    - "a bare hash", where the source says SHA-256.
 
    None was a wrong answer of a parcel's own making, so no parcel went
-   back. The lead restated each at the merge, in a commit of its own after
+   back; the round's one wrong answer was the lead's (obs 4). The lead restated each at the merge, in a commit of its own after
    it (22:53:58, 23:06:11).
 
 4. **The round's one wrong answer was the lead's own ruling, and a verifier
@@ -166,9 +170,11 @@ owner's to settle, and record how the round ended.
 6. **The lead revealed keys while a verifier still worked.**
    - The 22:53:58 entry revealed three keys, with their plants' shapes,
      while verifier-P4 was still working on a copy built the same way.
-   - verifier-P4's file shows that it saw the entry appear, that its two
-     findings were already recorded, and that it listed the keys by name
-     only and opened none (22:54:53). Its grade rests on that record
+   - verifier-P4's file shows that it saw the entry appear, that it had
+     formed its two findings from the sources before it read the entry,
+     and that it listed the keys by name only and opened none (22:54:53).
+     The entry that records the findings is itself stamped after the
+     reveal. Its grade rests on that record
      (23:06:11).
    - The shapes reached wave 2 as well, and not through the keys. The
      lead's entries that graded wave 1 described each plant in prose, and
@@ -185,8 +191,9 @@ owner's to settle, and record how the round ended.
        rounds, a word no source holds.
      - One was wider than its case: "unrelated parcels need not wait",
        which the case supports only as "need not wait for its fixes".
-   - **P5** listed eight things its brief and the shared text got wrong
-     (00:06:17), and the lead accepted them (00:11:29). One was the lead's
+   - **P5** listed eleven items under what its brief got wrong (00:06:17),
+     eight of them errors in its brief and the shared text; the lead
+     accepted them (00:11:29). One was the lead's
      own measurement: the finding that the templates' placeholders render as
      nothing on GitHub (21:21:12) had been measured on a shortened text. P5
      measured the files: 11 of brief.md's 44 placeholders vanished, and 9
@@ -219,22 +226,29 @@ owner's to settle, and record how the round ended.
       so a URL naming another line passes. The lead stated it.
     - verifier-I then found the lead's new statement of the passage limit
       stated by its instance again, emphasis, and the new count reading less
-      than check 9 says it reads. `e5ce41e` fixed both, with a 50th control.
+      than check 9 says it reads. `5c19906` restated the limit, and
+      `e5ce41e` widened the count's reach and added a 50th control.
 
-11. **The published ledger held no absolute path, and the lead typed three
+11. **The published ledger held no absolute path, and the lead typed six
     values.** The ledger's README, every brief and every entry named places
     by `<repos>` and `<scratch>`. The gate's privacy scan of the ledger
     found no address, path or token (verifier-P0, 21:18:33). Three times the
-    lead wrote a value it had not read:
+    lead wrote into the ledger a value it had not read:
     - a time, "18:2x", corrected at 18:27:26 by two clock readings that
       bound it;
     - a commit, "8f-merge", left unfilled in the entry that listed the
       merges, corrected at 23:09:17;
     - an entry's time, "23:54" for 23:53:44, corrected at 00:11:37.
 
-    Each correction is an appended entry, as the ledger's rule asks. A
-    fourth typed value, in a message to verifier-I, named an entry by a
-    time no entry has, and verifier-I found it (00:18:34).
+    Each correction is an appended entry, as the ledger's rule asks. Three
+    more were typed elsewhere:
+    - in a message to verifier-I, an entry named by a time no entry has,
+      which verifier-I found (00:18:34);
+    - in this file's draft, "00:24:05" for the stamp 00:24:40, replaced
+      at once and recorded later;
+    - also in this file's draft, "00:49:21" for 00:46:54, which a script
+      checking every cited time against the ledger caught before the
+      commit (00:53:23).
 
 12. **The integration verifier found more restates in the lead's own work
     than in any parcel's.** verifier-I remade the four merges exactly and
@@ -263,15 +277,17 @@ owner's to settle, and record how the round ended.
     pass found one phrase still claiming more than the plan records
     (00:18:34), fixed at `6975994`.
 
-13. **Wave 2's parcel claimed more coverage than it had, in the other
-    direction.** P5 compiled the four templates from METHOD.md, each rule
-    tagged with the section it comes from. Its own checks found every tag's
-    sentence in its section, and every pair ADOPTION.md sends to a template
-    carried. Its report added "and none it doesn't", and the lead's entry
-    repeated it (00:23:24). verifier-P5 found the templates carry more:
-    correct rules, each with its section, that ADOPTION.md's template
-    column does not send them (00:45:48). The column was narrower than the
-    templates, and the claim was wider than the measurement.
+13. **Wave 2's parcel said its templates carry only what ADOPTION.md
+    assigns them, and they carry more.** P5 compiled the four templates
+    from METHOD.md, each rule tagged with the section it comes from. Its own
+    checks found every tag's sentence in its section, and every pair
+    ADOPTION.md sends to a template carried. Its entry added that "none is
+    carried that ADOPTION.md does not send there", and the lead's entry
+    repeated it as "and none it doesn't" (00:23:24). verifier-P5 found
+    the templates carry more: correct rules, each with its section, that
+    ADOPTION.md's template column does not send them (00:45:48). The column
+    was narrower than the templates, and the claim wider than what was
+    measured.
 
 ## Cost of the round (measured from the transcripts)
 
@@ -343,7 +359,8 @@ observations each rests on.
   never by an absolute path** (new; section 4's "a fixed absolute path"
   predates it). [11]
 - **A value in the lead's entry is read from the command that measured it,
-  like a stamp, not typed** (extension of case study 3's stamp rule). [11]
+  like a stamp, not typed** (extension of the stamp rule, which case
+  study 3 carried into every brief). [11]
 
 ## The round's end
 
