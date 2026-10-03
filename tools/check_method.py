@@ -28,8 +28,10 @@ The checks, by name:
                 any other id fails
   anchors    4. every ADOPTION.md row whose status is adopted names METHOD.md
                 headings that exist; every file:line anywhere in ADOPTION.md
-                names the commit it is counted at; and in a repository, every
-                commit ADOPTION.md names is in HEAD's history
+                has a commit, in backticks, in its cell or line; in a
+                repository, every commit ADOPTION.md writes in backticks is in
+                HEAD's history, unless FOREIGN_COMMITS declares it another
+                repository's pin; and each pin declared there is still named
   refs       5. every section number written with a section sign or the word
                 "section", alone or in a list, in METHOD.md, README.md,
                 ADOPTION.md and templates/, is one of METHOD.md's sections. A
@@ -88,7 +90,9 @@ a new spelling of a stated class falls inside it:
     inline links (wrapped, with one level of brackets in their text, and with
     a plain or an angle-bracket target) and link definitions (with the target
     on the same line or the next). A link in any other syntax is not read:
-    HTML, an autolink, or brackets nested deeper. A link with a scheme
+    HTML, an autolink, or brackets nested deeper. A link definition is a
+    label, a target and an optional title alone on their line; a line with
+    more on it renders as text, and is read as text. A link with a scheme
     (https:, mailto:) is not fetched. An anchor into a file that is not
     Markdown is not checked. Anchors are computed by GitHub's rule for "#"
     headings of plain text, so a setext heading, or one holding HTML, may
@@ -96,7 +100,8 @@ a new spelling of a stated class falls inside it:
   - citations: citations are found by a pattern over square brackets, not by
     a parser. A citation in any other shape is not read: in parentheses, as a
     link's text, as an image's alt text, or in code. Nor is one outside
-    METHOD.md and templates/.
+    METHOD.md and templates/. A footnote's text is read, and so is a line
+    that only looks like a link definition.
     - A time resolves if the round's record holds that minute anywhere in the
       case study's text or the archived ledger's Markdown, whatever it was: an
       entry's stamp, a time an entry records, a ratio such as 1:24, an
@@ -108,10 +113,12 @@ a new spelling of a stated class falls inside it:
       observation number is a placeholder.
   - proposals: it holds ids, not the rows' content, so a wrong status passes.
   - anchors: it holds that an adopted row's headings exist, not that the rule
-    is under them. It holds that every file:line names a commit, and in a
-    repository that the commit is in HEAD's history; not that the line is
-    right at it. A line named any other way ("line 66 of METHOD.md") is not
-    read. Outside a repository, a commit is not looked up.
+    is under them. It holds that every file:line has a commit beside it, and
+    in a repository that each commit is in HEAD's history; not that the line
+    is right at it, nor that the commit beside it is the one it was counted
+    at. A line named any other way ("line 66 of METHOD.md") is not read, and
+    nor is a commit written other than in backticks. Outside a repository, a
+    commit is not looked up.
   - refs: a section number is read after the section sign or the word
     "section", in any case, alone or in a list joined by commas, "and", "or",
     "to", "through", "&" or dashes. A section named any other way is not
@@ -131,8 +138,11 @@ a new spelling of a stated class falls inside it:
       another script's look-alike letters, encoded in base64,
       quoted-printable or another scheme, or inside an image.
     - A path is personal when it names a home directory in one of USER_PATH's
-      shapes. A home reached any other way passes: through an environment
-      variable, a symbolic link, a mapped drive, or a share of another name.
+      shapes, behind any prefix. A forward-slash shape inside a URL with a
+      host (a token beginning scheme://host, or a dotted host name) is
+      excused, so a home written as a URL's path passes. A home reached any
+      other way passes: through an environment variable, a symbolic link, a
+      mapped drive, or a share of another name.
     - A secret of a shape not in SECRET passes.
     - The personal paths in the archived ledgers KNOWN_PATHS names pass by
       design: they are records published before this gate, and their bytes
@@ -273,18 +283,21 @@ RESERVED = re.compile(r"(^|\.)(example\.(com|net|org)|example|invalid|test|local
 #     /mnt/c/... (WSL), /cygdrive/c/..., /host_mnt/c/... (containers);
 #   - backslashed with no drive, or over a share: \Users\<name>, and a WSL home
 #     reached as \\wsl$\<distro>\home\<name>;
-#   - a POSIX home: /home/<name>, /Users/<name>, after a slash, a colon or a
-#     space (file:///home/<name>, a PATH list), but not straight after a host name,
-#     since github.com/users/... is a URL.
+#   - a POSIX home, /home/<name> or /Users/<name>, behind any prefix: file:///,
+#     a PATH list, /var, /usr, /export, a mounted disk.
+# The two forward-slash shapes are excused only inside a URL with a host,
+# since github.com/users/... is a URL; see personal_paths().
 # Built from parts, so that this file holds no personal path of its own to find.
 _SL, _BS = "/", "\\"
 _PROFILES = "(?:" + "us" + "ers|documents and settings)"
 _NAME = r"[^\\/\s'\"`<>|*?:]+"
 USER_PATH = re.compile(
     r"(?i)(?<![\w])[a-z]:[\\/]+" + _PROFILES + r"[\\/]+" + _NAME
-    + "|" + _SL + r"[a-z]" + _SL + _PROFILES + _SL + _NAME
     + "|" + _BS + _BS + "(?:" + "us" + "ers|documents and settings|ho" + "me)" + _BS + _BS + "+" + _NAME
-    + r"|(?<![\w.-])" + _SL + "(?:" + "us" + "ers|ho" + "me)" + _SL + _NAME)
+    + "|(?P<slash>" + _SL + "(?:[a-z]" + _SL + _PROFILES + "|" + "us" + "ers|ho" + "me)" + _SL + _NAME + ")")
+# A token that is a URL with a host: scheme://host..., or a dotted host name
+# such as github.com, with an optional port, then a path.
+_URL_TOKEN = re.compile(r"(?i)(?:[a-z][a-z0-9+.-]*://[^\s/]+|[\w-]+(?:\.[\w-]+)*\.[a-z]{2,}(?::\d+)?)(?:/|$)")
 # Invisible format characters (Unicode category Cf: zero-width spaces and
 # joiners, the soft hyphen, the byte-order mark), which can sit inside an
 # address or a path without showing.
@@ -349,8 +362,13 @@ _LINK_TEXT = r"(?:[^\[\]\n]|\n(?![ \t]*\n))*"
 LINK = re.compile(r"\[" + _LINK_TEXT + r"\]" + _TARGET)
 # A link whose text holds one level of brackets, such as a badge: [![alt](image)](target).
 LINK_NESTED = re.compile(r"\[(?:[^\[\]\n]|\[" + _LINK_TEXT + r"\](?:\([^)\n]*\))?|\n(?![ \t]*\n))*\]" + _TARGET)
-# A link definition, its target on the same line or the next.
-LINK_DEFINITION = re.compile(r"(?m)^ {0,3}\[([^\]\n]+)\]:[ \t]*\n?[ \t]*(?:<([^>\n]+)>|(\S+))")
+# A link definition: a label (not a footnote's), its target on the same line
+# or the next, an optional title, and nothing else on the line. A line with
+# more on it is no definition, and renders as text.
+LINK_DEFINITION = re.compile(r"(?m)^ {0,3}\[(?!\^)([^\]\n]+)\]:[ \t]*\n?[ \t]*(?:<([^>\n]+)>|([^\s<]\S*))"
+                             r"(?:[ \t]+(?:\"[^\"\n]*\"|'[^'\n]*'|\([^)\n]*\)))?[ \t]*$")
+# A footnote's definition, "[^9]:"; the footnote's text after it is read.
+FOOTNOTE_LABEL = re.compile(r"(?m)^ {0,3}\[\^[^\]\n]+\]:")
 LEDGER_PHRASE = re.compile(r"(?:the )?(?:round's |parcels' |lead's )?ledger(?: files?)?", re.I)
 FENCE = re.compile(r"(?ms)^ {0,3}(`{3,}|~{3,})[^\n]*\n.*?(?:^ {0,3}\1[ \t]*$|\Z)")
 COMMENT = re.compile(r"(?s)<!--.*?(?:-->|\Z)")
@@ -361,10 +379,16 @@ CODE_SPAN = re.compile(r"`(?:[^`\n]|\n(?![ \t]*\n))*`")
 _SECTION_JOIN = r"(?:\s*(?:,|;|&|-|\u2013|\u2014|\band\b|\bor\b|\bto\b|\bthrough\b)\s*)"
 SECTION_REF = re.compile(r"§§?\s*(\d+)((?:" + _SECTION_JOIN + r"§?\s*\d+)*)"
                          r"|\bsections?\s+(\d+)((?:" + _SECTION_JOIN + r"\d+)*)", re.I)
-# A line number ADOPTION.md gives, such as METHOD.md:66 or CS2:358, and the
-# commit that counts it: at `49a9266`.
+# A line number ADOPTION.md gives, such as METHOD.md:66 or CS2:358, and a
+# commit as ADOPTION.md writes one, in backticks: `49a9266`.
 LINE_REF = re.compile(r"(?<![\w/.])[A-Za-z][\w./-]*:\d+(?:-\d+)?\b")
-COMMIT_REF = re.compile(r"\bat `([0-9a-f]{7,40})`")
+COMMIT_REF = re.compile(r"`([0-9a-f]{7,40})`")
+# Another repository's commits that ADOPTION.md names, declared once: each is
+# that repository's pin, not one of this repository's, and each must still be
+# named, so this list can't outlive its reason.
+FOREIGN_COMMITS = {
+    "4190a47": "cft-fp256, the commit at which its public docs/VALIDATION.md and docs/ROADMAP.md are read",
+}
 
 
 def read(root, rel):
@@ -626,8 +650,10 @@ def citation_matches(raw):
     renders as a bracket, so it is read too."""
     defined = {_label(m.group(1)) for m in LINK_DEFINITION.finditer(raw)}
     text = uncoded(raw)
-    # A link definition ("[label]: target") is a link, not a citation.
-    text = re.sub(r"(?m)^ {0,3}\[[^\]\n]+\]:.*$", _blank, text)
+    # A link definition ("[label]: target") is a link, not a citation, and so
+    # is a footnote's label. The text after a footnote's label, and any line
+    # that only looks like a definition, are read.
+    text = FOOTNOTE_LABEL.sub(_blank, LINK_DEFINITION.sub(_blank, text))
     for m in BRACKET.finditer(text):
         if text[m.end():m.end() + 1] == "(":
             continue  # a link's text; its target is check 1's
@@ -769,6 +795,13 @@ def method_headings(root):
 
 
 def check_anchors(root):
+    return anchors(root, foreign=True)
+
+
+def anchors(root, foreign):
+    """Check 4. foreign=False skips only the check that each FOREIGN_COMMITS
+    entry is still named, for the controls' scratch repositories, which name
+    none of them."""
     rows = adoption_rows(root)
     if rows is None:
         return ["ADOPTION.md does not exist"], "no ADOPTION.md"
@@ -791,25 +824,32 @@ def check_anchors(root):
                 if h not in heads:
                     bad.append(f"ADOPTION.md line {i}: {cells[0]} is {cells[si]} at "
                                f"'{h}', which is no heading in METHOD.md")
-    # Lines move, so a line number is only true at a commit, and says which: in
+    # Lines move, so a line number is only true at a commit, and names one: in
     # every cell of every row, and in every line of prose.
-    refs, commits = 0, set()
-    for i, line in enumerate(read(root, "ADOPTION.md").splitlines(), 1):
-        commits |= set(COMMIT_REF.findall(line))
+    text = read(root, "ADOPTION.md")
+    refs = 0
+    for i, line in enumerate(text.splitlines(), 1):
         parts = line.strip().strip("|").split("|") if line.startswith("|") else [line]
         for part in parts:
             found = LINE_REF.findall(part)
             refs += len(found)
             if found and not COMMIT_REF.search(part):
                 bad.append(f"ADOPTION.md line {i}: {found[0]} without the commit it is counted at")
-    # And the commits named are this repository's own, in what main will carry.
+    # Every commit ADOPTION.md writes, whatever word precedes it, is this
+    # repository's own, in what main will carry, or another repository's pin
+    # that FOREIGN_COMMITS declares.
+    commits = set(COMMIT_REF.findall(text))
+    if foreign:
+        for sha in sorted(set(FOREIGN_COMMITS) - commits):
+            bad.append(f"FOREIGN_COMMITS declares {sha}, which ADOPTION.md no longer names; remove it")
+    own = sorted(commits - set(FOREIGN_COMMITS))
     if is_repository(root):
-        for sha in sorted(commits):
+        for sha in own:
             r = subprocess.run(["git", "-C", root, "merge-base", "--is-ancestor", sha, "HEAD"],
                                capture_output=True, env=dict(os.environ, GIT_OPTIONAL_LOCKS="0"))
             if r.returncode != 0:
                 bad.append(f"ADOPTION.md names commit {sha}, which is not in HEAD's history")
-        note = f"{len(commits)} commits found in HEAD's history"
+        note = f"{len(own)} commits looked up in HEAD's history"
     else:
         note = "commits not looked up: no .git here"
     return bad, f"{n} adopted rows and {refs} line numbers read; {note}"
@@ -930,10 +970,26 @@ def decoded(text):
     return _FORMAT_CHARS.sub("", unicodedata.normalize("NFKC", html.unescape(unquote(text))))
 
 
+def personal_paths(text):
+    """The spans of the personal paths in a text. A forward-slash shape is
+    excused only where its token, the text since the last space or quote,
+    begins as a URL with a host: https://github.com/users/<name> is a URL;
+    file:///home/<name>, /var/home/<name> and PATH=/usr/bin:/home/<name> are
+    paths."""
+    out = []
+    for m in USER_PATH.finditer(text):
+        if m.group("slash") is not None:
+            start = max(text.rfind(c, 0, m.start()) for c in " \t\n\"'<>()[]{}`") + 1
+            if _URL_TOKEN.match(text, start) and start < m.start():
+                continue
+        out.append(m.span())
+    return out
+
+
 def findings(text):
     """(disallowed address keys, holds a personal path, holds a secret) for a text."""
     t = decoded(text)
-    return disallowed(t), bool(USER_PATH.search(t)), bool(SECRET.search(t))
+    return disallowed(t), bool(personal_paths(t)), bool(SECRET.search(t))
 
 
 def described(keys, path, secret):
@@ -1180,7 +1236,8 @@ def scrub(line):
     secret-shaped token masked: what the gate refuses, it never prints, since
     its output is pasted into ledgers that will be published."""
     line = decoded(line)
-    line = USER_PATH.sub("<a personal path>", line)
+    for a, b in reversed(personal_paths(line)):
+        line = line[:a] + "<a personal path>" + line[b:]
     line = SECRET.sub("<a secret-shaped token>", line)
     return EMAIL.sub(lambda m: m.group(0) if address_ok(m.group(1), m.group(2)) else "<an address>", line)
 
@@ -1237,6 +1294,7 @@ def zipped(members):
 PLANTED_ADDRESS = "someone" + "@" + "personal-domain.net"
 PLANTED_PATH = "C:" + _BS + "Us" + "ers" + _BS + "someone" + _BS + "work"
 PLANTED_MOUNT_PATH = _SL + "mnt" + _SL + "c" + _SL + "Us" + "ers" + _SL + "someone" + _SL + "work"
+PLANTED_DEEP_HOME = _SL + "var" + _SL + "ho" + "me" + _SL + "someone" + _SL + "work"
 PLANTED_HIDDEN_ADDRESS = "some" + "​" + "one" + "@" + "personal-domain.net"
 
 
@@ -1267,6 +1325,8 @@ PLANTS = [
     ("citations", "a case study named another way", lambda t: append(t, "METHOD.md", "\nA planted citation. [CS3, 12:37]\n")),
     ("citations", "an escaped citation of no case study", lambda t: append(t, "METHOD.md", "\nA planted citation. \\[CASE-STUDY-9, 10:00]\n")),
     ("citations", "a citation after a bracket, no label defined", lambda t: append(t, "METHOD.md", "\nA planted citation. [see][CASE-STUDY-9, 10:00]\n")),
+    ("citations", "a citation in a footnote's text", lambda t: append(t, "METHOD.md", "\n[^9]: A planted note. [CASE-STUDY-9, 10:00]\n")),
+    ("citations", "a citation on a line shaped like a definition", lambda t: append(t, "METHOD.md", "\n[aside]: https://example.com [CASE-STUDY-9, 10:00]\n")),
     ("citations", "an archived ledger edited", plant_archive_member),
     ("proposals", "a case study's row removed", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(r"(?m)^\| CS3#1 \|.*\n", "", s, count=1))),
     ("proposals", "a B row removed", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(r"(?m)^\| B9 \|.*\n", "", s, count=1))),
@@ -1274,6 +1334,7 @@ PLANTS = [
         r"(?m)^(\| CS2#1 \|(?:[^|]*\|){4})[^|]*\|", r"\1 No such heading |", s, count=1))),
     ("anchors", "a line number with no commit", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("; both at `49a9266`", "", 1))),
     ("anchors", "a line number in prose with no commit", lambda t: append(t, "ADOPTION.md", "\nThe planted rule is at METHOD.md:66.\n")),
+    ("anchors", "a declared foreign pin no longer named", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("`4190a47`", "its pin"))),
     ("refs", "a wrapped section reference", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("[METHOD.md](../METHOD.md)\n§3", "[METHOD.md](../METHOD.md)\n§9", 1))),
     ("refs", "a bare section sign", lambda t: append(t, "templates/verifier.md", "\nThe planted rule (§9) applies here.\n")),
     ("refs", "section signs in a list joined by 'and'", lambda t: append(t, "templates/verifier.md", "\nSee §§4 and 9.\n")),
@@ -1294,6 +1355,7 @@ PLANTS = [
     ("privacy", "a percent-encoded address", lambda t: append(t, "README.md", "\n[Write](mailto:" + PLANTED_ADDRESS.replace("@", "%40") + ").\n")),
     ("privacy", "an address split by an invisible character", lambda t: append(t, "README.md", f"\nContact {PLANTED_HIDDEN_ADDRESS}.\n")),
     ("privacy", "a personal path behind a mount prefix", lambda t: append(t, "ADOPTION.md", f"\nRead at {PLANTED_MOUNT_PATH}.\n")),
+    ("privacy", "a home after another path segment", lambda t: append(t, "ADOPTION.md", f"\nRead at {PLANTED_DEEP_HOME}.\n")),
     ("privacy", "an address in a nested archive", lambda t: write_bytes(t, "archive/planted.zip", zipped(
         [("inner.zip", zipped([("lead.md", f"# lead\n\nwrite to {PLANTED_ADDRESS}\n")]))]))),
     ("privacy", "an address in an archive's comment", plant_archive_comment),
@@ -1369,6 +1431,12 @@ def git_plant_foreign_commit(g, repo):
         f.write("| X2 | a rule | t | pending | METHOD.md:5 at `0000000` | — | — | — |\n")
 
 
+def git_plant_commit_spelled_otherwise(g, repo):
+    # A status that names a commit with no "at" before it.
+    with open(os.path.join(repo, "ADOPTION.md"), "a", encoding="utf-8", newline="\n") as f:
+        f.write("| X3 | a rule | t | adopted in `0000000` | — | — | — | — |\n")
+
+
 GIT_PLANTS = [
     # (the check, what is planted, how, any setup the clean baseline needs)
     ("privacy", "an address in a commit message", git_plant_message_address, None),
@@ -1377,6 +1445,7 @@ GIT_PLANTS = [
     ("privacy", "an address only the index holds", git_plant_index_only, None),
     ("links", "a link to a file not in the index", git_plant_link_untracked, None),
     ("anchors", "a commit not in HEAD's history", git_plant_foreign_commit, git_setup_adoption),
+    ("anchors", "a commit written without 'at'", git_plant_commit_spelled_otherwise, git_setup_adoption),
 ]
 
 
@@ -1389,7 +1458,7 @@ def control_in_repository(plant, check="privacy", setup=None):
     env = dict(os.environ, GIT_AUTHOR_NAME="control", GIT_AUTHOR_EMAIL="control@example.com",
                GIT_COMMITTER_NAME="control", GIT_COMMITTER_EMAIL="control@example.com",
                GIT_CONFIG_NOSYSTEM="1", GIT_OPTIONAL_LOCKS="0")
-    which = "privacy-in-repository" if check == "privacy" else check
+    which = {"privacy": "privacy-in-repository", "anchors": "anchors-in-repository"}.get(check, check)
 
     def g(*a):
         subprocess.run(["git", "-C", tmp, *a], check=True, capture_output=True, env=env)
@@ -1414,7 +1483,8 @@ def control_in_repository(plant, check="privacy", setup=None):
 def outcome(t, check):
     """'pass', 'fail' or 'crash': a control counts only a failure the check
     reports, never a crash, which proves nothing about the plant."""
-    fn = dict(CHECKS)[check] if check != "privacy-in-repository" else lambda r: privacy(r, exceptions=False)
+    fn = {"privacy-in-repository": lambda r: privacy(r, exceptions=False),
+          "anchors-in-repository": lambda r: anchors(r, foreign=False)}.get(check) or dict(CHECKS)[check]
     try:
         bad, _ = fn(t)
     except Exception:
