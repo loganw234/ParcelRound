@@ -852,10 +852,22 @@ Round 2 added six, three of them about the gate's own plumbing:
   build: `make all` does not build them, twice in one round. [11:50;
   the card day]
 - **The lead's code goes through the same gates as a parcel's**, and
-  where it is more than a line, through a verifier. Twice the lead's
-  own change was wrong on its first run - a stale test binary standing
-  in for a gate, a bound computed from the wrong example - and both
-  times a gate caught it, not a person. [11:50; 17:39]
+  through a verifier: every seam commit and every fix, all round, not
+  only P0, before main moves (§7 has its merges and records). Twice the
+  lead's own change was wrong on its first run - a stale test binary
+  standing in for a gate, a bound computed from the wrong example - and
+  both times a gate caught it, not a person. [11:50; 17:39] Round 3's
+  two seam commits, one of nine files with code among them, went past
+  gates and CI alone [CASE-STUDY-3, §5]. Round 4's P0 verifier found
+  four new defects when it re-checked the lead's fixes to its 21
+  findings, three of them in the gates written to answer them
+  [CASE-STUDY-4, 15:59]. Round 5's plan had the rule with no exemption
+  in it, and its lead still put eight commits of its own on main with no
+  verifier, among them an email gate, one list of edges and the site's
+  ledger as a source. The verifier found gate-kind defects in three, the
+  email gate's among them: it read raw bytes, so an encoded address
+  passed. The lead's own gate was no substitute for someone else's.
+  [CASE-STUDY-5, obs 2]
 - **When a mechanism is enforced in two places, a gate that reads the
   cheapest observable cannot see a defect in the other.** A mask was
   enforced at the active set and again at the drain strobes; the
@@ -889,6 +901,46 @@ differ from the inactive one." Require the parcel to build it, run it,
 confirm it fails, delete the artifact, and **report both results**. A
 control described but not run is worth nothing, so ask for its output.
 
+**A control names the rule it exercises, and restores the bytes it
+planted over exactly.** A control that fails for some other reason
+than the one it was written for tests nothing, and nothing shows it.
+In round 5 two email controls were caught by raw text that still held
+the whole address, so their joining rule was never exercised; and on
+Windows 22 of the lead's control writes wrote CRLF line endings, and
+the carriage returns left in a restored MANIFEST satisfied five new
+controls that named no file. Neither showed as a failure.
+[CASE-STUDY-5, obs 9]
+
+### What a gate cannot see, and who finds it
+
+**A gate that reads source text is a stated limit, not a guarantee.**
+In round 4 each gate written as a list of forbidden spellings fell to
+a spelling it did not list, and so did the three allowlists that
+came after. What held checked what the code does: an audit hook that
+sees a process, a socket or a file write however it is spelled, and
+exact checks on tight inputs inside each step. So put the guarantee in
+a check of behaviour, and state what that check cannot see.
+[CASE-STUDY-4, obs 10; obs 14]
+
+**A limit is stated by the behaviour it concedes, not by the plants
+that found it.** Round 4's second parcel stated its limits as the
+faults it had met, rebindings below the names and a rebinding between
+checks. A trace hook installed at import was neither, and it passed
+every gate: a limit stated by its instances is walked past, as a rule
+stated by its instances is. The fix stated the class, with the trace
+hook as its plant. A limit stated that way holds against a new
+spelling of the same behaviour. Section 6 tests each stated limit that
+way, and a known limit recorded at a merge is one. [CASE-STUDY-4,
+obs 21]
+
+**The lead's fixes to a verifier's findings go back to that verifier,
+which picks its own faults.** Each gate written to answer a finding
+had been watched to fail, but on faults its author chose: the premise
+gate's author planted only faults that scale with precision, and the
+gate was blind to the one kind that does not. The P0 verifier's first
+three passes found 21, then 4, then 5 defects, a third of them in
+fixes to the pass before. [CASE-STUDY-4, obs 7; obs 13]
+
 ---
 
 ## 6. The verifier
@@ -897,7 +949,9 @@ For anything hard to check by reading, put a second agent between the
 parcel and the merge whose job is to *disconfirm*. Template at
 [templates/verifier.md](templates/verifier.md).
 
-**Inputs:** the brief, the diff, and the parcel's claimed results.
+**Inputs:** the brief, the diff, and the parcel's claimed results. When
+it reads the last of these is §4's: "Verifiers watch the lead's channel
+only".
 
 **It must:**
 
@@ -911,6 +965,31 @@ parcel and the merge whose job is to *disconfirm*. Template at
   a `TODO` where work was claimed;
 - **verify the "nothing else regressed" claim by running the rest**, not
   by reading it.
+
+**A verifier may reuse a run instead of re-running it, but only when
+all three hold:**
+
+- someone other than the author of the work under verification made
+  the run;
+- the inputs are identical, the hashes of the binaries the run used
+  included;
+- the verifier re-runs from clean anything it doubts.
+
+So a parcel's verifier may reuse a long run the lead made for that
+parcel (§7), but the verifier of the lead's own work may not reuse the
+lead's run, and the full suite at the tip of the branch main will move
+to is always run afresh before main moves. The allowance rests on a
+cost, not on a break: round 3's runner had no cache, so the parcel, its
+verifier, the fixer and the re-check each paid in full for the same long
+stages, which the case study infers were much of the agents' time, and
+the saving from reuse is an estimate, in hours, not a measurement
+[CASE-STUDY-3, Where the wall clock went]. The conditions keep what the
+first duty above is for. A run the author made is the pasted output that
+duty exists not to trust: the lead's own gate passed commits whose
+gate-kind defects only a verifier found [CASE-STUDY-5, obs 2]. A run on
+a stale binary says nothing about the work: the lead's script ran a
+binary from 05:13 on two merge gates [11:50]. And whatever the verifier
+doubts it still re-runs from clean.
 
 **It must NOT fix anything.** A verifier that edits is a second author
 with none of the first one's context, and you lose the independence you
@@ -946,6 +1025,38 @@ before" — by writing the file at both commits and comparing. The
 behaviour was fine; the sentence was not, and a sentence in the code is
 something the next person will rely on.
 
+**Put "check every claim in a comment, doc or commit message" on every
+verifier's list when parcels write documents.** It extends the rule
+above. Six of round 3's eleven defects were false text in the rows
+parcels wrote about their own change, and all six were caught: four by
+wave-2 verifiers whose list said that, two by wave-1 verifiers whose
+list said comments and commit messages only, one of which widened its
+list and one of which found it under "anything else". [CASE-STUDY-3,
+§7]
+
+**The verifier reads a claim's domain and quantifier as claims, beside
+its numbers.** Both defects round 4's second-round verifier found lay
+in the words around a measured figure, not in the figure: a table's
+columns, 16 to 64, read as a band out to 90, and "for ANY law" on the
+evidence of one law. The same slip was made twice more where no
+verifier was looking, and the lead caught both before they were
+committed: a draft saying every piece of the work had been checked by
+an independent agent, and an account saying every number in the paper
+is held, when its check holds the ones it lists. So ask of each claim
+how far it reaches, and what was measured to reach that far.
+[CASE-STUDY-4, obs 23]
+
+**A figure that crosses into the documents from any report carries its
+definition, or is re-measured**, a verifier's report included. Two
+figures reached round 4's docs with the parcel's label and not its
+definition: "units of u", where u was the uniform a target is drawn
+from and not the unit roundoff, and "(relative)" on distances that
+were absolute. Every figure traced to the ledger, so a check that
+traced figures passed both. [CASE-STUDY-4, obs 20] A verifier's "2
+independent modes" became "two modes" in the lead's correction, a word
+dropped and the error kept, and four more of its figures went into the
+docs unmeasured by the lead. [CASE-STUDY-4, obs 28]
+
 **A verifier per parcel pays.** Round 2's four verifiers were 38
 percent of the agents' tokens and produced four send-backs, none for a
 wrong bit: each found a property the parcel had no instrument for - a
@@ -965,9 +1076,25 @@ that reads a caller's buffer, "derive the increment" for any count a
 report quotes, and the lead's own artefacts - the seam paragraph, the
 plan's premise - beside the parcel's. [09:29; 10:49; 13:34; 14:56]
 
+**The lead's grants and rulings made after dispatch are on the
+verifier's list**, as items to check and not only as reading. Two of
+round 3's eleven defects came from them: a grant that keyed a new
+refusal on the format ceiling and so refused a working build, and a
+skip rule that let one run count the same missing capability both
+ways. Both reached the verifiers as required reading, no item on their
+lists asked for them to be checked, and both were caught through the
+parcels' diffs. [CASE-STUDY-3, §6; 18:49; 20:01]
+
 **The scoped re-check after a fix is the default** - eleven to
 twenty-three minutes each in round 2 - not a re-run of the whole list.
 [10:38; 12:09; 13:59; 17:31]
+
+**Side notes get a step of their own, in every round.** Round 3's
+sweep triaged its verifiers' 314 side notes, with the critic's
+findings, in a round of their own: 324 items, 51 findings, 49 applied.
+The follow-ups had no such step, and at least nine of their verifiers'
+and re-checks' notes were still open on main when the round ended.
+[CASE-STUDY-3, The shape of the round; §6]
 
 **One technique worth copying.** To prove a change did not touch a build
 it was not supposed to, diff the **preprocessed translation unit** at
@@ -976,6 +1103,54 @@ ways and only one was in scope; the preprocessed output was 3610 lines
 each and differed by one line. That settles the question in a way
 reading a diff cannot. Comparing the compiled object's hash is the same
 idea, cheaper.
+
+### What READY needs, and what sends work back
+
+**A stated limit is tested.** A verifier judges READY by the standard
+the brief states (§3), a gate or a stated limit for every property, and
+a limit is a claim it can test: it reads each limit the work states,
+builds a fault that passes every gate, and sees whether the fault lands
+inside the limit or outside it. Inside, the property is stated.
+Outside, the limit claims less than the work concedes, which is a
+sentence that claims more than is true (below), and READY waits for it
+to be restated. In round 4 the verifier of P1's new check built a fault
+to evade it, and the fault passed every gate and lay inside the limit
+P1 had stated: it certifies wrong sites only on inputs the end-to-end
+check never reaches. [CASE-STUDY-4, obs 18]
+
+**Only a regression or a wrong answer sends work back; anything else
+merges as a recorded known limit, and a sentence that claims more than
+is true is restated at the merge, not left standing.** This is the
+owner's rule of 2026-09-27, recorded in cft-fp256's docs
+([docs/VALIDATION.md:15274, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L15274))
+and carried over there with its restate clause
+([docs/VALIDATION.md:16164, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16164));
+the owner's own words of agreement are in
+[round 6's survey, B3](archive/round6-practice-survey.md). It rests on
+the owner's word and on practice: no break that led to it is recorded in
+a public source.
+
+"Known limit" is a place where a wrong answer could be relabelled and
+hidden, so a known limit is held to what §5 and the test above ask of
+any limit:
+
+- it concedes no wrong answer. The first entry to apply the rule in
+  that file, dated 2026-09-28, fixed five wrong answers a verifier
+  found in the shipped tree, none introduced by the commit it checked,
+  and made its other notes true in the docs or listed them as known
+  limits ([docs/VALIDATION.md:15260-15283, at `4190a47`](
+  https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L15260-L15283)),
+  of which it says none gives a wrong answer today
+  ([docs/VALIDATION.md:15492-15494, at `4190a47`](
+  https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L15492-L15494));
+- it is stated by the behaviour it concedes, not by the instance a
+  verifier found (§5);
+- it is tested: a fault built to pass every gate must land inside it,
+  and a limit such a fault walks past is a sentence that claims more
+  than is true, so it is restated at the merge as the class it
+  concedes.
 
 ---
 
