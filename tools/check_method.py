@@ -154,6 +154,8 @@ a new spelling of a stated class falls inside it:
     "section", in any case, alone or in a list joined by commas, "and", "or",
     "to", "through", "&" or dashes. A section named any other way is not
     read: in words, by its title, or by an abbreviation such as "Sect.".
+    It holds that a section named exists, not that it holds the rule the
+    line beside it claims.
   - brieferr: it reads templates/brief.md's report section only. The clause
     kept where nothing asks it (negated, or moved within the report section)
     passes, and so does METHOD.md's own statement of the rule, changed in any

@@ -39,6 +39,13 @@ METHOD.md, and every line number to the commit it is counted at.
 - `R` rows are safeguards that practice had dropped, restored.
 - `S` rows are adaptations allowed with their conditions.
 
+**Templates.** The template column names the templates a row's rule is
+compiled into, as round 6 assigned them. The templates carry some rules in
+more places than the column names. Each template line names its own
+METHOD.md section, in parentheses, so the line, not this column, says where
+it comes from. For round 2's rows, the column gives the templates P5 put
+each in, or "none" with the reason.
+
 **Evidence.** The survey of 2026-10-02,
 [archive/round6-practice-survey.md](archive/round6-practice-survey.md), gives
 each row's evidence of practice, file and line. Much of the cft-fp256 evidence
@@ -49,41 +56,41 @@ names the commit it is counted at, since lines move.
 
 | id | proposal | type | status | evidence | METHOD heading | template | parcel |
 |---|---|---|---|---|---|---|---|
-| CS2#1 | Read the requester's code, not its ask list | untyped | adopted at `9b18e35` | CS2:358; METHOD.md:66; both at `49a9266` | Read the requester's code, not its ask list | P5 (templates) | P5 |
-| CS2#2 | A seam's refusal belongs in every backend | untyped | adopted at `9b18e35` | CS2:362; METHOD.md:131; both at `49a9266` | Four more things a seam settles | P5 (templates) | P5 |
-| CS2#3 | A value statement names the measurement that would falsify it | untyped | adopted at `9b18e35` | CS2:365; METHOD.md:137; both at `49a9266` | Four more things a seam settles | P5 (templates) | P5 |
-| CS2#4 | A wave boundary is the one moment a brief can be updated | untyped | adopted at `9b18e35` | CS2:371; METHOD.md:144; both at `49a9266` | Four more things a seam settles | P5 (templates) | P5 |
-| CS2#5 | Name a base commit "at or after" | untyped | adopted at `9b18e35` | CS2:375; METHOD.md:149; both at `49a9266` | Four more things a seam settles | P5 (templates) | P5 |
-| CS2#6 | Derive the ownership list from the seam's own comments | untyped | adopted at `9b18e35` | CS2:381; METHOD.md:172; both at `49a9266` | 3. The brief | P5 (templates) | P5 |
-| CS2#7 | A brief's cost model names the divisor it assumes | untyped | adopted at `9b18e35` | CS2:385; METHOD.md:177; both at `49a9266` | 3. The brief | P5 (templates) | P5 |
-| CS2#8 | Name the trap, and name what will be measured at verification | untyped | adopted at `9b18e35` | CS2:388; METHOD.md:183; both at `49a9266` | 3. The brief | P5 (templates) | P5 |
-| CS2#9 | Verify the functions you name | untyped | adopted at `9b18e35` | CS2:392; METHOD.md:239; both at `49a9266` | Verify the constraints you write down | P5 (templates) | P5 |
-| CS2#10 | A prohibition is written as the command to use | untyped | adopted at `9b18e35` | CS2:396; METHOD.md:216; both at `49a9266` | 3. The brief | P5 (templates) | P5 |
-| CS2#11 | Environment facts belong in the brief, not in the parcel's first hour | untyped | adopted at `9b18e35` | CS2:399; METHOD.md:210; both at `49a9266` | 3. The brief | P5 (templates) | P5 |
-| CS2#12 | Stamps are substituted, not typed | untyped | adopted at `9b18e35` | CS2:407; METHOD.md:349; both at `49a9266` | 4. The ledger | P5 (templates) | P5 |
-| CS2#13 | The lead's watcher skips the lead's own file | untyped | adopted at `9b18e35` | CS2:412; METHOD.md:500; both at `49a9266` | The lead watches too, and watches more | P5 (templates) | P5 |
-| CS2#14 | A correction is linked from the entry it corrects | untyped | adopted at `9b18e35` | CS2:414; METHOD.md:355; both at `49a9266` | 4. The ledger | P5 (templates) | P5 |
-| CS2#15 | A background job that writes to the ledger stamps at write and says what it describes | untyped | adopted at `9b18e35` | CS2:420; METHOD.md:361; both at `49a9266` | 4. The ledger | P5 (templates) | P5 |
-| CS2#16 | A single target's exit code is not a verdict | untyped | adopted at `9b18e35` | CS2:427; METHOD.md:541; both at `49a9266` | 5. Gates and negative controls | P5 (templates) | P5 |
-| CS2#17 | The lead's code goes through the same gates as a parcel's | untyped | adopted at `9b18e35` | CS2:430; METHOD.md:550; both at `49a9266` | 5. Gates and negative controls | P5 (templates) | P5 |
-| CS2#18 | Print the build time of every binary a gate runs | untyped | adopted at `9b18e35` | CS2:435; METHOD.md:545; both at `49a9266` | 5. Gates and negative controls | P5 (templates) | P5 |
-| CS2#19 | When a mechanism is enforced in two places, a gate that reads the cheapest observable cannot see a defect in the other | untyped | adopted at `9b18e35` | CS2:438; METHOD.md:555; both at `49a9266` | 5. Gates and negative controls | P5 (templates) | P5 |
-| CS2#20 | A crash can be a gate's faithful signal | untyped | adopted at `9b18e35` | CS2:443; METHOD.md:560; both at `49a9266` | 5. Gates and negative controls | P5 (templates) | P5 |
-| CS2#21 | A probe that has caught a defect goes into the suite | untyped | adopted at `9b18e35` | CS2:446; METHOD.md:562; both at `49a9266` | 5. Gates and negative controls | P5 (templates) | P5 |
-| CS2#22 | A verifier per parcel pays | untyped | adopted at `9b18e35` | CS2:453; METHOD.md:645; both at `49a9266` | What verifiers actually returned | P5 (templates) | P5 |
-| CS2#23 | A verifier's report is due when its LIST is exhausted, not when its first pass is | untyped | adopted at `9b18e35` | CS2:460; METHOD.md:653; both at `49a9266` | What verifiers actually returned | P5 (templates) | P5 |
-| CS2#24 | A verifier's default list carries the instruments the parcel lacks | untyped | adopted at `9b18e35` | CS2:464; METHOD.md:658; both at `49a9266` | What verifiers actually returned | P5 (templates) | P5 |
-| CS2#25 | The scoped re-check after a fix is the default | untyped | adopted at `9b18e35` | CS2:469; METHOD.md:664; both at `49a9266` | What verifiers actually returned | P5 (templates) | P5 |
-| CS2#26 | A verifier's report distinguishes "the shipped code is right" from "the gate would catch it if it weren't" | untyped | adopted at `868f95e`, before round 2 | CS2:472; METHOD.md:634; both at `49a9266` | What verifiers actually returned | P5 (templates) | P5 |
-| CS2#27 | A staging branch per merge, the suite on the box at the staging commit, and main moves on the verdict | untyped | adopted at `9b18e35` | CS2:478; METHOD.md:694; both at `49a9266` | 7. What the lead keeps | P5 (templates) | P5 |
-| CS2#28 | A merge conflict is not two piles of text | untyped | adopted at `9b18e35` | CS2:483; METHOD.md:731; both at `49a9266` | Habits | P5 (templates) | P5 |
-| CS2#29 | The docs sweep happens in the lead's idle time during the round | untyped | adopted at `9b18e35` | CS2:487; METHOD.md:701; both at `49a9266` | 7. What the lead keeps | P5 (templates) | P5 |
-| CS2#30 | A merge with no RTL in its diff gets no RTL suite, and the ledger says so | untyped | adopted at `9b18e35` | CS2:490; METHOD.md:736; both at `49a9266` | Habits | P5 (templates) | P5 |
-| CS2#31 | The lead's summary to the owner carries the cost | untyped | adopted at `9b18e35` | CS2:493; METHOD.md:704; both at `49a9266` | 7. What the lead keeps | P5 (templates) | P5 |
-| CS2#32 | Dispatch on the fast simulator; the slow one confirms in the background | untyped | adopted at `9b18e35` | CS2:498; METHOD.md:783; both at `49a9266` | 8. Sequencing | P5 (templates) | P5 |
-| CS2#33 | A send-back needs no re-brief | untyped | adopted at `9b18e35` | CS2:501; METHOD.md:786; both at `49a9266` | 8. Sequencing | P5 (templates) | P5 |
-| CS2#34 | A stop line in a brief fires for value, not only for size | untyped | adopted at `9b18e35` | CS2:506; METHOD.md:791; both at `49a9266` | 8. Sequencing | P5 (templates) | P5 |
-| CS2#35 | The round's build phase is done when every parcel is merged and box-verified; the image and the card day are the lead's and the owner's, after | untyped | adopted at `9b18e35` | CS2:509; METHOD.md:794; both at `49a9266` | 8. Sequencing | P5 (templates) | P5 |
+| CS2#1 | Read the requester's code, not its ask list | untyped | adopted at `9b18e35` | CS2:358; METHOD.md:66; both at `49a9266` | Read the requester's code, not its ask list | checklists | P5 |
+| CS2#2 | A seam's refusal belongs in every backend | untyped | adopted at `9b18e35` | CS2:362; METHOD.md:131; both at `49a9266` | Four more things a seam settles | checklists | P5 |
+| CS2#3 | A value statement names the measurement that would falsify it | untyped | adopted at `9b18e35` | CS2:365; METHOD.md:137; both at `49a9266` | Four more things a seam settles | brief, checklists | P5 |
+| CS2#4 | A wave boundary is the one moment a brief can be updated | untyped | adopted at `9b18e35` | CS2:371; METHOD.md:144; both at `49a9266` | Four more things a seam settles | checklists | P5 |
+| CS2#5 | Name a base commit "at or after" | untyped | adopted at `9b18e35` | CS2:375; METHOD.md:149; both at `49a9266` | Four more things a seam settles | brief, checklists | P5 |
+| CS2#6 | Derive the ownership list from the seam's own comments | untyped | adopted at `9b18e35` | CS2:381; METHOD.md:172; both at `49a9266` | 3. The brief | checklists | P5 |
+| CS2#7 | A brief's cost model names the divisor it assumes | untyped | adopted at `9b18e35` | CS2:385; METHOD.md:177; both at `49a9266` | 3. The brief | checklists | P5 |
+| CS2#8 | Name the trap, and name what will be measured at verification | untyped | adopted at `9b18e35` | CS2:388; METHOD.md:183; both at `49a9266` | 3. The brief | brief, checklists | P5 |
+| CS2#9 | Verify the functions you name | untyped | adopted at `9b18e35` | CS2:392; METHOD.md:239; both at `49a9266` | Verify the constraints you write down | checklists | P5 |
+| CS2#10 | A prohibition is written as the command to use | untyped | adopted at `9b18e35` | CS2:396; METHOD.md:216; both at `49a9266` | 3. The brief | brief, checklists | P5 |
+| CS2#11 | Environment facts belong in the brief, not in the parcel's first hour | untyped | adopted at `9b18e35` | CS2:399; METHOD.md:210; both at `49a9266` | 3. The brief | brief, checklists | P5 |
+| CS2#12 | Stamps are substituted, not typed | untyped | adopted at `9b18e35` | CS2:407; METHOD.md:349; both at `49a9266` | 4. The ledger | brief, checklists, ledger | P5 |
+| CS2#13 | The lead's watcher skips the lead's own file | untyped | adopted at `9b18e35` | CS2:412; METHOD.md:500; both at `49a9266` | The lead watches too, and watches more | checklists, ledger | P5 |
+| CS2#14 | A correction is linked from the entry it corrects | untyped | adopted at `9b18e35` | CS2:414; METHOD.md:355; both at `49a9266` | 4. The ledger | ledger | P5 |
+| CS2#15 | A background job that writes to the ledger stamps at write and says what it describes | untyped | adopted at `9b18e35` | CS2:420; METHOD.md:361; both at `49a9266` | 4. The ledger | ledger | P5 |
+| CS2#16 | A single target's exit code is not a verdict | untyped | adopted at `9b18e35` | CS2:427; METHOD.md:541; both at `49a9266` | 5. Gates and negative controls | brief | P5 |
+| CS2#17 | The lead's code goes through the same gates as a parcel's | untyped | adopted at `9b18e35` | CS2:430; METHOD.md:550; both at `49a9266` | 5. Gates and negative controls | checklists, verifier | P5 |
+| CS2#18 | Print the build time of every binary a gate runs | untyped | adopted at `9b18e35` | CS2:435; METHOD.md:545; both at `49a9266` | 5. Gates and negative controls | checklists (its first half; "name the test executables to the build" is build-system specific) | P5 |
+| CS2#19 | When a mechanism is enforced in two places, a gate that reads the cheapest observable cannot see a defect in the other | untyped | adopted at `9b18e35` | CS2:438; METHOD.md:555; both at `49a9266` | 5. Gates and negative controls | verifier | P5 |
+| CS2#20 | A crash can be a gate's faithful signal | untyped | adopted at `9b18e35` | CS2:443; METHOD.md:560; both at `49a9266` | 5. Gates and negative controls | none: an observation, not an instruction | P5 |
+| CS2#21 | A probe that has caught a defect goes into the suite | untyped | adopted at `9b18e35` | CS2:446; METHOD.md:562; both at `49a9266` | 5. Gates and negative controls | checklists | P5 |
+| CS2#22 | A verifier per parcel pays | untyped | adopted at `9b18e35` | CS2:453; METHOD.md:645; both at `49a9266` | What verifiers actually returned | none: the case for a decision already made when a verifier's brief is written | P5 |
+| CS2#23 | A verifier's report is due when its LIST is exhausted, not when its first pass is | untyped | adopted at `9b18e35` | CS2:460; METHOD.md:653; both at `49a9266` | What verifiers actually returned | verifier | P5 |
+| CS2#24 | A verifier's default list carries the instruments the parcel lacks | untyped | adopted at `9b18e35` | CS2:464; METHOD.md:658; both at `49a9266` | What verifiers actually returned | verifier | P5 |
+| CS2#25 | The scoped re-check after a fix is the default | untyped | adopted at `9b18e35` | CS2:469; METHOD.md:664; both at `49a9266` | What verifiers actually returned | verifier | P5 |
+| CS2#26 | A verifier's report distinguishes "the shipped code is right" from "the gate would catch it if it weren't" | untyped | adopted at `868f95e`, before round 2 | CS2:472; METHOD.md:634; both at `49a9266` | What verifiers actually returned | verifier | P5 |
+| CS2#27 | A staging branch per merge, the suite on the box at the staging commit, and main moves on the verdict | untyped | adopted at `9b18e35` | CS2:478; METHOD.md:694; both at `49a9266` | 7. What the lead keeps | checklists | P5 |
+| CS2#28 | A merge conflict is not two piles of text | untyped | adopted at `9b18e35` | CS2:483; METHOD.md:731; both at `49a9266` | Habits | checklists | P5 |
+| CS2#29 | The docs sweep happens in the lead's idle time during the round | untyped | adopted at `9b18e35` | CS2:487; METHOD.md:701; both at `49a9266` | 7. What the lead keeps | checklists | P5 |
+| CS2#30 | A merge with no RTL in its diff gets no RTL suite, and the ledger says so | untyped | adopted at `9b18e35` | CS2:490; METHOD.md:736; both at `49a9266` | Habits | none: specific to RTL | P5 |
+| CS2#31 | The lead's summary to the owner carries the cost | untyped | adopted at `9b18e35` | CS2:493; METHOD.md:704; both at `49a9266` | 7. What the lead keeps | checklists | P5 |
+| CS2#32 | Dispatch on the fast simulator; the slow one confirms in the background | untyped | adopted at `9b18e35` | CS2:498; METHOD.md:783; both at `49a9266` | 8. Sequencing | none: specific to the fast simulator | P5 |
+| CS2#33 | A send-back needs no re-brief | untyped | adopted at `9b18e35` | CS2:501; METHOD.md:786; both at `49a9266` | 8. Sequencing | checklists | P5 |
+| CS2#34 | A stop line in a brief fires for value, not only for size | untyped | adopted at `9b18e35` | CS2:506; METHOD.md:791; both at `49a9266` | 8. Sequencing | brief | P5 |
+| CS2#35 | The round's build phase is done when every parcel is merged and box-verified; the image and the card day are the lead's and the owner's, after | untyped | adopted at `9b18e35` | CS2:509; METHOD.md:794; both at `49a9266` | 8. Sequencing | none: specific to the card day | P5 |
 | CS3#1 | Brief a send-back as a new agent when the dispatch cannot resume one | reversal | adopted at `d38fea1` | archive/round6-practice-survey.md, CS3#1 | 8. Sequencing | checklists | P4 |
 | CS3#2 | The stamp rule goes in `templates/ledger.md` and in every brief, fixers' included | reinforcement | adopted at `3676786` | archive/round6-practice-survey.md, CS3#2 | 4. The ledger | ledger, brief, checklists | P2 |
 | CS3#3 | A parcel's question for the lead goes in urgent/ | reinforcement | adopted at `3676786` | archive/round6-practice-survey.md, CS3#3 | Escalation: one rule, whatever carries it | ledger, brief, checklists | P2 |

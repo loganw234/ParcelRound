@@ -131,7 +131,7 @@ the previous tag.
       file channel, or the runtime's messages. (§4)
 - [ ] File channel: `urgent/` exists, and every brief says to arm a
       watcher on it, persistently, and to re-arm plus do a full read if it
-      dies. (§4)
+      dies while the agent is still working. (§4)
 - [ ] File channel: the watcher emits the headline and `For:` line only —
       not the entry. (§4)
 - [ ] File channel: urgent messages are one file each, renamed into place,
