@@ -128,11 +128,13 @@ a new spelling of a stated class falls inside it:
     link's text, as an image's alt text, or in code. Nor is one outside
     METHOD.md and templates/. A footnote's text is read, and so is a line
     that only looks like a link definition.
+    - An item resolves by existing, not by being the one the sentence means.
+      An item that names something real but wrong passes, whatever its form:
+      a minute, a phrase, an observation number or a section mark.
     - A time resolves if the round's record holds that minute anywhere in the
       case study's text or the archived ledger's Markdown, whatever it was: an
       entry's stamp, a time an entry records, a ratio such as 1:24, an
-      example. A citation of a minute that appears there for another reason
-      passes.
+      example.
     - A named phrase resolves if it opens any heading or bold-marked item at
       a word boundary, so a phrase that opens many (such as "the") passes.
     - In a template, a bracketed phrase with no time, section mark or
@@ -150,13 +152,16 @@ a new spelling of a stated class falls inside it:
     "section", in any case, alone or in a list joined by commas, "and", "or",
     "to", "through", "&" or dashes. A section named any other way is not
     read: in words, by its title, or by an abbreviation such as "Sect.".
-  - brieferr: the clause kept where nothing asks it (negated, or moved within
-    the report section) passes. A respelled clause fails it.
+  - brieferr: it reads templates/brief.md's report section only. The clause
+    kept where nothing asks it (negated, or moved within the report section)
+    passes, and so does METHOD.md's own statement of the rule, changed in any
+    way. A respelled clause fails it.
   - quoted: it holds the passages in LOGANW_PATTERNS and HF_PASSAGES.
     - A passage another repository starts to quote, or that loganw.dev reads
       other than through facts.prose() from its page modules and
       relations.json, is held only once it is added there.
-    - HonestFramework's quotations are held as words, not as line wrapping.
+    - HonestFramework's quotations are held as words, with or without their
+      emphasis, not as line wrapping.
     - loganw.dev's other reads of this repository (file counts, existence,
       last change, commits by SHA) are not held.
   - privacy: it reads text after the decoding check 10 names.
@@ -954,6 +959,11 @@ def squash(s):
     return re.sub(r"\s+", " ", s).strip()
 
 
+def plain(s):
+    """Words as a reader takes them: whitespace squashed and emphasis markers gone."""
+    return squash(re.sub(r"[*_]", "", s))
+
+
 def check_sections(root):
     found = [l[3:].strip() for l in rendered(read(root, "METHOD.md")).splitlines()
              if re.match(r"## \d+\. ", l)]
@@ -980,9 +990,11 @@ def check_quoted(root):
     for rel, passage in HF_PASSAGES:
         raw, shown = both(rel)
         k, s = squash(raw).count(squash(passage)), squash(shown).count(squash(passage))
-        if (k, s) != (1, 1):
-            bad.append(f"{rel}: a passage HonestFramework quotes appears {k} times as written and "
-                       f"{s} as rendered, where it must appear once in each: \"{passage[:60]}…\"")
+        w = plain(shown).count(plain(passage))
+        if (k, s, w) != (1, 1, 1):
+            bad.append(f"{rel}: a passage HonestFramework quotes appears {k} times as written, "
+                       f"{s} as rendered and {w} as words, where it must appear once in each: "
+                       f"\"{passage[:60]}…\"")
     return bad, f"{len(LOGANW_PATTERNS)} loganw.dev patterns and {len(HF_PASSAGES)} HonestFramework passages read"
 
 
@@ -1393,6 +1405,7 @@ PLANTS = [
     ("brieferr", "the clause respelled", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("got wrong", "got right"))),
     ("sections", "a section renamed", lambda t: edit(t, "METHOD.md", lambda s: s.replace("## 4. The ledger", "## 4. The record", 1))),
     # Rewrap a passage loganw.dev reads with literal spaces: its pattern stops matching.
+    ("quoted", "a passage HonestFramework quotes, copied without its bold", lambda t: edit(t, "METHOD.md", lambda s: s + "\nA gate that cannot fail is not a gate.\n")),
     ("quoted", "a passage rewrapped", lambda t: edit(t, "README.md", lambda s: s.replace("Two agents\non a two-way split", "Two\nagents on a two-way split", 1))),
     ("quoted", "a passage kept only in an HTML comment", lambda t: edit(t, "METHOD.md", lambda s: s.replace(
         "**Exactly one file owns each shared fact; everyone else includes it.**",
