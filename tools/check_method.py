@@ -119,7 +119,9 @@ a new spelling of a stated class falls inside it:
     HTML, an autolink, or brackets nested deeper. A link definition is a
     label, a target and an optional title alone on their line; a line with
     more on it renders as text, and is read as text. A link with a scheme
-    (https:, mailto:) is not fetched. An anchor into a file that is not
+    (https:, mailto:) is not fetched. A link's text and its target are not
+    compared: text that names one file, line or commit, beside a URL that
+    names another, passes. An anchor into a file that is not
     Markdown is not checked. Anchors are computed by GitHub's rule for "#"
     headings of plain text, so a setext heading, or one holding HTML, may
     differ. Outside a repository, a target need only exist on disk.
