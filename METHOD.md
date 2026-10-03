@@ -6,6 +6,20 @@ incidents are written up in [CASE-STUDY.md](CASE-STUDY.md) (round 1)
 and [CASE-STUDY-2.md](CASE-STUDY-2.md) (round 2, whose timestamps the
 citations below use).
 
+**Citations.** Rounds 3 to 6 are cited by name:
+- `[CASE-STUDY-3, 15:09]` is a time in that case study, or in its round's
+  ledger archived beside it;
+- `[CASE-STUDY-4, obs 10]` is a numbered observation;
+- `[CASE-STUDY-3, §5]` is a section mark.
+
+A bare time is round 2's. An incident recorded outside the case studies is
+cited by a link to its record.
+
+**Adoption.** What this file has adopted from each case study, and when, is in
+[ADOPTION.md](ADOPTION.md). `python tools/check_method.py` checks every
+citation here and the adoption record, and `--control` shows that each of its
+checks can fail.
+
 **This file is the canonical copy.** It was extracted from a working
 copy that still lives in the project it was developed on, as that
 round's own documentation. Two copies of one document is precisely

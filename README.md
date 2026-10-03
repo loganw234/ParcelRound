@@ -24,6 +24,8 @@ defence against it.
 | [templates/verifier.md](templates/verifier.md) | A verifier brief — the agent whose job is to disconfirm. |
 | [templates/ledger.md](templates/ledger.md) | Drop-in README for the cross-agent ledger. |
 | [templates/checklists.md](templates/checklists.md) | Dispatch and per-merge checklists. |
+| [ADOPTION.md](ADOPTION.md) | What METHOD.md has taken in from each case study, when, and on what evidence; and what is still pending. |
+| [tools/check_method.py](tools/check_method.py) | The front door: `python tools/check_method.py` says whether the method still holds together; `--control` shows each of its checks can fail. |
 
 ## Is this for you?
 

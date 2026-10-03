@@ -3,6 +3,8 @@
 Thumbs.db
 *.swp
 
-# If you run a round from inside this repo, the ledger is scaffolding,
-# never history.
+# If you run a round from inside this repo, keep the ledger's working copy
+# out of the tree. At the round's end it is archived, with its timestamps,
+# as archive/roundN-ledger.zip: the ledger is the round's record
+# (ADOPTION.md, B15).
 .ledger/
