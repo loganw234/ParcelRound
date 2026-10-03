@@ -332,20 +332,35 @@ Three things from one round:
 So: **an append-only ledger the agents read and write while they work.**
 Drop-in text at [templates/ledger.md](templates/ledger.md).
 
+**Its rules reach every agent in one of two ways**: as a README in the
+ledger's directory (the drop-in text above), or as the same rules in every
+brief. Either is allowed, and the second only if every brief carries them,
+the three read moments included, verifiers' and fixers' briefs as much as
+parcels'. A rule its carrier lacks does not reach the agents who rely on that
+carrier, as the stamp rule below shows. cft-fp256's later parcel briefs, which
+carry the rules in place of a README, say only "append only" [round 6's
+survey, B7 and the departures table](archive/round6-practice-survey.md).
+
 **Where it lives matters.** Agents in worktrees cannot see each other's
 files — that is what a worktree is. The ledger sits outside every
 worktree, at a fixed absolute path each brief states, and is **ignored
 by version control** so it never conflicts and never lands in history.
+(That is the working copy; its archive, at the round's end, is the one
+deliberate exception.)
 
 **One file per author, append only.** Not one shared file: concurrent
 appends lose writes, and per-author files make locking unnecessary by
 construction. Everyone reads the directory; everyone writes only their
-own, and corrects an earlier entry by appending beneath it.
+own, and corrects an earlier entry by appending beneath it. (A verifier
+reads the lead's file first, and a parcel's only once it has formed its own
+view: see "Verifiers watch the lead's channel only", below.)
 
 **Read at three moments**, stated as moments because "periodically"
 means never: before starting; before designing anything that touches a
 file the brief called shared or forbidden; before writing the report.
 These are the floor, not the mechanism — see the push channel below.
+They stay the floor whatever carries the push, and whatever carries the
+ledger's rules.
 
 **Write when it clears the bar** — *would this have changed another
 parcel's work, or the lead's?* Three things do: environment and setup
@@ -357,14 +372,50 @@ ledger full of status is one nobody reads.
 and which believed. Agents build on each other's entries and an
 unverified claim propagates faster than a verified one.
 
+**When a pause is announced, each agent records where it is** before it
+stops: what is committed, what is half done, what it was about to do. A
+pause is the exception to "progress and plans do not" above, because the
+entry is a resume note for its writer as much as for the lead. On resuming,
+do a full read, check your tree before you trust your memory of what you
+had done, re-arm your watch, and say where you were interrupted. Round 4's
+lead wrote that rule into the ledger when a usage limit was announced; three
+agents then stopped mid-task and each resumed from its own entries and its
+tree, none repeating or losing recorded work, and one had written its state
+down before the pause, unasked [CASE-STUDY-4, obs 12; 16:25]. The owner's
+own words for a pause, in cft-fp256's steps-5-and-6 round, were to "commit
+where they are and leave a resume note for themselves incase context is lost
+in the downtime", and that round's first-session agents did not survive the
+pause: each was dispatched again from its brief and its own ledger's resume
+note ([docs/VALIDATION.md:16507, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16507)).
+
 **The lead writes to it too**, and this is half the value: it is the
-only channel for correcting a brief after dispatch.
+only channel for correcting a brief after dispatch. **The lead's decisions go
+in the ledger first, then in the message.** Round 4's lead resumed a parcel by
+message and wrote its answer to the ledger ten minutes later, and the
+verifier that watched the ledger found no answer there [CASE-STUDY-4,
+obs 17; 23:25-23:35]. A message may carry a correction as well (below), but
+only once its entry is written, and that is the sense in which the ledger is
+the only channel: it is the channel of record, so that what a later reader
+finds in it is every correction there was, in order.
 
 **Stamps are substituted, not typed.** Every author in round 2 - the
 lead three times, four parcels, a verifier - typed a guessed time at
 least once, and every guess ran ahead of the clock by three to ninety
 minutes. The fix that held was mechanical: write the entry with a
 placeholder and let the append substitute the clock. [CASE-STUDY-2, §4]
+
+**The stamp rule goes in the ledger's template and in every brief, fixers'
+included**, as an instruction an entry can follow word for word: write each
+heading's time from `date`, never from memory. Round 3 shows why, and
+corrects what round 2 was taken to show: a typed stamp errs in both
+directions. Most guesses there ran ahead of the clock too, but two ran behind,
+both by about four minutes. Where the brief said to take the time from
+`date`, 5 of 38 watched parcel entries still carried typed stamps, all
+corrected by their authors; the three send-back scripts did not state the
+rule, and 5 of the fixers' 6 stamps were typed; and the follow-ups' README,
+a verbatim copy of the template, lacked it because the template did.
+[CASE-STUDY-3, §4]
 
 **A correction is linked from the entry it corrects** - an appended "see
 HH:MM" line beneath the old entry is an append, not an edit - and a
@@ -375,6 +426,45 @@ order, headlined CORRECTION, and was used once anyway. [13:34]
 **A background job that writes to the ledger stamps at write and says
 what it describes.** A launch wrapper appended its entry an hour after
 the state it described had been superseded. [12:45]
+
+### Escalation: one rule, whatever carries it
+
+**What cannot wait for a read moment goes to its reader at once, and is
+written in the ledger.** That is the lead's correction of a brief after
+dispatch, and a parcel's question or finding that only the lead can act on.
+A parcel's question goes this way, not into its own file to wait for the
+lead's next read: in round 3 all eight parcels asked the lead questions in
+their own files, six never used `urgent/`, and each was answered while the
+lead's watch happened to be up [CASE-STUDY-3, §4]. So the brief says that a
+question goes by the escalation channel, and says how to escalate without
+finishing: send it and wait for the answer, rather than holding it for the
+final report.
+
+Two means carry it, and either is allowed: the file channel, a file in
+`urgent/` and a watch on it, described in the next subsection; or the
+runtime's own messages between agents, with the question written in the
+sender's own file first. cft-fp256 used no `urgent/` from its audit round on,
+and messaged in both directions
+[round 6's survey, B6](archive/round6-practice-survey.md). On either means:
+
+- **The ledger entry comes first**, then the message: the lead's decisions
+  (above), an agent's question in its own file. The file channel meets this by
+  being a file in the ledger.
+- **A verifier is sent only the lead's messages**, as it watches only the
+  lead's channel (below).
+- **The three read moments stay the floor**, whatever carries the push (item 1
+  below).
+- **Where the lead learns of escalations from the runtime instead of from a
+  watch, the channel is watched to work.** cft-fp256's cert round's lead kept
+  no watch [round 6's survey, the departures
+  table](archive/round6-practice-survey.md). A test escalation at dispatch
+  must reach the lead, and the lead's record says how it learned of each
+  escalation, the test included. A channel nobody has checked is believed to
+  work: round 4's lead dispatched a verifier without arming its watch, and the
+  round's first urgent message sat unread for five minutes [CASE-STUDY-4,
+  obs 2]. The test shows that the channel worked at dispatch, and in one
+  direction; the three read moments, and the lead's own reads below, cover the
+  rest.
 
 ### Reading it is a polling schedule; add a push channel
 
@@ -388,7 +478,8 @@ is spent.
 So **watch the ledger as well as reading it**, with a file watcher that
 turns a new entry into a notification. Where the agent runtime offers a
 monitor primitive — a background command whose every stdout line becomes
-a notification — one poll loop over a directory is all it takes.
+a notification — one poll loop over a directory is all it takes. This
+subsection is the file channel, one of the two means of the rule above.
 
 Three things make this work rather than backfire.
 
@@ -397,7 +488,12 @@ out, been killed, been auto-stopped for volume — looks exactly like a
 ledger with nothing new in it. Silence is not success. The three read
 moments stay as the floor and the watcher is latency reduction on top;
 if an agent notices its watch is gone, it re-arms *and* does a full
-read.
+read. This holds whatever carries the push: the file watch, the runtime's
+messages, or neither. And where every watch expires, as in a harness that
+caps one at thirty minutes, the expiry notice is the moment to re-arm it and
+do a full read, not a later noticing: round 3's lead's watch expired at 13:29
+and was not re-armed until 17:23, and expired again at 18:57 and was not
+re-armed for the rest of the round [CASE-STUDY-3, 13:29; 17:23; 18:57].
 
 **2. Split the channel by urgency, not by author.** Most entries matter
 to one parcel in four. Watching everything means every agent pays a
@@ -430,6 +526,16 @@ file. It noticed, re-armed under a distinct name, and put it in the
 ledger. An inline command has no file to clobber and nothing to be
 edited out from under a running process. If you must use a file, put
 your own name in it.
+
+**Re-arm from the snapshot, and run one watch at a time, on files of its
+own.** A re-armed watch that kept the last one's snapshot reported on its
+first pass the entry that arrived while it was down, so the gap cost latency
+and not information [CASE-STUDY-4, obs 3; 15:25]. The shape below takes its
+snapshot when it starts, so it does not announce what arrived while no watch
+ran; the full read in item 1 is what finds that. And two watches running
+together on one snapshot's temporary files each moved the other's copy, and
+the lead's script reported the ledger rewritten when it was not; the lead
+checked every file by hand [CASE-STUDY-4, obs 17; 21:28-21:31].
 
 **One file per urgent message, written atomically** — compose it
 elsewhere and rename it into place. A new file is an unambiguous event,
@@ -472,6 +578,17 @@ checking naturally lands. And the lead is the only node that can act on
 an escalation. A channel whose one actor is not listening is half a
 channel.
 
+**Arm it with the first dispatch, and keep it armed.** The lead's channel is
+live from the first thing it dispatches, not from the first time it
+remembers: round 4's lead dispatched a verifier without arming its watch, and
+the round's first urgent message sat unread until the owner noticed, five
+minutes later [CASE-STUDY-4, obs 2; 13:43]. The next morning the same lead
+armed it with the dispatch only because its memory carried the lesson, and
+METHOD.md did not yet say it [CASE-STUDY-4, obs 32]. The lead watches the
+escalation channel continuously, and re-arms on expiry as item 1 above has it.
+Where the runtime tells the lead of escalations instead of a watch, the same
+moment is the test escalation, as the rule above has it.
+
 Two things are different about the lead's watch.
 
 **Watch the whole directory, not just `urgent/`.** Agents are shielded
@@ -480,14 +597,24 @@ throttles a watch. The lead wants all of it, because **only the lead
 can see a pattern across parcels**: three agents hitting the same setup
 problem is invisible to each of them and obvious to the one reading all
 three files. Emit the headline and `For:` line only, as agents do, and
-the volume stays manageable.
+the volume stays manageable. **Whatever replaces that watch, the lead reads
+every author's file before each merge and at each wave boundary** - where
+section 2 has it fold the ledger into the next wave's briefs. These are the
+lead's own read moments, the floor under its view across parcels as the
+agents' three are under theirs: a watch on `urgent/` alone, or the runtime's
+messages, shows the lead what is sent to it, not what the parcels wrote beside
+it. In round 3, with the lead's watch down, 11 of the follow-ups' 49 entries
+never reached it; nothing was lost, because the report schemas required the
+same substance and it came back with the verdicts [CASE-STUDY-3, §4]. That was
+a property of the schemas, which the reads do not rely on.
 
 **The posture is observer, not actor.** An entry is information, not a
 task, and most need nothing. The failure mode is a lead who treats every
 notification as an interrupt and thrashes the merge queue. A short
 decision procedure on each:
 
-- does it invalidate a brief that is in flight? → write to `urgent/`;
+- does it invalidate a brief that is in flight? → write to `urgent/`, or
+  write the entry and then message the agent (the rule above);
 - does it change the merge order, or what the next parcel should be? →
   adjust, and say so in the ledger;
 - does it need the lead to verify something? → verify it;
@@ -506,10 +633,19 @@ exactly the latency the channel exists to remove. Same rule as the
 verifier's "found nothing".
 
 At the end of the round, fold anything durable into the repository's own
-records, and then - if the round's case study cites the ledger by time,
-as round 2's does - archive it beside the case study and delete the
-working copy; otherwise throw it away. It is scaffolding, not history,
-and an archive is for the reader of the case study, not a channel.
+records, and then **archive the ledger from its working copy, with its
+timestamps, beside the case study (or with the round's other records, where
+there is none), and keep it**: it is the round's record, and neither the
+archive nor the working copy is deleted at the round's end. A copy can lose
+the times: round 3's project copy of the sweep's ledger had reset every file's
+modification time to the copy's own, and only the working copy, still there,
+held them [CASE-STUDY-3, §4]. Rounds 3 and 5 archived from the working copy,
+each file with its time [CASE-STUDY-3, The ledgers] [CASE-STUDY-5, The ledger].
+That it is kept, not deleted, rests on practice: no case study records a break
+from deleting a ledger, and cft-fp256 kept the ledgers of several of its rounds
+in place as the record, citing them from its documents
+[round 6's survey, B15](archive/round6-practice-survey.md). An archive is for
+the reader of the case study, not a channel.
 
 **The lead's watcher skips the lead's own file.** Every entry the lead
 wrote in round 2 came back as a notification. [CASE-STUDY-2, §4]
