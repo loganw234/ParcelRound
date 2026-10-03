@@ -674,9 +674,9 @@ the headline and the `For:` line, nothing more, so an agent decides in
 one glance whether to go and read. A notification that dumps a paragraph
 costs the same attention as the interruption it was meant to save.
 
-**Arm the watcher from an inline command, not a script file.** Agents
-in a round usually share one scratch directory, and the watcher is the
-single script *every* participant writes — so it is the single
+**Arm the watcher from an inline command, not a script file.** Where
+agents in a round share a scratch directory (§3 gives each its own), the
+watcher is the single script *every* participant writes — so it is the single
 filename every participant collides on. Both agents in one round
 reached for the same obvious name; the second write won, and the first
 agent's process survived only because the shell had already read the
