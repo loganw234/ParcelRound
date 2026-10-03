@@ -1083,7 +1083,7 @@ refusal on the format ceiling and so refused a working build, and a
 skip rule that let one run count the same missing capability both
 ways. Both reached the verifiers as required reading, no item on their
 lists asked for them to be checked, and both were caught through the
-parcels' diffs. [CASE-STUDY-3, §6; 18:49; 20:01]
+parcels' diffs. [CASE-STUDY-3, §6; 18:49; 19:56]
 
 **The scoped re-check after a fix is the default** - eleven to
 twenty-three minutes each in round 2 - not a re-run of the whole list.
@@ -1136,7 +1136,7 @@ a public source.
 hidden, so a known limit is held to what §5 and the test above ask of
 any limit:
 
-- it concedes no wrong answer. The first entry to apply the rule in
+- it gives no wrong answer today. The first entry to apply the rule in
   that file, dated 2026-09-28, fixed five wrong answers a verifier
   found in the shipped tree, none introduced by the commit it checked,
   and made its other notes true in the docs or listed them as known
