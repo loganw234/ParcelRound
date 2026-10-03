@@ -162,8 +162,10 @@ a new spelling of a stated class falls inside it:
     - A passage another repository starts to quote, or that loganw.dev reads
       other than through facts.prose() from its page modules and
       relations.json, is held only once it is added there.
-    - HonestFramework's quotations are held as words, with or without their
-      emphasis, not as line wrapping.
+    - HonestFramework's quotations are held with whitespace and emphasis set
+      aside. A copy that differs from a passage in anything else (letter
+      case, punctuation, quotation marks, a word) is not counted as a copy,
+      and passes.
     - loganw.dev's other reads of this repository (file counts, existence,
       last change, commits by SHA) are not held.
   - privacy: it reads text after the decoding check 10 names.

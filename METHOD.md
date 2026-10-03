@@ -1,7 +1,8 @@
 # The method
 
-Every rule here is here because something broke without it, except
-where a rule says it rests on practice or on the owner's word instead.
+Every rule here is here because something broke without it, or because
+its practice caught a defect before it shipped. Where a rule rests on
+practice alone, or on the owner's word, it says so.
 Where a rule cites an incident, that is evidence rather than colour; the
 incidents are written up in [CASE-STUDY.md](CASE-STUDY.md) (round 1)
 and [CASE-STUDY-2.md](CASE-STUDY-2.md) (round 2, whose timestamps the
@@ -492,9 +493,9 @@ brief. Either is allowed, and the second only if every brief carries them,
 the three read moments included, verifiers' and fixers' briefs as much as
 parcels'. A rule its carrier lacks does not reach the agents who rely on that
 carrier, as the stamp rule below shows. A later cft-fp256 parcel brief, which
-carries the rules in place of a README, has "append only", the stamp rule and
-measured-or-believed, and none of the three read moments [round 6's
-survey, B7 and the departures table](archive/round6-practice-survey.md).
+carries the rules in place of a README, has "append only" and the stamp rule,
+and none of the three read moments [round 6's survey, B7, CS3#2 and the
+departures table](archive/round6-practice-survey.md).
 
 **Where it lives matters.** Agents in worktrees cannot see each other's
 files — that is what a worktree is. The ledger sits outside every
@@ -645,8 +646,8 @@ moments stay as the floor and the watcher is latency reduction on top;
 if an agent notices its watch is gone while it is still working, it
 re-arms *and* does a full read. This holds whatever carries the push: the file watch, the runtime's
 messages, or neither. And where every watch expires, as in a harness that
-caps one at thirty minutes, the expiry notice is the moment to re-arm it and
-do a full read, not a later noticing: round 3's lead's watch expired at 13:29
+caps one at thirty minutes, the expiry notice is the moment for an agent
+still working to re-arm it and do a full read, not a later noticing: round 3's lead's watch expired at 13:29
 and was not re-armed until 17:23, and expired again at 18:57 and was not
 re-armed for the rest of the round [CASE-STUDY-3, 13:29; 17:23; 18:57].
 
@@ -1117,7 +1118,7 @@ sentence that claims more than is true (below), and READY waits for it
 to be restated. In round 4 the verifier of P1's new check built a fault
 to evade it, and the fault passed every gate and lay inside the limit
 P1 had stated: it certifies wrong sites only on inputs the end-to-end
-check never reaches. [CASE-STUDY-4, obs 18]
+check never reaches. [CASE-STUDY-4, obs 18] It rests on practice.
 
 **Only a regression or a wrong answer sends work back; anything else
 merges as a recorded known limit, and a sentence that claims more than
@@ -1160,8 +1161,8 @@ any limit:
 **The lead's seam commits and fixes (§5), its merges and its records go
 past a verifier before main moves, from the first commit of the round to
 the last.** Its records are the project's record entries and its commit
-messages. Not only P0 (§2), and the plan goes past
-one too, before the owner approves it (below). The lead is the one
+messages. Not only P0 (§2), and the plan goes past one too, before the
+owner approves it (below). The lead is the one
 author in a round that nobody disconfirms by default
 [CASE-STUDY-2, §5], and in each of rounds 2 to 5 the record shows its
 own work going in without a verifier:
@@ -1178,6 +1179,8 @@ own work going in without a verifier:
 - **Round 5:** the plan had the rule, and the lead pushed eight commits
   of its own with only its own gate; the verifier it then added found
   gate-kind defects in three. [CASE-STUDY-5, obs 2]
+
+What else the lead keeps:
 
 - **The plan of record, and a verifier on it before the owner approves
   it.** The verifier reads the draft against the tree, the lead answers
@@ -1207,8 +1210,8 @@ construction. A hundred-line seam test found it in seconds.
   state the project's claims and the claims must be one voice.
   A parcel may own the documents that describe its own code; what stays
   the lead's is the documents that state the project's claims, and every
-  claim a parcel writes is on its verifier's list. §3 has the rule and
-  its incident.
+  claim in a document a parcel writes is on its verifier's list. §3 has
+  the rule and its incident.
 - **Every merge, and the full suite after each one** - as a staging
   branch per merge, the suite on the build host at the staging commit,
   and main moving on the verdict. A merge is a push, not a staging. Keep

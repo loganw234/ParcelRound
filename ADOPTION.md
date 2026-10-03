@@ -18,9 +18,13 @@ METHOD.md, and every line number to the commit it is counted at.
   heading or headings named. A rule split across two sections names both,
   separated by ` ; `.
   Round 6's rows (2026-10-02) name the commit of the parcel that wrote
-  them, or of both parcels where two did. Each was practised in a later
-  round, and adopted at the owner's word, "Everything practised
-  (Recommended)".
+  them, or of both parcels where two did. The lead's restates and
+  corrections after each merge are in the round's ledger and its case
+  study. Each row was adopted at the owner's word: the proposals and B
+  rows practised in a later round at "Everything practised
+  (Recommended)", the R rows at "Restore safeguards (Recommended)", and
+  the S rows with the plan, "Approve; P0 verifier rechecks
+  (Recommended)". B9, S2 and S3 were approved by name, as their rows say.
 - **adopted in part at `<commit>`**: the same, for only the part that was
   practised, which the status names.
 - **pending**, or **not adopted**: not in METHOD.md. The reason is given. A
@@ -90,7 +94,7 @@ names the commit it is counted at, since lines move.
 | CS3#9 | "Check every claim in a comment, doc or commit message" is on every verifier's list when parcels write docs | extension | adopted at `4ff28ca` | archive/round6-practice-survey.md, CS3#9 | 6. The verifier | verifier | P3 |
 | CS3#10 | Give side notes a step of their own in every round | new | adopted at `4ff28ca` | archive/round6-practice-survey.md, CS3#10 | 6. The verifier | verifier | P3 |
 | CS3#11 | Freeze what is audited | new | adopted at `d38fea1` | archive/round6-practice-survey.md, CS3#11 | 7. What the lead keeps | checklists | P4 |
-| CS3#12 | Check a gate budget against the merged diff before trusting it | relaxation + extension | adopted at `d38fea1` | archive/round6-practice-survey.md, CS3#12 | 7. What the lead keeps | checklists | P4 |
+| CS3#12 | Check a gate budget against the merged diff before trusting it | relaxation + extension | adopted in part at `d38fea1`: the budget checked against the merged diff, and the record of why main moved on FAIL; ruling D4 left out the relaxation for batched merges | archive/round6-practice-survey.md, CS3#12 | 7. What the lead keeps | checklists | P4 |
 | CS3#13 | The cost summary gives processed tokens beside the harness's figure, and says which is which | new + reinforcement | adopted in part at `d38fea1`: the round's cost reported as processed tokens, read from transcripts (with R3) | archive/round6-practice-survey.md, CS3#13 | 7. What the lead keeps | checklists | P4 |
 | CS3#14 | Settle at kickoff what the owner may want to see first | extension | adopted in part at `d38fea1`: what the owner wants to see first, asked and recorded | archive/round6-practice-survey.md, CS3#14 | 7. What the lead keeps | checklists | P4 |
 | CS3#15 | Decide, per round, whether the lead sits between verdict and fix | new | pending: no practice found | archive/round6-practice-survey.md, CS3#15 | — | — | — |
@@ -151,9 +155,9 @@ names the commit it is counted at, since lines move.
 | R3 | Restore: the summary to the owner carries the cost, read from transcripts | restoration | adopted at `d38fea1` | archive/round6-practice-survey.md, the departures table | 7. What the lead keeps | checklists | P4 |
 | R4 | Restore: the lead reads every author's file before each merge and at each wave boundary, so the cross-parcel view survives | restoration | adopted at `3676786` | archive/round6-practice-survey.md, the departures table | 4. The ledger | ledger, checklists | P2 |
 | R5 | Restore: the three read moments stay the floor, whatever carries the push | restoration | adopted at `3676786` | archive/round6-practice-survey.md, the departures table | 4. The ledger | brief, ledger | P2 |
-| S1 | Allowed: the runtime's messages in place of urgent/, the ledger entry first; the brief says how to escalate without finishing; verifiers get only the lead's messages | allowed shape | adopted at `3676786` | archive/round6-practice-survey.md, the departures table | Escalation: one rule, whatever carries it | ledger, brief | P2 |
+| S1 | Allowed: the runtime's messages in place of urgent/, the ledger entry first; the brief says how to escalate without finishing; verifiers get only the lead's messages | allowed shape | adopted at `3676786` | archive/round6-practice-survey.md, the departures table | Escalation: one rule, whatever carries it ; The lead watches too, and watches more | ledger, brief | P2 |
 | S2 | Allowed: the ledger's rules carried in every brief, the three read moments (R5) included, in place of a README | allowed shape | adopted at `3676786` (beyond the four answers; approved by Logan by name, 2026-10-02) | archive/round6-practice-survey.md, the departures table | 4. The ledger | ledger, brief | P2 |
-| S3 | Allowed: the lead told of escalations by the runtime, in place of a watch; the channel watched to work (a test escalation at dispatch reaches the lead) | allowed shape | adopted at `3676786` (beyond the four answers; approved by Logan by name, 2026-10-02) | archive/round6-practice-survey.md, the departures table | Escalation: one rule, whatever carries it | ledger, checklists | P2 |
+| S3 | Allowed: the lead told of escalations by the runtime, in place of a watch; the channel watched to work (a test escalation at dispatch reaches the lead) | allowed shape | adopted at `3676786` (beyond the four answers; approved by Logan by name, 2026-10-02) | archive/round6-practice-survey.md, the departures table | Escalation: one rule, whatever carries it ; The lead watches too, and watches more | ledger, checklists | P2 |
 | S4 | Allowed: one round branch; P0 lands on it before any parcel; a gate after each merge; each merge re-made; main moves only to a verified tip | allowed shape | adopted at `03561a7` and `d38fea1` | archive/round6-practice-survey.md, the departures table | 2. P0: make the shared thing shared, before you split ; 7. What the lead keeps | checklists | P1 (§2); P4 (§7) |
 | S5 | Allowed: parcels own the documents that describe their code; the claims documents stay the lead's; every claim in a parcel-written document is on its verifier's list | allowed shape | adopted at `03561a7` and `d38fea1` | archive/round6-practice-survey.md, the departures table | 3. The brief ; 7. What the lead keeps | brief, verifier | P1 (the brief); P4 (the lead's) |
 | S6 | Allowed: reuse of a run made by someone other than the author of the work verified, with identical inputs and binary hashes; the verifier re-runs from clean what it doubts; the full suite at the round branch's tip before main moves never reuses | allowed shape | adopted at `4ff28ca` | archive/round6-practice-survey.md, the departures table | 6. The verifier | verifier | P3 |
