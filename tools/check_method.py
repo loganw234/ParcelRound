@@ -217,6 +217,7 @@ ARCHIVES = {
     3: ["round3-ledger.zip"],
     4: ["round4-ledger.zip", "round4-second-ledger.zip"],
     5: ["round5-ledger.zip"],
+    6: ["round6-ledger.zip"],
 }
 # The archived ledgers are records, so their bytes never change: a citation
 # resolves against a record nobody can edit unseen, and the paths an archive
@@ -227,6 +228,7 @@ ARCHIVE_SHA256 = {
     "archive/round4-ledger.zip": "6166f93f725f604282a244cec3ea8cd3850918a113b1db86fbba08ec5a99f2f7",
     "archive/round4-second-ledger.zip": "71c1b4f29978c16809a2d66f8a799c307d5c8815682e523972cf32c2c239c28e",
     "archive/round5-ledger.zip": "0f44d183b570bf5c5f49aa68dfd7da9ed7ceee2cbbc645c1bffb520417213e1e",
+    "archive/round6-ledger.zip": "286e7bd792ee4d33e7aa4c7d7d0ec9804190efd35982dd9f46a2a53cf87babbd",
 }
 # Declared once and checked (METHOD.md section 1, the second grade): the case
 # studies are records, so their proposal lists never change. A parse that

@@ -1,7 +1,8 @@
 # A sixth round: the method run on itself, and a gate held to a threat model
 
 Reconstructed after the round from its ledger and from the session's
-transcripts. The ledger is archived beside this file at the round's end. It
+transcripts. The ledger is archived beside this file as
+[archive/round6-ledger.zip](archive/round6-ledger.zip). It
 covers one round of one project, ParcelRound itself:
 - the lead's P0, which built an adoption record and a gate over the method,
   and went past a verifier six times;
@@ -242,10 +243,10 @@ owner's to settle, and record how the round ended.
 
     Each correction is an appended entry, as the ledger's rule asks. Three
     more were typed elsewhere:
-    - in a message to verifier-I, an entry named by a time no entry has,
-      which verifier-I found (00:18:34);
+    - in a message to verifier-I, and in this file's draft, an entry named
+      by a time no entry has, which verifier-I found (00:18:34);
     - in this file's draft, "00:24:05" for the stamp 00:24:40, replaced
-      at once and recorded later;
+      within minutes and recorded later;
     - also in this file's draft, "00:49:21" for 00:46:54, which a script
       checking every cited time against the ledger caught before the
       commit (00:53:23).
@@ -376,9 +377,14 @@ observations each rests on.
   - brief.md has no slot for section 3's cost model, and verifier.md's
     item 5 carries only the "re-run" half of section 6's rule on negative
     controls (00:46:54).
-- **Still to come, before main moves:**
-  1. verifier-I's second phase, on P5's merge, the lead's restates after
-     it, and this file.
-  2. The ledger archived beside this file.
-  3. A scoped check of the archive commit.
-  4. Main pushed to the round branch's verified tip.
+- **verifier-I's second phase** read this file against the ledger, and
+  judged it READY after a scoped re-check (01:17:56).
+- **The archive.** The ledger was archived from its working copy as
+  `archive/round6-ledger.zip`: 27 files, each checked byte for byte
+  against its file, with its modification time kept. The gate pins the
+  archive's SHA-256. It does not excuse personal paths in it: only the
+  earlier archives are excused, so this one is held to the privacy check
+  like any file. Its last entry is the lead's, at 01:18:19.
+- **Still to come, before main moves:** a scoped check of this commit,
+  then main moved to it. Neither can be recorded in this file or the
+  archive.
