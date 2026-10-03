@@ -12,49 +12,56 @@ rule's wording is a stated limit, not a guarantee (case study 4's proposals
 for section 5). Checks 7 and 9 read text, and are such limits.
 
 The checks, by name:
-  links      1. every relative link and link definition in a Markdown file,
-                its text wrapped or not, names a file inside the repository,
-                spelled exactly as it is (GitHub's paths are case-sensitive);
-                an #anchor into a Markdown file names one of its headings
-  citations  2. every case-study citation in METHOD.md and templates/, wrapped
-                or not, resolves to its round's record: the case study's own
-                text (its bracketed citations aside), or the Markdown of the
-                round's ledger archived beside it. Every item a citation holds
-                must resolve, so one that names its case study any other way
-                fails. The archived ledgers' bytes are pinned.
+  links      1. every relative link target in a Markdown file names a file
+                inside the repository, spelled exactly as it is (GitHub's paths
+                are case-sensitive), and in a repository one in the index; an
+                #anchor into a Markdown file names one of its headings
+  citations  2. every case-study citation in METHOD.md and templates/ resolves
+                to its round's record: the case study's own text (its bracketed
+                citations aside), or the Markdown of the round's ledger archived
+                beside it. Every item a citation holds must resolve, so one that
+                names its case study any other way fails. The archived ledgers'
+                bytes are pinned.
   proposals  3. every proposal in a case study's list "What METHOD.md should
                 say differently" has exactly one row in ADOPTION.md, and so
                 does every id in OTHER_IDS (the B, R and S rows); a row with
                 any other id fails
   anchors    4. every ADOPTION.md row whose status is adopted names METHOD.md
-                headings that exist, and every line number ADOPTION.md gives
-                names the commit it is counted at
+                headings that exist; every file:line anywhere in ADOPTION.md
+                names the commit it is counted at; and in a repository, every
+                commit ADOPTION.md names is in HEAD's history
   refs       5. every section number written with a section sign or the word
-                "section" in METHOD.md, README.md, ADOPTION.md and templates/
-                is one of METHOD.md's sections; a section mark inside a
-                case-study citation is check 2's
+                "section", alone or in a list, in METHOD.md, README.md,
+                ADOPTION.md and templates/, is one of METHOD.md's sections. A
+                section mark inside a citation that check 2 reads is check 2's.
   readme     6. README.md links every case study and every template
   brieferr   7. templates/brief.md's report section still asks what the brief
                 got wrong
   sections   8. METHOD.md's eight sections keep their numbers and titles
-  quoted     9. each passage loganw.dev reads by pattern (all its patterns on
-                this repository, at loganw.dev LOGANW_REV) and each passage
+  quoted     9. each passage loganw.dev reads through facts.prose() (the
+                patterns its page modules and its relations.json run on this
+                repository, read at loganw.dev LOGANW_REV) and each passage
                 HonestFramework quotes (read at HF_REV) matches exactly once,
-                in its file as written and as rendered
+                with and without its fenced code and HTML comments
   privacy   10. no email address, personal path or secret-shaped token, but
-                those allowed, in: any file a commit here would publish, or
-                its name; any archive member or its name, nested archives
-                opened; any blob in HEAD's history; any commit message.
-                Percent-escapes, HTML entities and full-width forms are
-                decoded first. A file it cannot read fails.
+                those allowed, in: the working tree's files a commit would
+                publish, and their names; in a repository, the index's staged
+                contents, every blob in HEAD's history and every commit
+                message; every archive member, its name and its comment,
+                nested archives opened, and a gzip header's name and comment.
+                The text is decoded first: percent-escapes, HTML entities,
+                Unicode compatibility forms, and invisible format characters
+                removed. A file it cannot read fails.
 
-Checks 4, 6, 7, 8 and 9 read Markdown as rendered: fenced code blocks and HTML
-comments are removed first. Checks 1, 2 and 5 remove code spans and fenced
-code blocks, since code shows a form rather than using it. A check that crashes
-fails, by name. No failure line prints a path, address or token the gate
-refuses: its output is pasted into ledgers that will be published. There is
-no cache: each run reads everything again. Standard library only, and git for
-the history check 10 reads.
+How Markdown is read. Checks 7, 8 and 9, and check 4 for METHOD.md's headings,
+remove fenced code blocks and HTML comments first. Check 6 also removes code
+spans, since a link in code is not a link. Checks 1, 2 and 5 remove code spans
+and fenced code blocks, since code shows a form rather than using it, and read
+HTML comments. Check 4 reads ADOPTION.md's line numbers and commits in all of
+its text. A check that crashes fails, by name. No failure line prints a path, address or token the
+gate refuses: its output is pasted into ledgers that will be published. There
+is no cache: each run reads everything again. Standard library only, and git
+for what checks 1, 4 and 10 read from a repository.
 
 Citation forms (check 2) in METHOD.md and the templates:
   [CASE-STUDY-n, 15:09]   a time in case study n, or in its archived ledger;
@@ -68,49 +75,74 @@ Citation forms (check 2) in METHOD.md and the templates:
   [The setting]           a heading or a bold-marked item of the case study
                           (such as "the card day"), by its opening words
   [CASE-STUDY-n, the ledger]  the round's archived ledger itself
-  Items are separated by ";" or ",". In METHOD.md, every bracketed text that
-  is not a link is read as a citation. An incident recorded outside the case
-  studies is cited as a Markdown link to its record, e.g.
-  [round 6's survey, B3](archive/round6-practice-survey.md), which check 1
+  Items are separated by ";" or ",". Square brackets in METHOD.md hold
+  citations: every bracketed text is read as one, but a link's text, a label
+  that a link definition in the same file defines, and code. An incident
+  recorded outside the case studies is cited as a Markdown link to its record,
+  e.g. [round 6's survey, B3](archive/round6-practice-survey.md), which check 1
   resolves.
 
-What it cannot see (stated limits, each by the behaviour it concedes):
-  - links: a link with a scheme (https:, mailto:) is not fetched; a link
-    written as HTML, or inside code, is not read; an anchor into a file that
-    is not Markdown is not checked, and anchors are computed by GitHub's rule
-    for "#" headings of plain text, so a setext heading, or one holding HTML,
-    may differ;
-  - citations: a time resolves if the round's record holds that minute
-    anywhere, an entry's stamp or a time an entry's body records, so a
-    citation of the right minute and the wrong event passes; a named phrase
-    resolves if it opens any heading or bold-marked item at a word boundary,
-    so a phrase that opens many (such as "the") passes; in a template, a
-    bracketed phrase with no time, section mark or observation number is read
-    as a placeholder; a citation outside ASCII square brackets, inside code,
-    or outside METHOD.md and templates/, is not read;
-  - proposals: it holds ids, not the rows' content, so a wrong status passes;
-  - anchors: it holds that the headings exist, not that the rule is under
-    them, and that a line number names its commit, not that the line is
-    right there; a line number written other than as file:line is not read;
-  - refs: a section named in words ("the ninth section") or by its title is
-    not read; another document's section is cited in brackets, for check 2;
+What it cannot see. Each limit is stated by the behaviour it concedes, so that
+a new spelling of a stated class falls inside it:
+  - links: links are found by patterns, not by a CommonMark parser. They read
+    inline links (wrapped, with one level of brackets in their text, and with
+    a plain or an angle-bracket target) and link definitions (with the target
+    on the same line or the next). A link in any other syntax is not read:
+    HTML, an autolink, or brackets nested deeper. A link with a scheme
+    (https:, mailto:) is not fetched. An anchor into a file that is not
+    Markdown is not checked. Anchors are computed by GitHub's rule for "#"
+    headings of plain text, so a setext heading, or one holding HTML, may
+    differ. Outside a repository, a target need only exist on disk.
+  - citations: citations are found by a pattern over square brackets, not by
+    a parser. A citation in any other shape is not read: in parentheses, as a
+    link's text, as an image's alt text, or in code. Nor is one outside
+    METHOD.md and templates/.
+    - A time resolves if the round's record holds that minute anywhere in the
+      case study's text or the archived ledger's Markdown, whatever it was: an
+      entry's stamp, a time an entry records, a ratio such as 1:24, an
+      example. A citation of a minute that appears there for another reason
+      passes.
+    - A named phrase resolves if it opens any heading or bold-marked item at
+      a word boundary, so a phrase that opens many (such as "the") passes.
+    - In a template, a bracketed phrase with no time, section mark or
+      observation number is a placeholder.
+  - proposals: it holds ids, not the rows' content, so a wrong status passes.
+  - anchors: it holds that an adopted row's headings exist, not that the rule
+    is under them. It holds that every file:line names a commit, and in a
+    repository that the commit is in HEAD's history; not that the line is
+    right at it. A line named any other way ("line 66 of METHOD.md") is not
+    read. Outside a repository, a commit is not looked up.
+  - refs: a section number is read after the section sign or the word
+    "section", in any case, alone or in a list joined by commas, "and", "or",
+    "to", "through", "&" or dashes. A section named any other way is not
+    read: in words, by its title, or by an abbreviation such as "Sect.".
   - brieferr: the clause kept where nothing asks it (negated, or moved within
-    the report section) passes; a respelled clause fails it;
-  - quoted: a passage another repository starts to quote is held only once it
-    is added to LOGANW_PATTERNS or HF_PASSAGES; HonestFramework's quotations
-    are held as words, not as line wrapping; loganw.dev's other reads of this
-    repository (file counts, existence, last change, two commits by SHA) are
-    not held;
-  - privacy: an address spelled out for a person to reassemble, split by a
-    line break or by markup, or written in another script's look-alike
-    letters passes; a secret of a shape not in SECRET passes; the personal
-    paths in the archived ledgers KNOWN_PATHS names pass by design (they are
-    records published before this gate, and their bytes are pinned); author
-    and committer fields are not read (every commit's carry the owner's own
-    address, public in each commit); only HEAD's history is read, so other
-    branches and tags are not (only main is pushed, and a branch push carries
-    no tags); a binary file whose zero bytes fall like UTF-16's is read as
-    that text;
+    the report section) passes. A respelled clause fails it.
+  - quoted: it holds the passages in LOGANW_PATTERNS and HF_PASSAGES.
+    - A passage another repository starts to quote, or that loganw.dev reads
+      other than through facts.prose() from its page modules and
+      relations.json, is held only once it is added there.
+    - HonestFramework's quotations are held as words, not as line wrapping.
+    - loganw.dev's other reads of this repository (file counts, existence,
+      last change, commits by SHA) are not held.
+  - privacy: it reads text after the decoding check 10 names.
+    - An address, path or token written any other way that a reader could
+      reassemble passes: spelled out, split by a line break or by markup, in
+      another script's look-alike letters, encoded in base64,
+      quoted-printable or another scheme, or inside an image.
+    - A path is personal when it names a home directory in one of USER_PATH's
+      shapes. A home reached any other way passes: through an environment
+      variable, a symbolic link, a mapped drive, or a share of another name.
+    - A secret of a shape not in SECRET passes.
+    - The personal paths in the archived ledgers KNOWN_PATHS names pass by
+      design: they are records published before this gate, and their bytes
+      are pinned.
+    - Author and committer fields are not read. Every commit's carry the
+      owner's own address, public in each commit.
+    - Only the working tree, the index and HEAD's history are read. Other
+      branches, stashes and tags are not: only main is pushed, and a branch
+      push carries no tags.
+    - A binary file whose zero bytes fall like UTF-16's is read as that text.
   - everywhere: an indented code block is read as text.
 Each of these is on every verifier's list by name.
 """
@@ -178,9 +210,11 @@ SECTIONS = [
 ]
 
 # loganw.dev reads these at its pin with re.finditer(pattern, text, re.M) and
-# refuses any count but one (its site/facts.py, prose()). They are all of its
-# patterns on this repository, copied verbatim from its page modules at
-# LOGANW_REV, one per call, so a rewrap that would break one breaks this.
+# refuses any count but one (its site/facts.py, prose()). They are the patterns
+# it hands facts.prose() for this repository at LOGANW_REV, copied verbatim:
+# one per call in its page modules (found by reading their calls), and one per
+# edge of its site/data/relations.json (mapgen.py, all_edges). A rewrap that
+# would break one breaks this.
 LOGANW_REV = "43c36a2"
 LOGANW_PATTERNS = [
     ("CASE-STUDY-2.md", 'produced (four send-backs, none for a wrong bit)', "site/pages/method.py:102"),
@@ -198,6 +232,7 @@ LOGANW_PATTERNS = [
     ("CASE-STUDY-4.md", "(Whether atlas-film's `pinned` merges into its main)", "site/pages/home.py:135"),
     ("CASE-STUDY-4.md", '(Every print re-developed to the same bits) \\(`--check`\\)', "site/pages/home.py:214"),
     ("CASE-STUDY-4.md", '\\*\\*(equality with the authority passed 10 of 11 planted certificate faults)\\*\\*', "site/pages/method.py:110"),
+    ("CASE-STUDY-4.md", '(P2 moves atlas-film)', "site/data/relations.json, edges[10]"),
     ("LICENSE", '^(MIT) License', "site/pages/propose.py:92"),
     ("METHOD.md", '\\*\\*(Exactly one file owns each shared fact; everyone else includes it)\\.\\*\\*', "site/pages/method.py:63"),
     ("METHOD.md", '## 1\\. (The one failure mode)', "site/pages/work_parcelround.py:36"),
@@ -231,18 +266,30 @@ EMAIL = re.compile(r"([A-Za-z0-9._%+-]+)@([A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)*\.[A-
 # domains reserved for examples (RFC 2606 and RFC 6761).
 ALLOWED_ADDRESSES = {"noreply@anthropic.com", "logan@loganw.dev"}
 RESERVED = re.compile(r"(^|\.)(example\.(com|net|org)|example|invalid|test|localhost)$", re.I)
-# A home directory on any of three systems, in any case, with or without its
-# drive letter: C:\Users\<name>, c:/users/<name>, \Users\<name>, /c/Users/<name>,
-# /Users/<name>, /home/<name>. Built from parts, so that this file holds no
-# personal path of its own to find.
+# A home directory, in any case, in each shape it takes:
+#   - a Windows profile under its drive: C:\Users\<name>, c:/users/<name>, and
+#     the older Documents and Settings;
+#   - the drive mounted as a directory, behind any prefix: /c/Users/<name> (MSYS),
+#     /mnt/c/... (WSL), /cygdrive/c/..., /host_mnt/c/... (containers);
+#   - backslashed with no drive, or over a share: \Users\<name>, and a WSL home
+#     reached as \\wsl$\<distro>\home\<name>;
+#   - a POSIX home: /home/<name>, /Users/<name>, after a slash, a colon or a
+#     space (file:///home/<name>, a PATH list), but not straight after a host name,
+#     since github.com/users/... is a URL.
+# Built from parts, so that this file holds no personal path of its own to find.
 _SL, _BS = "/", "\\"
-_HOME = "(?:" + "us" + "ers|" + "ho" + "me)"
-_NAME = r"[^\\/\s'\"`<>|*?]+"
+_PROFILES = "(?:" + "us" + "ers|documents and settings)"
+_NAME = r"[^\\/\s'\"`<>|*?:]+"
 USER_PATH = re.compile(
-    r"(?i)(?<![\w])[a-z]:[\\/]+" + "us" + "ers" + r"[\\/]+" + _NAME
-    + r"|(?<![\w.:/\\-])" + _SL + r"[a-z]" + _SL + "us" + "ers" + _SL + _NAME
-    + r"|(?<![\w.:/\\-])" + _BS + _BS + "us" + "ers" + _BS + _BS + _NAME
-    + r"|(?<![\w.:/\\-])" + _SL + _HOME + _SL + _NAME)
+    r"(?i)(?<![\w])[a-z]:[\\/]+" + _PROFILES + r"[\\/]+" + _NAME
+    + "|" + _SL + r"[a-z]" + _SL + _PROFILES + _SL + _NAME
+    + "|" + _BS + _BS + "(?:" + "us" + "ers|documents and settings|ho" + "me)" + _BS + _BS + "+" + _NAME
+    + r"|(?<![\w.-])" + _SL + "(?:" + "us" + "ers|ho" + "me)" + _SL + _NAME)
+# Invisible format characters (Unicode category Cf: zero-width spaces and
+# joiners, the soft hyphen, the byte-order mark), which can sit inside an
+# address or a path without showing.
+_FORMAT_CHARS = re.compile("[" + "".join(re.escape(chr(c)) for c in range(sys.maxunicode + 1)
+                                         if unicodedata.category(chr(c)) == "Cf") + "]")
 # Common credential shapes, built from parts for the same reason.
 SECRET = re.compile("|".join([
     "gh" + r"[pousr]_[A-Za-z0-9]{20,}",
@@ -288,22 +335,36 @@ KNOWN_PATHS = [
 ]
 
 STAMP = re.compile(r"(?<![\d:])(\d{1,2}):(\d[\dx])(?![\d:])")
-# A citation: square brackets, the text wrapped or not but never across a blank
-# line, that is neither a link's text ("](", "][") nor a link's label.
-CITATION = re.compile(r"(?<![\]\\])\[((?:[^\[\]\n]|\n(?![ \t]*\n))+)\](?![(\[])")
+# Square brackets around text, wrapped or not but never across a blank line.
+BRACKET = re.compile(r"\[((?:[^\[\]\n]|\n(?![ \t]*\n))*)\]")
+# A case study's own citations, stripped from its text before its times are
+# read: bracketed text that is not a link's text.
+CITATION = re.compile(r"(?<!\])\[((?:[^\[\]\n]|\n(?![ \t]*\n))+)\](?![(\[])")
 # What makes a bracketed phrase in a template a citation rather than a placeholder.
 CITES = re.compile(r"(?<![\d:])\d{1,2}:\d[\dx](?![\d:])|§\s*\d|\bobs(?:ervation)?\.?\s*\d", re.I)
-LINK = re.compile(r"\[(?:[^\[\]\n]|\n(?![ \t]*\n))*\]\(\s*<?([^\s)>]+)>?(?:\s+(?:\"[^\"]*\"|'[^']*'))?\s*\)")
-LINK_DEFINITION = re.compile(r"(?m)^ {0,3}\[[^\]\n]+\]:[ \t]*<?([^\s>]+)>?")
+# An inline link's target: plain, or in angle brackets (which may hold spaces),
+# with an optional title.
+_TARGET = r"\(\s*(?:<([^>\n]+)>|([^\s()<>]+))(?:\s+(?:\"[^\"]*\"|'[^']*'|\([^)]*\)))?\s*\)"
+_LINK_TEXT = r"(?:[^\[\]\n]|\n(?![ \t]*\n))*"
+LINK = re.compile(r"\[" + _LINK_TEXT + r"\]" + _TARGET)
+# A link whose text holds one level of brackets, such as a badge: [![alt](image)](target).
+LINK_NESTED = re.compile(r"\[(?:[^\[\]\n]|\[" + _LINK_TEXT + r"\](?:\([^)\n]*\))?|\n(?![ \t]*\n))*\]" + _TARGET)
+# A link definition, its target on the same line or the next.
+LINK_DEFINITION = re.compile(r"(?m)^ {0,3}\[([^\]\n]+)\]:[ \t]*\n?[ \t]*(?:<([^>\n]+)>|(\S+))")
 LEDGER_PHRASE = re.compile(r"(?:the )?(?:round's |parcels' |lead's )?ledger(?: files?)?", re.I)
 FENCE = re.compile(r"(?ms)^ {0,3}(`{3,}|~{3,})[^\n]*\n.*?(?:^ {0,3}\1[ \t]*$|\Z)")
 COMMENT = re.compile(r"(?s)<!--.*?(?:-->|\Z)")
 CODE_SPAN = re.compile(r"`(?:[^`\n]|\n(?![ \t]*\n))*`")
-# A section number: "§4", "§§4-6", "§4-§6", "section 4", "sections 4, 5 and 6".
-SECTION_REF = re.compile(r"§§?\s*(\d+)(?:\s*[-\u2013]\s*§?\s*(\d+))?"
-                         r"|\b[Ss]ections?\s+(\d+)((?:\s*(?:,|and|or|to|-|\u2013)\s*\d+)*)")
-# A line number ADOPTION.md gives, such as METHOD.md:66 or CS2:358.
+# A section number, after the section sign or the word "section", in any case,
+# alone or in a list: "§4", "§§4-6", "§§4 and 9", "§4-§6", "Section 4",
+# "sections 4, 5 and 6", "sections 4 through 9", "sections 4 & 9".
+_SECTION_JOIN = r"(?:\s*(?:,|;|&|-|\u2013|\u2014|\band\b|\bor\b|\bto\b|\bthrough\b)\s*)"
+SECTION_REF = re.compile(r"§§?\s*(\d+)((?:" + _SECTION_JOIN + r"§?\s*\d+)*)"
+                         r"|\bsections?\s+(\d+)((?:" + _SECTION_JOIN + r"\d+)*)", re.I)
+# A line number ADOPTION.md gives, such as METHOD.md:66 or CS2:358, and the
+# commit that counts it: at `49a9266`.
 LINE_REF = re.compile(r"(?<![\w/.])[A-Za-z][\w./-]*:\d+(?:-\d+)?\b")
+COMMIT_REF = re.compile(r"\bat `([0-9a-f]{7,40})`")
 
 
 def read(root, rel):
@@ -503,14 +564,32 @@ def heading_anchors(text):
     return out
 
 
+def tracked_files(root):
+    """In a repository, the paths in its index: what a commit here would hold."""
+    out = git(root, "ls-files", "-z", "--cached")
+    return {p for p in out.decode("utf-8", "replace").split("\0") if p}
+
+
+def link_targets(text):
+    """(position, target) for every inline link, badge link and link definition."""
+    seen, out = set(), []
+    # Each pattern's target is in an angle-bracket group or a plain one.
+    for rx, angle, plain in ((LINK, 1, 2), (LINK_NESTED, 1, 2), (LINK_DEFINITION, 2, 3)):
+        for m in rx.finditer(text):
+            target = m.group(angle) or m.group(plain)
+            if (m.start(), target) not in seen:
+                seen.add((m.start(), target))
+                out.append((m.start(), target))
+    return sorted(out)
+
+
 def check_links(root):
     bad, n = [], 0
     anchors = {}
+    tracked = tracked_files(root) if is_repository(root) else None
     for rel in md_files(root):
         text = uncoded(read(root, rel))
-        targets = [(m.start(), m.group(1)) for m in LINK.finditer(text)]
-        targets += [(m.start(), m.group(1)) for m in LINK_DEFINITION.finditer(text)]
-        for pos, target in targets:
+        for pos, target in link_targets(text):
             if re.match(r"[A-Za-z][A-Za-z0-9+.-]*:", target):
                 continue  # a scheme: https:, mailto:
             n += 1
@@ -518,6 +597,9 @@ def check_links(root):
             path, _, frag = target.partition("#")
             if path:
                 dest, why = resolve_path(root, posixpath.dirname(rel), unquote(path))
+                if not why and tracked is not None and dest and not (
+                        dest in tracked or any(t.startswith(dest + "/") for t in tracked)):
+                    why = "which is not in the index: git add it, or the link dangles in the commit"
                 if why:
                     bad.append(f"{where}: link to {target}, {why}")
                     continue
@@ -532,15 +614,39 @@ def check_links(root):
     return bad, f"{n} relative links read"
 
 
-def citation_groups(root, rel):
-    """(line, group) for every bracketed citation in a file, wrapped or not."""
-    text = uncoded(read(root, rel))
+def _label(s):
+    return re.sub(r"\s+", " ", s).strip().lower()
+
+
+def citation_matches(raw):
+    """(match, group) for every bracketed citation in a Markdown text, wrapped
+    or not, its code blanked. Bracketed text is a citation unless it is a
+    link's text, a label a link definition in the same text defines (a
+    reference link), a checklist box or a footnote; an escaped bracket
+    renders as a bracket, so it is read too."""
+    defined = {_label(m.group(1)) for m in LINK_DEFINITION.finditer(raw)}
+    text = uncoded(raw)
     # A link definition ("[label]: target") is a link, not a citation.
     text = re.sub(r"(?m)^ {0,3}\[[^\]\n]+\]:.*$", _blank, text)
-    for m in CITATION.finditer(text):
+    for m in BRACKET.finditer(text):
+        if text[m.end():m.end() + 1] == "(":
+            continue  # a link's text; its target is check 1's
+        label = _label(m.group(1))
+        if label in defined:
+            continue  # a reference link's text or label
+        if text[m.end():m.end() + 1] == "[":
+            nxt = BRACKET.match(text, m.end())
+            if nxt and (_label(nxt.group(1)) in defined or (not nxt.group(1).strip() and label in defined)):
+                continue  # a reference link's text, its label defined here
         g = re.sub(r"\s+", " ", m.group(1)).strip()
         if g in ("", "x", "X") or g.startswith("^"):
             continue  # a checklist box, or a footnote
+        yield m, g, text
+
+
+def citation_groups(root, rel):
+    """(line, group) for every bracketed citation in a file."""
+    for m, g, text in citation_matches(read(root, rel)):
         yield line_of(text, m.start()), g
 
 
@@ -685,13 +791,28 @@ def check_anchors(root):
                 if h not in heads:
                     bad.append(f"ADOPTION.md line {i}: {cells[0]} is {cells[si]} at "
                                f"'{h}', which is no heading in METHOD.md")
-        # Lines move, so a line number is only true at a commit, and says which.
-        found = LINE_REF.findall(cells[ei])
-        refs += len(found)
-        if found and not re.search(r"\bat `[0-9a-f]{7,40}`", cells[ei]):
-            bad.append(f"ADOPTION.md line {i}: {cells[0]}'s evidence gives {found[0]} without "
-                       f"the commit it is counted at")
-    return bad, f"{n} adopted rows and {refs} line numbers read"
+    # Lines move, so a line number is only true at a commit, and says which: in
+    # every cell of every row, and in every line of prose.
+    refs, commits = 0, set()
+    for i, line in enumerate(read(root, "ADOPTION.md").splitlines(), 1):
+        commits |= set(COMMIT_REF.findall(line))
+        parts = line.strip().strip("|").split("|") if line.startswith("|") else [line]
+        for part in parts:
+            found = LINE_REF.findall(part)
+            refs += len(found)
+            if found and not COMMIT_REF.search(part):
+                bad.append(f"ADOPTION.md line {i}: {found[0]} without the commit it is counted at")
+    # And the commits named are this repository's own, in what main will carry.
+    if is_repository(root):
+        for sha in sorted(commits):
+            r = subprocess.run(["git", "-C", root, "merge-base", "--is-ancestor", sha, "HEAD"],
+                               capture_output=True, env=dict(os.environ, GIT_OPTIONAL_LOCKS="0"))
+            if r.returncode != 0:
+                bad.append(f"ADOPTION.md names commit {sha}, which is not in HEAD's history")
+        note = f"{len(commits)} commits found in HEAD's history"
+    else:
+        note = "commits not looked up: no .git here"
+    return bad, f"{n} adopted rows and {refs} line numbers read; {note}"
 
 
 def check_refs(root):
@@ -701,11 +822,20 @@ def check_refs(root):
     for rel in files:
         if not os.path.exists(os.path.join(root, rel)):
             continue
-        # A section mark in a citation is the case study's, and check 2's.
-        text = CITATION.sub(_blank, uncoded(read(root, rel)))
+        raw = read(root, rel)
+        text = uncoded(raw)
+        # A section mark in a citation that check 2 reads is the case study's,
+        # and check 2's. Check 2 reads METHOD.md and the templates only.
+        if rel == "METHOD.md" or rel.startswith("templates/"):
+            chars = list(text)
+            for m, _, _ in citation_matches(raw):
+                for k in range(m.start(), m.end()):
+                    if chars[k] != "\n":
+                        chars[k] = " "
+            text = "".join(chars)
         for m in SECTION_REF.finditer(text):
             if m.group(1):
-                nums = [m.group(1)] + ([m.group(2)] if m.group(2) else [])
+                nums = [m.group(1)] + re.findall(r"\d+", m.group(2) or "")
             else:
                 nums = [m.group(3)] + re.findall(r"\d+", m.group(4) or "")
             for k in nums:
@@ -713,12 +843,13 @@ def check_refs(root):
                 if int(k) not in sections:
                     bad.append(f"{rel}:{line_of(text, m.start())}: '{squash(m.group(0))}' names "
                                f"section {k}, which METHOD.md does not have; another document's "
-                               f"section is cited in brackets")
+                               f"section is cited as check 2 reads it, [CASE-STUDY-n, §k]")
     return bad, f"{n} section numbers read"
 
 
 def check_readme(root):
-    readme = rendered(read(root, "README.md"))
+    # A link in code is not a link.
+    readme = uncoded(rendered(read(root, "README.md")))
     want = [f for f in md_files(root) if re.fullmatch(r"CASE-STUDY(-\d+)?\.md", f)]
     want += [f for f in md_files(root) if f.startswith("templates/") and f != "templates/README.md"]
     bad = [f"README.md does not link {f}" for f in want if f"]({f})" not in readme]
@@ -794,8 +925,9 @@ def masked(keys):
 
 def decoded(text):
     """A text as a reader would see it: percent-escapes and HTML entities
-    decoded, and full-width and other compatibility forms folded (NFKC)."""
-    return unicodedata.normalize("NFKC", html.unescape(unquote(text)))
+    decoded, full-width and other compatibility forms folded (NFKC), and
+    invisible format characters removed."""
+    return _FORMAT_CHARS.sub("", unicodedata.normalize("NFKC", html.unescape(unquote(text))))
 
 
 def findings(text):
@@ -838,24 +970,50 @@ def decode_text(data):
     return None
 
 
+def gzip_header_texts(data):
+    """The name and comment a gzip header may carry (RFC 1952, FNAME and FCOMMENT)."""
+    out = []
+    if len(data) < 10:
+        return out
+    flags, pos = data[3], 10
+    if flags & 4 and len(data) >= pos + 2:  # FEXTRA comes first
+        pos += 2 + int.from_bytes(data[pos:pos + 2], "little")
+    for bit, label in ((8, "gzip name"), (16, "gzip comment")):
+        if flags & bit:
+            end = data.find(b"\0", pos)
+            if end < 0:
+                break
+            out.append((label, data[pos:end].decode("latin-1")))
+            pos = end + 1
+    return out
+
+
 def texts_in(name, data, depth=0):
-    """(name, text) for every text in data, archives opened: a zip's members
-    and a gzip's content, to a depth of four. Text that cannot be read comes
-    back as None."""
+    """(name, text) for every text in data, archives opened: a zip's members,
+    its comment and each member's, and a gzip's content and its header's name
+    and comment, to a depth of four. Text that cannot be read comes back as
+    None."""
     if depth > 4:
         yield name, None
         return
     if data[:4] in (b"PK\x03\x04", b"PK\x05\x06"):
         try:
             with zipfile.ZipFile(io.BytesIO(data)) as zf:
-                members = [(i.filename, zf.read(i)) for i in zf.infolist() if not i.is_dir()]
+                comment = zf.comment
+                members = [(i.filename, i.comment, zf.read(i)) for i in zf.infolist() if not i.is_dir()]
         except (zipfile.BadZipFile, NotImplementedError, RuntimeError, OSError, EOFError):
             yield name, None  # broken, or encrypted
             return
-        for member, body in members:
+        if comment:
+            yield f"{name}!(archive comment)", comment.decode("utf-8", "replace")
+        for member, member_comment, body in members:
+            if member_comment:
+                yield f"{name}!{member}!(comment)", member_comment.decode("utf-8", "replace")
             yield from texts_in(f"{name}!{member}", body, depth + 1)
         return
     if data[:2] == b"\x1f\x8b":
+        for label, text in gzip_header_texts(data):
+            yield f"{name}!({label})", text
         try:
             inner = gzip.decompress(data)
         except (OSError, EOFError):
@@ -931,14 +1089,21 @@ def git_blob_id(data):
     return hashlib.sha1(b"blob %d\0" % len(data) + data).hexdigest()
 
 
-def history_blobs(root, skip):
-    """(path, id, bytes) for every blob reachable from HEAD whose id is not in
-    skip, each under the first path git names it by."""
+def stored_blobs(root, skip):
+    """(path, where, id, bytes) for every blob the index stages or HEAD's
+    history holds, whose id is not in skip, each under the first path git
+    names it by: what a commit or a push from here could publish."""
     named = {}
+    # The index first: what is staged is what the next commit holds, whatever
+    # the working tree now says.
+    for rec in git(root, "ls-files", "-s", "-z").decode("utf-8", "replace").split("\0"):
+        meta, _, path = rec.partition("\t")
+        if path and len(meta.split()) == 3:
+            named.setdefault(meta.split()[1], (path, "in the index"))
     for line in git(root, "rev-list", "--objects", "HEAD").decode("utf-8", "replace").splitlines():
         oid, _, path = line.partition(" ")
-        if path and oid not in named:
-            named[oid] = path
+        if path:
+            named.setdefault(oid, (path, "in history"))
     if not named:
         return []
     kinds = git(root, "cat-file", "--batch-check", data=("\n".join(named) + "\n").encode()).decode()
@@ -951,7 +1116,8 @@ def history_blobs(root, skip):
     for oid in blobs:
         nl = out.index(b"\n", pos)
         size = int(out[pos:nl].split()[2])
-        res.append((named[oid], oid, out[nl + 1:nl + 1 + size]))
+        path, where = named[oid]
+        res.append((path, where, oid, out[nl + 1:nl + 1 + size]))
         pos = nl + 1 + size + 1
     return res
 
@@ -981,17 +1147,17 @@ def privacy(root, exceptions):
     if not repo:
         return bad, f"{nfiles} files read; history and commit messages skipped by name: no .git here"
     try:
-        blobs = history_blobs(root, seen)
+        blobs = stored_blobs(root, seen)
         log = git(root, "log", "--format=%B%x00", "HEAD").decode("utf-8", "replace")
     except (OSError, subprocess.CalledProcessError, ValueError, IndexError) as e:
-        return bad + [f"history could not be read: {e}"], f"{nfiles} files read"
-    for path, oid, data in blobs:
-        bad += object_problems(f"{path} (in history, blob {oid[:7]})", path, data)
+        return bad + [f"the index or history could not be read: {e}"], f"{nfiles} files read"
+    for path, where, oid, data in blobs:
+        bad += object_problems(f"{path} ({where}, blob {oid[:7]})", path, data)
     keys, path, secret = findings(log)
     if keys or path or secret:
         bad.append(f"commit messages: {described(keys, path, secret)}")
     nmsg = log.count("\x00")
-    return bad, (f"{nfiles} files, {len(blobs)} more blobs in HEAD's history and "
+    return bad, (f"{nfiles} files, {len(blobs)} more blobs in the index and HEAD's history, and "
                  f"{nmsg} commit messages read")
 
 
@@ -1067,9 +1233,11 @@ def zipped(members):
     return b.getvalue()
 
 
-# Built at run time, so this file holds neither.
+# Built at run time, so this file holds none of them.
 PLANTED_ADDRESS = "someone" + "@" + "personal-domain.net"
 PLANTED_PATH = "C:" + _BS + "Us" + "ers" + _BS + "someone" + _BS + "work"
+PLANTED_MOUNT_PATH = _SL + "mnt" + _SL + "c" + _SL + "Us" + "ers" + _SL + "someone" + _SL + "work"
+PLANTED_HIDDEN_ADDRESS = "some" + "​" + "one" + "@" + "personal-domain.net"
 
 
 def plant_archive_member(t):
@@ -1078,23 +1246,41 @@ def plant_archive_member(t):
         z.writestr("planted.md", "# 09:59 a planted entry\n")
 
 
+def plant_archive_comment(t):
+    b = io.BytesIO()
+    with zipfile.ZipFile(b, "w") as z:
+        z.writestr("notes.md", "# notes\n")
+        z.comment = f"packed for {PLANTED_ADDRESS}".encode()
+    write_bytes(t, "archive/planted.zip", b.getvalue())
+
+
 PLANTS = [
     # (the check that must catch it, what is planted, how)
     ("links", "a link to no file", lambda t: append(t, "METHOD.md", "\n[a planted link](no-such-file.md)\n")),
     ("links", "a link whose case differs from the file's", lambda t: append(t, "METHOD.md", "\n[a planted link](adoption.md)\n")),
     ("links", "a link to an anchor no heading has", lambda t: append(t, "METHOD.md", "\n[a planted link](#no-such-heading)\n")),
+    ("links", "a badge link whose outer target is missing", lambda t: append(t, "README.md", "\n[![badge](LICENSE)](no-such-file.md)\n")),
+    ("links", "an angle-bracket target that is missing", lambda t: append(t, "METHOD.md", "\n[a planted link](<no such file.md>)\n")),
+    ("links", "a definition, its target on the next line", lambda t: append(t, "README.md", "\n[planted]:\n  no-such-file.md\n")),
     ("citations", "an observation case study 3 does not number", lambda t: append(t, "METHOD.md", "\nA planted citation. [CASE-STUDY-3, obs 7]\n")),
     ("citations", "a wrapped citation of no case study", lambda t: append(t, "METHOD.md", "\nA planted citation. [CASE-STUDY-9, 10:00;\n11:00]\n")),
     ("citations", "a case study named another way", lambda t: append(t, "METHOD.md", "\nA planted citation. [CS3, 12:37]\n")),
+    ("citations", "an escaped citation of no case study", lambda t: append(t, "METHOD.md", "\nA planted citation. \\[CASE-STUDY-9, 10:00]\n")),
+    ("citations", "a citation after a bracket, no label defined", lambda t: append(t, "METHOD.md", "\nA planted citation. [see][CASE-STUDY-9, 10:00]\n")),
     ("citations", "an archived ledger edited", plant_archive_member),
     ("proposals", "a case study's row removed", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(r"(?m)^\| CS3#1 \|.*\n", "", s, count=1))),
     ("proposals", "a B row removed", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(r"(?m)^\| B9 \|.*\n", "", s, count=1))),
     ("anchors", "an adopted row under no heading", lambda t: edit(t, "ADOPTION.md", lambda s: re.sub(
         r"(?m)^(\| CS2#1 \|(?:[^|]*\|){4})[^|]*\|", r"\1 No such heading |", s, count=1))),
     ("anchors", "a line number with no commit", lambda t: edit(t, "ADOPTION.md", lambda s: s.replace("; both at `49a9266`", "", 1))),
+    ("anchors", "a line number in prose with no commit", lambda t: append(t, "ADOPTION.md", "\nThe planted rule is at METHOD.md:66.\n")),
     ("refs", "a wrapped section reference", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("[METHOD.md](../METHOD.md)\n§3", "[METHOD.md](../METHOD.md)\n§9", 1))),
     ("refs", "a bare section sign", lambda t: append(t, "templates/verifier.md", "\nThe planted rule (§9) applies here.\n")),
+    ("refs", "section signs in a list joined by 'and'", lambda t: append(t, "templates/verifier.md", "\nSee §§4 and 9.\n")),
+    ("refs", "a bracketed section mark in README", lambda t: append(t, "README.md", "\nSee [§9].\n")),
     ("readme", "a case study's row removed", lambda t: edit(t, "README.md", lambda s: re.sub(r"(?m)^.*\]\(CASE-STUDY-5\.md\).*\n", "", s, count=1))),
+    ("readme", "a case study's link inside a code span", lambda t: edit(t, "README.md", lambda s: re.sub(
+        r"(\[[^\]\n]*\]\(CASE-STUDY-5\.md\))", r"`\1`", s, count=1))),
     ("brieferr", "the clause respelled", lambda t: edit(t, "templates/brief.md", lambda s: s.replace("got wrong", "got right"))),
     ("sections", "a section renamed", lambda t: edit(t, "METHOD.md", lambda s: s.replace("## 4. The ledger", "## 4. The record", 1))),
     # Rewrap a passage loganw.dev reads with literal spaces: its pattern stops matching.
@@ -1102,10 +1288,15 @@ PLANTS = [
     ("quoted", "a passage kept only in an HTML comment", lambda t: edit(t, "METHOD.md", lambda s: s.replace(
         "**Exactly one file owns each shared fact; everyone else includes it.**",
         "<!-- **Exactly one file owns each shared fact; everyone else includes it.** -->", 1))),
+    ("quoted", "loganw.dev's relations.json passage changed", lambda t: edit(t, "CASE-STUDY-4.md", lambda s: s.replace(
+        "P2 moves atlas-film", "P2 moved atlas-film", 1))),
     ("privacy", "an address in a file", lambda t: append(t, "README.md", f"\nContact {PLANTED_ADDRESS} for details.\n")),
     ("privacy", "a percent-encoded address", lambda t: append(t, "README.md", "\n[Write](mailto:" + PLANTED_ADDRESS.replace("@", "%40") + ").\n")),
+    ("privacy", "an address split by an invisible character", lambda t: append(t, "README.md", f"\nContact {PLANTED_HIDDEN_ADDRESS}.\n")),
+    ("privacy", "a personal path behind a mount prefix", lambda t: append(t, "ADOPTION.md", f"\nRead at {PLANTED_MOUNT_PATH}.\n")),
     ("privacy", "an address in a nested archive", lambda t: write_bytes(t, "archive/planted.zip", zipped(
         [("inner.zip", zipped([("lead.md", f"# lead\n\nwrite to {PLANTED_ADDRESS}\n")]))]))),
+    ("privacy", "an address in an archive's comment", plant_archive_comment),
     ("privacy", "a file that is not UTF-8", lambda t: write_bytes(t, "planted.txt", "Planted \u2013 notes\n".encode("cp1252"))),
 ]
 
@@ -1138,20 +1329,67 @@ def git_plant_history_blob(g, repo):
     g("commit", "-q", "-m", "Notes removed")
 
 
+def git_plant_index_only(g, repo):
+    # Staged, then cleaned in the working tree only: the next commit holds it.
+    path = os.path.join(repo, "notes.md")
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write(f"# notes\n\nwrite to {PLANTED_ADDRESS}\n")
+    g("add", "notes.md")
+    with open(path, "w", encoding="utf-8", newline="\n") as f:
+        f.write("# notes\n")
+
+
+def git_plant_link_untracked(g, repo):
+    # The target exists here, but nothing staged it: in the commit, the link dangles.
+    with open(os.path.join(repo, "notes.md"), "w", encoding="utf-8", newline="\n") as f:
+        f.write("# notes\n")
+    with open(os.path.join(repo, "README.md"), "a", encoding="utf-8", newline="\n") as f:
+        f.write("\n[the notes](notes.md)\n")
+
+
+def git_setup_adoption(g, repo):
+    # A METHOD.md and an ADOPTION.md whose one line number names a commit of this repository.
+    with open(os.path.join(repo, "METHOD.md"), "w", encoding="utf-8", newline="\n") as f:
+        f.write("# The method\n\n## 1. A section\n\nA rule.\n")
+    g("add", "METHOD.md")
+    g("commit", "-q", "-m", "A method")
+    sha = subprocess.run(["git", "-C", repo, "rev-parse", "--short", "HEAD"], capture_output=True,
+                         text=True, check=True).stdout.strip()
+    with open(os.path.join(repo, "ADOPTION.md"), "w", encoding="utf-8", newline="\n") as f:
+        f.write("| id | proposal | type | status | evidence | METHOD heading | template | parcel |\n"
+                "|---|---|---|---|---|---|---|---|\n"
+                f"| X1 | a rule | t | pending | METHOD.md:5 at `{sha}` | — | — | — |\n")
+    g("add", "ADOPTION.md")
+    g("commit", "-q", "-m", "An adoption record")
+
+
+def git_plant_foreign_commit(g, repo):
+    # A line number counted at a commit that no history here holds.
+    with open(os.path.join(repo, "ADOPTION.md"), "a", encoding="utf-8", newline="\n") as f:
+        f.write("| X2 | a rule | t | pending | METHOD.md:5 at `0000000` | — | — | — |\n")
+
+
 GIT_PLANTS = [
-    ("privacy", "an address in a commit message", git_plant_message_address),
-    ("privacy", "a personal path in a commit message", git_plant_message_path),
-    ("privacy", "an address only history holds", git_plant_history_blob),
+    # (the check, what is planted, how, any setup the clean baseline needs)
+    ("privacy", "an address in a commit message", git_plant_message_address, None),
+    ("privacy", "a personal path in a commit message", git_plant_message_path, None),
+    ("privacy", "an address only history holds", git_plant_history_blob, None),
+    ("privacy", "an address only the index holds", git_plant_index_only, None),
+    ("links", "a link to a file not in the index", git_plant_link_untracked, None),
+    ("anchors", "a commit not in HEAD's history", git_plant_foreign_commit, git_setup_adoption),
 ]
 
 
-def control_in_repository(plant):
-    """The privacy check in a scratch repository with one clean commit, before
-    and after the plant: 'caught', 'missed', 'refused', or None without git."""
+def control_in_repository(plant, check="privacy", setup=None):
+    """A check in a scratch repository with a clean commit, before and after
+    the plant: 'caught', 'missed', 'refused', 'crash', or None without git.
+    Check 10 runs without its known exceptions, which the scratch repository
+    does not hold."""
     tmp = tempfile.mkdtemp(prefix="check_method-git-")
     env = dict(os.environ, GIT_AUTHOR_NAME="control", GIT_AUTHOR_EMAIL="control@example.com",
                GIT_COMMITTER_NAME="control", GIT_COMMITTER_EMAIL="control@example.com",
                GIT_CONFIG_NOSYSTEM="1", GIT_OPTIONAL_LOCKS="0")
+    which = "privacy-in-repository" if check == "privacy" else check
 
     def g(*a):
         subprocess.run(["git", "-C", tmp, *a], check=True, capture_output=True, env=env)
@@ -1161,10 +1399,12 @@ def control_in_repository(plant):
             f.write("# A scratch repository for the gate's controls\n")
         g("add", "README.md")
         g("commit", "-q", "-m", "A clean first commit")
-        if outcome(tmp, "privacy-in-repository") != "pass":
+        if setup:
+            setup(g, tmp)
+        if outcome(tmp, which) != "pass":
             return "refused"
         plant(g, tmp)
-        return {"fail": "caught", "pass": "missed", "crash": "crash"}[outcome(tmp, "privacy-in-repository")]
+        return {"fail": "caught", "pass": "missed", "crash": "crash"}[outcome(tmp, which)]
     except (OSError, subprocess.CalledProcessError):
         return None
     finally:
@@ -1209,19 +1449,24 @@ def control(root):
     try:
         t = os.path.join(tmp, "t")
         shutil.copytree(root, t, ignore=shutil.ignore_patterns(".git", "__pycache__"))
+        # An address in a file's name, and a personal path in a link's target,
+        # which check 1 would print as it refuses the link.
         write_bytes(t, f"archive/{PLANTED_ADDRESS}.md", b"# notes\n")
+        append(t, "README.md", f"\n[a planted link]({PLANTED_MOUNT_PATH}.md)\n")
         out = io.StringIO()
         with contextlib.redirect_stdout(out):
-            failed = run(t, only="privacy")
-        masked_out = failed and PLANTED_ADDRESS not in out.getvalue() and "<an address>" in out.getvalue()
+            failed = run(t)
+        shown = out.getvalue()
+        masked_out = (failed and PLANTED_ADDRESS not in shown and PLANTED_MOUNT_PATH not in shown
+                      and "<an address>" in shown and "<a personal path>" in shown)
     finally:
         _rmtree(tmp)
     total += 1
     missed += not masked_out
     print(f"control {'privacy':<10} {'its output, which masks what it refuses':<46} "
           f"{'caught, and masked' if masked_out else 'NOT MASKED: the output prints what it refuses'}")
-    for check, what, plant in GIT_PLANTS:
-        r = control_in_repository(plant)
+    for check, what, plant, setup in GIT_PLANTS:
+        r = control_in_repository(plant, check, setup)
         if r is None:
             print(f"control {check:<10} {what:<46} SKIPPED by name: git is not available here")
             continue
