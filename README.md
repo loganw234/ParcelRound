@@ -20,6 +20,7 @@ defence against it.
 | [CASE-STUDY-3.md](CASE-STUDY-3.md) | A third round, reconstructed after it ran unattended: a documentation sweep and four follow-ups dispatched by workflow scripts, and what that changed. |
 | [CASE-STUDY-4.md](CASE-STUDY-4.md) | A fourth round, recorded as it ran: two repositories and a verifier on the lead before dispatch, then a second round the lead ran alone; the timeline, what the verifiers found, the cost, and what METHOD.md should say. |
 | [CASE-STUDY-5.md](CASE-STUDY-5.md) | A fifth round, reconstructed from its ledger: a personal site that prints nothing it didn't read, parcels on a smaller model, and a verifier added on the lead's own commits after the lead broke its rule; the timeline, what the verifiers found, the cost, and what METHOD.md should say. |
+| [CASE-STUDY-6.md](CASE-STUDY-6.md) | A sixth round, run on ParcelRound itself: METHOD.md brought to the method as practised, a gate over the method held to a threat model, planted faults on every parcel's verifier, and an integration verifier on the lead's own work; the timeline, the cost, and what METHOD.md should say. |
 | [templates/brief.md](templates/brief.md) | A parcel brief. Every section earns its place. |
 | [templates/verifier.md](templates/verifier.md) | A verifier brief — the agent whose job is to disconfirm. |
 | [templates/ledger.md](templates/ledger.md) | Drop-in README for the cross-agent ledger. |

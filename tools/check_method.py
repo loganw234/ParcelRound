@@ -232,7 +232,7 @@ ARCHIVE_SHA256 = {
 # studies are records, so their proposal lists never change. A parse that
 # finds another count means the parser or a record changed, and either is a
 # finding.
-EXPECTED_PROPOSALS = {2: 35, 3: 18, 4: 23, 5: 13}
+EXPECTED_PROPOSALS = {2: 35, 3: 18, 4: 23, 5: 13, 6: 8}
 # ADOPTION.md's other rows, declared once: practices nobody proposed (B),
 # safeguards restored (R) and adaptations allowed (S), from round 6's survey.
 OTHER_IDS = ["B1", "B3", "B4", "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15", "B16", "B17",
