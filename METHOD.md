@@ -1156,6 +1156,45 @@ any limit:
 
 ## 7. What the lead keeps
 
+**The lead's seam commits and fixes (§5), its merges and its records go
+past a verifier before main moves, from the first commit of the round to
+the last.** Its records are the project's record entries, its commit
+messages and the case study. Not only P0 (§2), and the plan goes past
+one too, before the owner approves it (below). The lead is the one
+author in a round that nobody disconfirms by default
+[CASE-STUDY-2, §5], and in each of rounds 2 to 5 the record shows its
+own work going in without a verifier:
+
+- **Round 2:** a patch of the lead's was wrong on its first run, and its
+  gate was the only check it had had. [CASE-STUDY-2, 17:39]
+- **Round 3:** the follow-ups' seam commits and both record entries went
+  through gates and CI only, and each entry still disagreed with the
+  data after the lead had re-read it. [CASE-STUDY-3, §5]
+- **Round 4:** three of the lead's commits were on main before any
+  verifier had read them, and the verifier's fourth pass over them found
+  that the import allowlist among them did not hold.
+  [CASE-STUDY-4, 20:56-20:58; 21:12]
+- **Round 5:** the plan had the rule, and the lead pushed eight commits
+  of its own with only its own gate; the verifier it then added found
+  gate-kind defects in three. [CASE-STUDY-5, obs 2]
+
+Records need that reader as much as code does. Round 5's case study was
+drafted from the lead's own summary; read against the ledger, twelve of
+its claims were wrong or had no source, and its verifier then found two
+more things in the commit. [CASE-STUDY-5, obs 14]
+
+- **The plan of record, and a verifier on it before the owner approves
+  it.** The verifier reads the draft against the tree, the lead answers
+  its findings in a new draft, the verifier re-checks that, and the
+  owner is asked after. In cft-fp256's certificate round the first draft
+  drew twenty findings and the second six more gaps, and the plan
+  changed before any code; one change was a salt committed by HMAC,
+  since a bare hash of a key longer than 64 bytes would publish the key
+  ([docs/VALIDATION.md:15649, at `4190a47`](
+  https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L15649)).
+  Its language and step 6 plans went the same way, step 6's reaching the
+  owner only after three checks
+  ([round 6's survey, B1](archive/round6-practice-survey.md)).
 - **P0.**
 - **The seam tests.** They belong to no parcel, which is exactly why
   they get skipped. Each merge should get a test exercising *two*
@@ -1170,13 +1209,57 @@ construction. A hundred-line seam test found it in seconds.
 - **Files that are the lead's alone** — the README, published docs, CI
   config. Not because agents cannot write prose, but because those files
   state the project's claims and the claims must be one voice.
+  A parcel may own the document that describes its own code (§3); what
+  stays the lead's is the documents that state the project's claims.
+  Round 3 let parcels write the rows describing their own change, and
+  six of its eleven defects were false text in exactly those rows, so
+  every claim in what a parcel wrote is on its verifier's list (§6).
+  [CASE-STUDY-3, §7]
 - **Every merge, and the full suite after each one** - as a staging
   branch per merge, the suite on the build host at the staging commit,
   and main moving on the verdict. A merge is a push, not a staging. Keep
   a second, third and fourth checkout on the build host so a send-back
   never queues behind a sibling's hour. [CASE-STUDY-2, 11:06; 11:47;
   12:57]
+  A round branch is an allowed shape beside this one: every worktree is
+  cut from one branch (§2), the merges go onto it, and main moves to its
+  tip at the round's end or at a milestone, not at each merge. Three
+  conditions keep what the staging branch is for: a gate runs after each
+  merge into it; each merge is made again by the integration verifier
+  (below); and main moves only to a tip that has passed that gate and a
+  verifier. The shape rests on practice, and no case study records a
+  break from it: round 3 ran one staging branch for the round and moved
+  main once [CASE-STUDY-3, 17:17; 00:22; §7], and cft-fp256's later
+  rounds ran a round branch
+  ([round 6's survey, the departures table](archive/round6-practice-survey.md)).
+- **The long runs.** Agents test as much as they can quickly, and hand
+  large runs back to the lead to monitor. That is the owner's rule of
+  2026-09-29, in the owner's words: "dont have the individual agents all
+  run the full suites, have them hand back large runs to you to monitor
+  rather than them, but they should still verify and test as much as
+  they can quickly"
+  ([docs/VALIDATION.md:16165, at `4190a47`](
+  https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16165);
+  [round 6's survey, B4](archive/round6-practice-survey.md)).
+  It rests on the rule and on practice; no case study records a break
+  without it.
 - **The ledger's own file**, and folding it into the record at the end.
+- **The lead's own slips, in every round's record.** Each is written in
+  the ledger when it is caught, and listed in the round's record. No
+  case study records a break from lacking the list; they record what the
+  lists produced. Round 1's four gave four of this document's rules
+  [CASE-STUDY, What the lead got wrong], and round 3's sixteen gave most
+  of that round's proposals [CASE-STUDY-3, What the lead got wrong].
+  cft-fp256's record entries carry the list in each of their nine
+  entries from 2026-09-28 to 2026-10-02
+  ([round 6's survey, B14](archive/round6-practice-survey.md)).
+- **The cleanup: what the agents left behind.** Before the agents'
+  worktrees are removed, the lead looks for what finished agents left
+  running, and stops it. Round 5's watch loops and two local web servers
+  outlived the agents that started them, one server listened on every
+  interface, and they held the worktree folders open, so the cleanup
+  could not delete them. [CASE-STUDY-5, obs 12] The agent's half,
+  stopping its own background work before it reports, is in §3.
 - **The docs sweep, in the lead's idle time during the round**, for
   every file no parcel touches, so the end of the round is one section
   rather than a sweep. [15:03]
@@ -1184,6 +1267,15 @@ construction. A hundred-line seam test found it in seconds.
   per agent, with the verifiers' share stated, and the wall clock split
   between the build phase and whatever ran unattended after it.
   [Cost of the round]
+  Measure the cost as the tokens processed, read from each agent's
+  transcript and the lead's: every message counted once, as the output
+  generated and the prompt tokens read from cache and written to it.
+  Round 3's lead reported no cost in its final report and, asked, gave
+  the harness's per-agent figure as tokens used, which is the sum of
+  each agent's final context size and not what it processed
+  [CASE-STUDY-3, What the lead got wrong; Cost of the round]; rounds 4
+  and 5 measured it from the transcripts
+  [CASE-STUDY-4, Cost of the rounds] [CASE-STUDY-5, Cost of the round].
 
 ### Habits
 
@@ -1207,14 +1299,60 @@ against the **old** compiled binary, producing three failures that were
 entirely self-inflicted. A suite is only as prebuilt as its
 least-compiled component, and scripts are never prebuilt.
 
+**Freeze what is audited.** Auditors and verifiers read a committed SHA,
+or a worktree the lead never edits, not the tree the lead is working
+in. Round 3's lead widened its docs checker in the checkout the
+auditors were reading; one of them posted at 09:14 that the docs stage
+failed at HEAD, which was the lead's uncommitted edit, and ten noted the
+edit in their reports. [CASE-STUDY-3, 09:10-09:19; §7]
+
 **A merge conflict is not two piles of text.** The VCS hoists a shared
 ending out of the conflict block; a resolver that has not read the lines
 after the block has not read the conflict, and the compiler is the gate
 that says so twenty seconds later. [CASE-STUDY-2, 14:12]
 
+**The integration verifier makes each merge again.** From the merge's
+parents, with `git merge-tree`, it rebuilds what the merge should hold
+and compares: every path changed on one side only must equal that
+side's, and nothing may be lost. A merge resolved by hand is the lead's
+own work, and hand resolutions have gone wrong: round 1's lead
+committed one with its conflict still in it
+[CASE-STUDY, What the lead got wrong], and round 2's committed one
+unresolved, on a `;` where `&&` belonged [CASE-STUDY-2, 14:12]. No
+case study records the re-make itself, so it rests on practice:
+cft-fp256's fixes round had its integration verifier do this for each
+merge ([docs/VALIDATION.md:16437, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16437);
+[round 6's survey, B10](archive/round6-practice-survey.md)).
+
 **A merge with no RTL in its diff gets no RTL suite, and the ledger says
 so**, rather than the lead pretending it ran one; the build host's run
 at the next merge with RTL covers the combined tree. [14:09]
+
+**A gate budget is a subset of the suite, so check it against the merged
+diff before you trust it**, after each merge (or each batch, where §8's
+trade is made), and when main moves on a verdict that says FAIL, write
+down why. Round 3's budget left out the `node` and `wasm` stages. The
+lead ran them after the last batch, where one parcel had changed them,
+but not after the first, where another had changed `bindings/node` and
+only CI's host job ran them. Both local runs ended
+`VERDICT: FAIL (1 stage)` on `lang-rust`, and main moved on the same
+failure shown at the base commit and on CI's pass, which the record
+entry says. [CASE-STUDY-3, 19:00-19:10; 00:20; §7]
+
+**A seam changed mid-round is checked against every open branch at
+once**, not at each merge. Round 4's lead turned its guards gate into an
+allowlist while two parcel branches were open, ran it against both
+before either merged, and found it would have refused their pure
+constructors; it was widened to pure modules before the parcels arrived.
+[CASE-STUDY-4, obs 11; 17:49-17:52]
+
+**The lead may prepare a merge while the verifier works; the verdict
+still gates main.** Round 4's lead made the merge in a worktree of its
+own and ran the whole suite before the verdict arrived, so that the
+verdict made the merge a fast-forward; writing the integration against
+the ledger, not the parcel's report, also caught a figure the parcel had
+handed over wrongly. [CASE-STUDY-4, obs 19; 23:40-23:50]
 
 **One instrument per hypothesis, cheapest first, before touching the
 design.** When the card disagreed with the bench, three instruments in
@@ -1231,6 +1369,31 @@ own rules, and put the owner's questions - the card, a clock, a push to
 another repository - in the ledger to be answered when read. That is
 the posture: the standards are the brief the owner already wrote.
 [The setting]
+
+**Ask what the owner wants to see first, and record the answer.**
+Unattended, the lead cannot ask in time, so the question comes before
+the effect: a push that deploys, a remote branch deleted, a change to
+how results are counted. Round 3's lead did all three before the owner
+could see them, and had not asked beforehand whether a deploy was
+wanted. [CASE-STUDY-3, 00:22; §7]
+
+**The owner's decisions are kept as the owner gave them, with their
+dates.** The lead's reading goes beside them, marked as the lead's. No
+case study records a break without it; it rests on practice. Round 4's
+owner cleared a push "when ready", the lead recorded its own reading of
+"ready", and the push went nine hours later, under the owner's word of
+15:35 [CASE-STUDY-4, 15:35; 00:39]. cft-fp256's record entries of
+2026-09-29 to 2026-10-02 quote the owner's decisions in the owner's
+words ([round 6's survey, B8](archive/round6-practice-survey.md)).
+
+**The owner's standing rules are carried from round to round**, into the
+part of each plan that says how the round is held. No case study records
+a break without it; it rests on practice. cft-fp256's plans carry the
+send-back rule of 2026-09-27 and the long-run rule of 2026-09-29 that
+way, and its record entries mark a rule "carried over" with its date
+([docs/VALIDATION.md:16164, at `4190a47`](
+https://github.com/loganw234/cft-fp256/blob/4190a47/docs/VALIDATION.md#L16164);
+[round 6's survey, B9](archive/round6-practice-survey.md)).
 
 **Read the log, not the exit code.** A background wrapper once reported
 exit 0 for a run whose log said `Error 1`, because a trailing `echo`
@@ -1267,6 +1430,15 @@ failure a defect *or* a false alarm until a clean re-run says which.
   hour of verifier, and the hour is the build host. The method assumed
   a parcel could not be re-entered; it can, and the loop is cheap enough
   to run three times on one parcel. [§6 of the case study]
+  **The exception is an agent that cannot be resumed.** Round 3's
+  parcels were started by workflow scripts, and the lead's attempt to
+  resume all three failed: "could not be resumed: No transcript found
+  for agent ID". A send-back to such an agent is a newly briefed agent.
+  Brief it with the verifier's defects, and give it the parcel's final
+  report, its ledger file and its worktree: round 3's fixers had the
+  ledger file and the commits, their only memory of the parcel, and not
+  the report the lead held. Resuming the same agent stays the default.
+  [CASE-STUDY-3, 15:09; 15:12; §8]
 - **A stop line fires for value, not only for size.** The parcel priced
   smallest stopped at its line because the value was not there, and the
   plan was corrected with its table. [12:37]
