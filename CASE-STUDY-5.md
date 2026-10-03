@@ -439,3 +439,27 @@ Before archiving, the lead checked it three ways.
 Each wave's durable findings were folded into loganw.dev's own
 docs/VALIDATION.md as it merged. The working copy is kept until this
 archive is pushed, then deleted, as the method says.
+
+## Postscript (2026-10-02)
+
+Added by round 6's lead. The text above is unchanged.
+
+- **The batch named under "What carries forward"** went past
+  verifier-close in loganw.dev. That verifier said NOT READY on three
+  earlier versions of the round's close entry, and every finding was
+  accepted (loganw.dev's docs/VALIDATION.md, the entry "the round
+  closes"). Its side note on `80c9f32` is answered in `d093ba6`.
+  - The text read records no READY on the version pushed.
+  - Both commits are on loganw.dev's main, which GitHub also has
+    (`43c36a2` on 2026-10-02).
+- **This case study and its archive** join ParcelRound's main in
+  round 6. Whether, and when, they are pushed is the owner's word, and
+  CASE-STUDY-6.md records it.
+- **The proposals above** are settled in [ADOPTION.md](ADOPTION.md).
+  - CS5#1, #7 and #10 are adopted in round 6: each was practised in a
+    later round.
+  - The other ten stay pending. Nine were practised only in this round,
+    and CS5#8 not at all.
+- **The ledger's working copy**, `loganw-dev-ledger/`, is kept until this
+  archive is pushed, as the round's end above says. Deleting it is the
+  owner's word.
