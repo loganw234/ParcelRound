@@ -32,8 +32,8 @@ changed, is in the last section.
 | 2 | [CASE-STUDY-2.md](CASE-STUDY-2.md) | cft-fp256 | 2026-09-15 to 16 | a round recorded as it ran |
 | 3 | [CASE-STUDY-3.md](CASE-STUDY-3.md) | cft-fp256 | 2026-09-24 to 25 | a documentation sweep run by workflow scripts, reconstructed; its correction loop stopped at 69, 29, 6 |
 | 4 | [CASE-STUDY-4.md](CASE-STUDY-4.md) | Quantum-Film (and a second repository) | 2026-09-25 to 26 | a verifier on the lead before dispatch; a second round the lead ran alone |
-| 5 | CASE-STUDY-5.md, on branch `round5-case-study`, not yet merged | loganw.dev | 2026-09-29 to 30 | a verifier added mid-round on the lead's own commits, because the lead had broken the round's own rule |
-| 6 | CASE-STUDY-6.md, on branch `round6`, not yet merged | ParcelRound itself | 2026-10-02 to 03 | the method run on itself: METHOD.md brought to the method as practised, ADOPTION.md, the templates compiled, an integration verifier on the lead |
+| 5 | [CASE-STUDY-5.md](CASE-STUDY-5.md) | loganw.dev | 2026-09-29 to 30 | a verifier added mid-round on the lead's own commits, because the lead had broken the round's own rule |
+| 6 | [CASE-STUDY-6.md](CASE-STUDY-6.md) | ParcelRound itself | 2026-10-02 to 03 | the method run on itself: METHOD.md brought to the method as practised, ADOPTION.md, the templates compiled, an integration verifier on the lead |
 | 7 | this file | cft-fp256 | 2026-09-24 to 10-05, running | sustained use: eight rounds in sequence, and step 6 |
 
 Three things tie this one to the others:
@@ -51,8 +51,9 @@ Three things tie this one to the others:
 - **Other rounds ran beside it, from other sessions on the same desktop:**
   round 4 beside this run's first days, round 5 beside its revision-7 and
   audit rounds, and round 6 beside step 6's first waves.
-- **METHOD.md's section numbers** here are those of main at 8767e23. Round 6
-  rewrote METHOD.md on its branch, and that rewrite is the owner's to settle.
+- **METHOD.md** is cited here as main holds it at f42242e, after round 6
+  brought it to the method as practised. Its eight sections kept their
+  numbers and titles.
 
 ## The setting
 
@@ -87,11 +88,13 @@ Three things tie this one to the others:
       revision-7 and step-6 rounds, one verifier's and two surveys'. A brief
       that only reports an earlier verifier's "no wrong answer" is not counted
       as stating it.
+    - METHOD.md section 6 has carried the rule since round 6.
   - **Agents test quickly, and hand the long runs back to the lead** (the
     owner's, 09-29). Of step 6's 44 briefs at the writing, 17 carry it in
     his full sentence, and most of the rest in other words: 36 in all by the
     third verifier's count, 28 counting explicit hand-over wording alone.
     All 44 carry the desktop rule in some wording: one run at a time, niced.
+    METHOD.md section 7 has carried the hand-back rule since round 6.
   - **The lead may merge and push when ready** (the owner's, 09-28, verbatim
     "You are permitted to merge, push, etc when ready"). It is a rule for the
     lead, and no brief carries it.
@@ -101,8 +104,9 @@ Three things tie this one to the others:
     VALIDATION entry. The next was dispatched within hours, sometimes before
     the last one's push.
   - **A verifier on the lead's commits before a push.** Round 5 added one
-    mid-round. Here every round had one: an integration verifier on the lead's
-    merges and records.
+    mid-round, and round 6 ran one on its lead's integration and wrote the
+    rule into METHOD.md (sections 5 and 7). Here every round had one: an
+    integration verifier on the lead's merges and records.
   - **Design stops for the owner inside rounds.** Step 6's plan of record,
     certificate version 2's twelve questions and revision 8's RTL plan, with
     ten questions, each went to the owner before code.
@@ -298,14 +302,15 @@ integration, and the verifiers on it were what caught them.**
   state and resume list. Of the 15 to date (the fifteenth came after the
   writing), it read the ledger after 14 and the memory file after 7, by the
   second verifier's count.
-- METHOD.md section 4 says the ledger is the only way to correct a brief after
-  dispatch. Over a run this long, it is also what a lost agent restarts from:
-  the 09-30 agents were dispatched again from theirs.
+- METHOD.md section 4 makes the ledger the channel of record for correcting a
+  brief after dispatch: a message may carry a correction too, once its entry
+  is written. Over a run this long, the ledger is also what a lost agent
+  restarts from: the 09-30 agents were dispatched again from theirs.
 - **The out-of-turn channel moved from files to messages.** The first three
   rounds kept an `urgent/` directory inside their ledger directories, with 5, 7 and 12
   notes between the lead and the agents. From the audit round on there is
   none: the lead and the agents messaged each other directly, in both
-  directions, as round 6's METHOD.md notes.
+  directions, as METHOD.md section 4 has noted since round 6.
 
 **5. The shared indices collided at almost every merge.**
 - The project's document index states every document's line count and three
@@ -479,6 +484,11 @@ integration, and the verifiers on it were what caught them.**
     are read from the agents' own transcripts.
 - The lead's own session is not included, nor the three agents still running
   at the writing.
+- The scripts that made these figures, and observation 9's table, are
+  archived beside this file in
+  [archive/round7-cost-scripts.zip](archive/round7-cost-scripts.zip), with a
+  README saying what each does. They read the session's transcripts, which
+  are not published, so they show the method but cannot remake the figures.
 
 | | agents | runs | agent-hours | tool uses | fresh tokens | cache reads |
 |---|---|---|---|---|---|---|
@@ -532,7 +542,9 @@ Each figure is rounded on its own. The hours' exact sum is 241.44.
      3).
 4. **A narrow re-check is scoped to the previous commit's diff, may run on a
    smaller model, and has a budget (section 6).**
-   - What exists: section 6 already makes the scoped re-check the default.
+   - What exists: section 6 already makes the scoped re-check the default,
+     and section 3 records case study 4's loop ending once the lead scoped
+     the next round to converge.
    - What is new: the scope (the diff since the last pass), the model, and the
      budget. Here the loop converged at 3, 2, 0.
 5. **Any script that crosses an environment, a clone or a build host asserts
@@ -559,13 +571,15 @@ Each figure is rounded on its own. The hours' exact sum is 241.44.
    - What happened: here each push has its VALIDATION entry. But a verifier
      found that two earlier verifiers' notes had not been carried into any
      entry.
-   - What exists: round 6's METHOD.md gives side notes a step of their own in
-     every round (its section 6, pending).
+   - What exists: METHOD.md section 6 gives side notes a step of their own in
+     every round.
    - The change: check the carried notes as part of that step, at each entry.
 9. **When the owner's machine is busy, agents' runs go to the lead's build host
    as batches (section 8; from after the writing, below).** An agent that may
    not touch the host writes its runs as a list: commit, edits, target and
    expected result. The lead runs the list there and returns the results.
+   - What exists: section 7's "The long runs", the owner's rule that agents
+     hand large runs back to the lead. It does not say how they travel.
 
 ## The run's state at the writing (2026-10-05, about 10:40)
 
@@ -699,3 +713,39 @@ A re-check scoped to the diff found them.
 
 The third pass was the budgeted last one. Its findings were fixed without a
 fourth, which is this file's known limit.
+
+**Before the push: main had moved.** The lead wrote this file in a checkout
+of ParcelRound whose main was 8767e23. Round 6 had been pushed to main on
+10-03, and the checkout had not been pulled since. So this file said that
+case studies 5 and 6 were on unmerged branches, and it cited METHOD.md as it
+stood before round 6. The lead's briefs gave its three passes the same
+premise, and none of them caught what it hid. Before pushing, the lead found
+it in the checkout's own record of the remote, and `git ls-remote` confirmed
+it: the repository has one branch, main, at f42242e, which holds both
+studies and round 6's METHOD.md. It is a slip of observation 2's kind: a
+remote's state read from a local copy, not measured.
+
+The lead rebased this file on f42242e and linked both studies. It read each
+of the file's METHOD.md citations again at f42242e, and so did the fourth
+pass below. All hold there but two, both restated: proposal 8 called the
+side-notes step pending, and section 6 now has it; observation 4 said
+section 4 makes the ledger the only way to correct a brief, where section 4
+now lets a message carry the correction once its entry is written. Other
+sentences now name where METHOD.md says what round 6 adopted: the verifier
+on the lead's work, messages in both directions, the send-back and hand-back
+rules, and the rules beside proposals 4 and 9. The cost scripts are archived
+beside this file.
+
+A fourth verifier, VCS7d on the smaller model, checked this revision in 31
+minutes. It confirmed the stale base's facts, the rebase, the archive's
+bytes and its privacy, and every citation but the two above. It found two
+wrong sentences, both in the archive's README: one script, firstruns.py, is
+the lead's file of a program it had run inline, not the copy it ran; and
+the scripts were not listed in the order of their use. It found five
+misleading ones, among them observation 4's and this section's account of
+how the lead found the stale base. All are fixed in this version, without a
+fifth pass, which is this revision's known limit.
+
+This file practised case study 5's pending proposal CS5#11: it was written
+from the records, and read against them by verifiers other than the lead
+before its push.
